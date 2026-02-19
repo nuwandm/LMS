@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { getDashboardStats } from '../../services/adminService';
 import Spinner from '../../components/common/Spinner';
+import EmptyState from '../../components/common/EmptyState';
 import toast from 'react-hot-toast';
 
 export default function AdminDashboard() {
@@ -172,10 +173,11 @@ export default function AdminDashboard() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8 text-gray-500">
-                  <ClipboardCheck className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                  <p>No recent enrollment requests</p>
-                </div>
+                <EmptyState
+                  icon={ClipboardCheck}
+                  title="No enrollment requests"
+                  description="New enrollment requests will appear here"
+                />
               )}
             </div>
           </div>
@@ -223,10 +225,11 @@ export default function AdminDashboard() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8 text-gray-500">
-                  <Users className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                  <p>No recent users</p>
-                </div>
+                <EmptyState
+                  icon={Users}
+                  title="No recent users"
+                  description="Recently registered users will appear here"
+                />
               )}
             </div>
           </div>

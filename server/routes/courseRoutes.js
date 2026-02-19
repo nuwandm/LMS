@@ -90,7 +90,18 @@ router.post(
   '/:id/thumbnail',
   verifyToken,
   requireRole('instructor', 'admin'),
-  uploadThumbnail.single('thumbnail'),
+  (req, res, next) => {
+    uploadThumbnail.single('thumbnail')(req, res, (err) => {
+      if (err) {
+        console.error('Thumbnail upload middleware error:', err);
+        return res.status(400).json({
+          success: false,
+          message: err.message || 'File upload failed',
+        });
+      }
+      next();
+    });
+  },
   uploadCourseThumbnail
 );
 

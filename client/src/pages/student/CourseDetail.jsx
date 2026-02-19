@@ -62,10 +62,15 @@ const CourseDetail = () => {
     try {
       const response = await getSections(id);
       if (response.success) {
-        setSections(response.data);
+        // Backend returns data: { sections: [...] }
+        const sectionsData = Array.isArray(response.data)
+          ? response.data
+          : response.data?.sections || [];
+        setSections(sectionsData);
       }
     } catch (error) {
       console.error('Error fetching sections:', error);
+      setSections([]); // Ensure it's always an array
     }
   };
 
@@ -113,7 +118,9 @@ const CourseDetail = () => {
   };
 
   const expandAllSections = () => {
-    setExpandedSections(new Set(sections.map((_, i) => i)));
+    if (Array.isArray(sections)) {
+      setExpandedSections(new Set(sections.map((_, i) => i)));
+    }
   };
 
   const collapseAllSections = () => {
@@ -308,19 +315,21 @@ const CourseDetail = () => {
             <h2 className="text-2xl font-bold mb-6 text-gray-900">Course Content</h2>
             <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
               <p>
-                {sections.length} sections • {course.totalLectures || 0} lectures •{' '}
+                {Array.isArray(sections) ? sections.length : 0} sections • {course.totalLectures || 0} lectures •{' '}
                 {formatDuration(course.totalDuration)} total length
               </p>
-              <button
-                onClick={expandedSections.size === sections.length ? collapseAllSections : expandAllSections}
-                className="text-primary-600 font-bold hover:underline"
-              >
-                {expandedSections.size === sections.length ? 'Collapse all' : 'Expand all'}
-              </button>
+              {Array.isArray(sections) && sections.length > 0 && (
+                <button
+                  onClick={expandedSections.size === sections.length ? collapseAllSections : expandAllSections}
+                  className="text-primary-600 font-bold hover:underline"
+                >
+                  {expandedSections.size === sections.length ? 'Collapse all' : 'Expand all'}
+                </button>
+              )}
             </div>
 
             <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-200">
-              {sections.map((section, index) => (
+              {Array.isArray(sections) && sections.length > 0 ? sections.map((section, index) => (
                 <div key={section._id} className="bg-white">
                   <button
                     onClick={() => toggleSection(index)}
@@ -366,7 +375,11 @@ const CourseDetail = () => {
                     </div>
                   )}
                 </div>
-              ))}
+              )) : (
+                <div className="text-center py-8 text-gray-500">
+                  <p>No curriculum available yet.</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -435,7 +448,7 @@ const CourseDetail = () => {
               {/* Price */}
               <div className="flex items-end gap-3 mb-4">
                 <span className="text-3xl font-bold text-gray-900">
-                  {course.price === 0 ? 'Free' : `$${course.price.toFixed(2)}`}
+                  {(course.price === 0 || !course.price) ? 'Free' : `$${(course.price || 0).toFixed(2)}`}
                 </span>
               </div>
 
@@ -505,7 +518,7 @@ const CourseDetail = () => {
           <div className="flex items-center justify-between gap-4">
             <div className="flex flex-col">
               <span className="text-xl font-bold text-gray-900">
-                {course.price === 0 ? 'Free' : `$${course.price.toFixed(2)}`}
+                {(course.price === 0 || !course.price) ? 'Free' : `$${(course.price || 0).toFixed(2)}`}
               </span>
             </div>
             <button

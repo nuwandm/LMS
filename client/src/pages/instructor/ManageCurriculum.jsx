@@ -44,7 +44,7 @@ export default function ManageCurriculum() {
     try {
       setLoading(true);
       const data = await getCourseById(courseId);
-      const courseData = data.data;
+      const courseData = data.data.course;
       setCourse(courseData);
       setSections(courseData.sections || []);
 

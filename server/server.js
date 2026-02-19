@@ -5,11 +5,19 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import morgan from 'morgan';
+import { v2 as cloudinary } from 'cloudinary';
 import { connectDB } from './config/db.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
-// Load environment variables
+// Load environment variables FIRST, then re-apply Cloudinary config.
+// ES modules hoist all static imports, so cloudinary.js runs before dotenv.config()
+// and picks up empty env vars. Re-configuring here fixes that.
 dotenv.config();
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Initialize Express app
 const app = express();

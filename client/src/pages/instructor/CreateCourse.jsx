@@ -11,7 +11,6 @@ import {
   Image as ImageIcon,
   Rocket,
 } from 'lucide-react';
-import Navbar from '../../components/common/Navbar';
 import { createCourse, uploadCourseThumbnail } from '../../services/courseService';
 import toast from 'react-hot-toast';
 
@@ -35,6 +34,13 @@ const CreateCourse = () => {
 
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
+
+  // Validation errors
+  const [errors, setErrors] = useState({
+    title: '',
+    description: '',
+    category: '',
+  });
 
   const steps = [
     { number: 1, name: 'Basic Info', icon: FileText },
@@ -60,6 +66,11 @@ const CreateCourse = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
 
   // Handle array fields (requirements, whatYouLearn)
@@ -105,18 +116,45 @@ const CreateCourse = () => {
   // Validation
   const validateStep = (step) => {
     if (step === 1) {
+      const newErrors = {
+        title: '',
+        description: '',
+        category: '',
+      };
+
+      let isValid = true;
+
+      // Title validation
       if (!formData.title.trim()) {
-        toast.error('Please enter a course title');
-        return false;
+        newErrors.title = 'Course title is required';
+        isValid = false;
+      } else if (formData.title.trim().length < 5) {
+        newErrors.title = 'Title must be at least 5 characters';
+        isValid = false;
       }
+
+      // Description validation
       if (!formData.description.trim()) {
-        toast.error('Please enter a course description');
-        return false;
+        newErrors.description = 'Course description is required';
+        isValid = false;
+      } else if (formData.description.trim().length < 20) {
+        newErrors.description = 'Description must be at least 20 characters';
+        isValid = false;
       }
+
+      // Category validation
       if (!formData.category) {
-        toast.error('Please select a category');
-        return false;
+        newErrors.category = 'Please select a category';
+        isValid = false;
       }
+
+      setErrors(newErrors);
+
+      if (!isValid) {
+        toast.error('Please fix the errors before continuing');
+      }
+
+      return isValid;
     }
     return true;
   };
@@ -151,21 +189,24 @@ const CreateCourse = () => {
       const response = await createCourse(cleanedData);
 
       if (response.success) {
-        const courseId = response.data._id;
+        // Backend returns data: { course: {...} }
+        const courseId = response.data.course?._id || response.data._id;
 
         // Upload thumbnail if provided
-        if (thumbnailFile) {
+        if (thumbnailFile && courseId) {
           try {
             await uploadCourseThumbnail(courseId, thumbnailFile);
+            toast.success('Course created! Now add your curriculum.');
           } catch (error) {
             console.error('Thumbnail upload failed:', error);
-            // Don't fail the entire process if thumbnail fails
+            toast.success('Course created! Thumbnail failed — add it later.');
           }
+        } else {
+          toast.success('Course created! Now add your curriculum.');
         }
 
-        toast.success('Course created successfully!');
         setTimeout(() => {
-          navigate('/instructor/dashboard');
+          navigate(courseId ? `/instructor/courses/${courseId}/curriculum` : '/instructor/courses');
         }, 1500);
       }
     } catch (error) {
@@ -179,11 +220,9 @@ const CreateCourse = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
       <main className="flex-1">
         {/* Header with Stepper */}
-        <header className="bg-white border-b border-gray-200 px-8 py-6 sticky top-20 z-10">
+        <header className="bg-white border-b border-gray-200 px-8 py-6 sticky top-0 z-10">
           <div className="max-w-4xl mx-auto w-full">
             <div className="flex items-center justify-between mb-6">
               <div>
@@ -254,17 +293,33 @@ const CreateCourse = () => {
                   <div className="space-y-6">
                     {/* Title */}
                     <div className="flex flex-col gap-2">
-                      <label className="text-sm font-medium text-gray-900">
-                        Course Title <span className="text-red-500">*</span>
-                      </label>
+                      <div className="flex justify-between items-center">
+                        <label className="text-sm font-medium text-gray-900">
+                          Course Title <span className="text-red-500">*</span>
+                        </label>
+                        <span className={`text-xs ${
+                          formData.title.length < 5 ? 'text-red-500' : 'text-gray-500'
+                        }`}>
+                          {formData.title.length}/5 min
+                        </span>
+                      </div>
                       <input
                         type="text"
                         name="title"
                         value={formData.title}
                         onChange={handleChange}
-                        className="w-full rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 placeholder-gray-400 transition-all"
+                        className={`w-full rounded-lg text-base py-3 px-4 focus:ring-2 focus:ring-primary-500/20 placeholder-gray-400 transition-all ${
+                          errors.title
+                            ? 'border-red-500 bg-red-50 focus:border-red-500'
+                            : 'border-gray-300 bg-gray-50 focus:border-primary-500'
+                        }`}
                         placeholder="e.g., Advanced React Patterns for Senior Developers"
                       />
+                      {errors.title && (
+                        <p className="text-sm text-red-600 flex items-center gap-1">
+                          <span>⚠</span> {errors.title}
+                        </p>
+                      )}
                     </div>
 
                     {/* Short Description */}
@@ -290,17 +345,33 @@ const CreateCourse = () => {
 
                     {/* Full Description */}
                     <div className="flex flex-col gap-2">
-                      <label className="text-sm font-medium text-gray-900">
-                        Full Description <span className="text-red-500">*</span>
-                      </label>
+                      <div className="flex justify-between items-center">
+                        <label className="text-sm font-medium text-gray-900">
+                          Full Description <span className="text-red-500">*</span>
+                        </label>
+                        <span className={`text-xs ${
+                          formData.description.length < 20 ? 'text-red-500' : 'text-gray-500'
+                        }`}>
+                          {formData.description.length}/20 min
+                        </span>
+                      </div>
                       <textarea
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
                         rows="6"
-                        className="w-full rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 placeholder-gray-400 transition-all resize-none"
+                        className={`w-full rounded-lg text-base py-3 px-4 focus:ring-2 focus:ring-primary-500/20 placeholder-gray-400 transition-all resize-none ${
+                          errors.description
+                            ? 'border-red-500 bg-red-50 focus:border-red-500'
+                            : 'border-gray-300 bg-gray-50 focus:border-primary-500'
+                        }`}
                         placeholder="Enter a detailed description of your course..."
                       />
+                      {errors.description && (
+                        <p className="text-sm text-red-600 flex items-center gap-1">
+                          <span>⚠</span> {errors.description}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -320,7 +391,11 @@ const CreateCourse = () => {
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="w-full rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                        className={`w-full rounded-lg text-base py-3 px-4 focus:ring-2 focus:ring-primary-500/20 transition-all ${
+                          errors.category
+                            ? 'border-red-500 bg-red-50 focus:border-red-500'
+                            : 'border-gray-300 bg-gray-50 focus:border-primary-500'
+                        }`}
                       >
                         <option value="">Select a category</option>
                         {categories.map((cat) => (
@@ -329,6 +404,11 @@ const CreateCourse = () => {
                           </option>
                         ))}
                       </select>
+                      {errors.category && (
+                        <p className="text-sm text-red-600 flex items-center gap-1">
+                          <span>⚠</span> {errors.category}
+                        </p>
+                      )}
                     </div>
 
                     {/* Level */}

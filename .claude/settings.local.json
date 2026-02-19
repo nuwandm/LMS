@@ -23,7 +23,10 @@
       "Bash(TESTING_SUMMARY.md:*)",
       "Bash(FINAL_STATUS.md:*)",
       "Bash(wc:*)",
-      "Bash(.gitignore:*)"
+      "Bash(.gitignore:*)",
+      "Bash(QUICK_TEST.md:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(netstat:*)"
     ]
   }
 }

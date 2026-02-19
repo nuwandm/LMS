@@ -5,6 +5,8 @@ import {
 } from 'lucide-react';
 import { getAllEnrollments, approveEnrollment, rejectEnrollment } from '../../services/adminService';
 import Spinner from '../../components/common/Spinner';
+import ConfirmDialog from '../../components/common/ConfirmDialog';
+import EmptyState from '../../components/common/EmptyState';
 import toast from 'react-hot-toast';
 
 export default function EnrollmentApprovals() {
@@ -15,6 +17,7 @@ export default function EnrollmentApprovals() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const [showApproveConfirm, setShowApproveConfirm] = useState(false);
   const [selectedEnrollment, setSelectedEnrollment] = useState(null);
   const [rejectReason, setRejectReason] = useState('');
   const [processingId, setProcessingId] = useState(null);
@@ -44,13 +47,20 @@ export default function EnrollmentApprovals() {
     }
   };
 
-  const handleApprove = async (enrollmentId) => {
-    if (processingId) return;
+  const openApproveConfirm = (enrollment) => {
+    setSelectedEnrollment(enrollment);
+    setShowApproveConfirm(true);
+  };
+
+  const handleApprove = async () => {
+    if (processingId || !selectedEnrollment) return;
 
     try {
-      setProcessingId(enrollmentId);
-      await approveEnrollment(enrollmentId);
+      setProcessingId(selectedEnrollment._id);
+      await approveEnrollment(selectedEnrollment._id);
       toast.success('Enrollment approved successfully!');
+      setShowApproveConfirm(false);
+      setSelectedEnrollment(null);
       fetchEnrollments();
     } catch (error) {
       console.error('Failed to approve enrollment:', error);
@@ -178,13 +188,17 @@ export default function EnrollmentApprovals() {
               <Spinner />
             </div>
           ) : enrollments.length === 0 ? (
-            <div className="text-center py-16">
-              <Clock className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-500 text-lg">No enrollments found</p>
-              <p className="text-gray-400 text-sm mt-1">
-                {searchTerm ? 'Try adjusting your search criteria' : 'No enrollment requests yet'}
-              </p>
-            </div>
+            <EmptyState
+              icon={Clock}
+              title="No enrollments found"
+              description={
+                searchTerm
+                  ? 'Try adjusting your search criteria or filters'
+                  : activeTab === 'pending'
+                  ? 'No pending enrollment requests at the moment'
+                  : `No ${activeTab === 'all' ? '' : activeTab} enrollment requests yet`
+              }
+            />
           ) : (
             <>
               <div className="overflow-x-auto">
@@ -244,7 +258,7 @@ export default function EnrollmentApprovals() {
                             {enrollment.status === 'pending' ? (
                               <>
                                 <button
-                                  onClick={() => handleApprove(enrollment._id)}
+                                  onClick={() => openApproveConfirm(enrollment)}
                                   disabled={processingId === enrollment._id}
                                   className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition disabled:opacity-50"
                                   title="Approve"
@@ -304,6 +318,22 @@ export default function EnrollmentApprovals() {
           )}
         </div>
       </div>
+
+      {/* Approve Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={showApproveConfirm}
+        onClose={() => {
+          setShowApproveConfirm(false);
+          setSelectedEnrollment(null);
+        }}
+        onConfirm={handleApprove}
+        title="Approve Enrollment"
+        message={`Are you sure you want to approve enrollment for ${selectedEnrollment?.student?.name} in "${selectedEnrollment?.course?.title}"? This will grant the student immediate access to the course.`}
+        confirmText="Approve Enrollment"
+        cancelText="Cancel"
+        variant="warning"
+        isLoading={processingId === selectedEnrollment?._id}
+      />
 
       {/* Reject Modal */}
       {showRejectModal && (

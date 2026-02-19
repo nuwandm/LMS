@@ -2,6 +2,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import useAuthStore from './store/authStore';
 
+// Layout components
+import AdminLayout from './layouts/AdminLayout';
+import InstructorLayout from './layouts/InstructorLayout';
+
 // Import components
 import ProtectedRoute from './components/common/ProtectedRoute';
 
@@ -21,19 +25,20 @@ import VideoPlayer from './pages/student/VideoPlayer';
 // Instructor Pages
 import InstructorDashboard from './pages/instructor/InstructorDashboard';
 import CreateCourse from './pages/instructor/CreateCourse';
+import MyCourses from './pages/instructor/MyCourses';
 import ManageCurriculum from './pages/instructor/ManageCurriculum';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import EnrollmentApprovals from './pages/admin/EnrollmentApprovals';
 import UserManagement from './pages/admin/UserManagement';
+import AdminCourses from './pages/admin/AdminCourses';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
 
   return (
     <Router>
-      {/* Toast Notifications */}
       <Toaster
         position="top-right"
         toastOptions={{
@@ -44,17 +49,11 @@ function App() {
           },
           success: {
             duration: 3000,
-            iconTheme: {
-              primary: '#4ade80',
-              secondary: '#fff',
-            },
+            iconTheme: { primary: '#4ade80', secondary: '#fff' },
           },
           error: {
             duration: 4000,
-            iconTheme: {
-              primary: '#ef4444',
-              secondary: '#fff',
-            },
+            iconTheme: { primary: '#ef4444', secondary: '#fff' },
           },
         }}
       />
@@ -108,72 +107,50 @@ function App() {
             }
           />
 
-          {/* Instructor Routes */}
+          {/* Instructor Routes — wrapped in InstructorLayout */}
           <Route
-            path="/instructor/dashboard"
             element={
               <ProtectedRoute allowedRoles={['instructor', 'admin']}>
-                <InstructorDashboard />
+                <InstructorLayout />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="/instructor/courses/create"
-            element={
-              <ProtectedRoute allowedRoles={['instructor', 'admin']}>
-                <CreateCourse />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/instructor/courses/:courseId/curriculum"
-            element={
-              <ProtectedRoute allowedRoles={['instructor', 'admin']}>
-                <ManageCurriculum />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/instructor/courses/:courseId/edit"
-            element={
-              <ProtectedRoute allowedRoles={['instructor', 'admin']}>
-                <CreateCourse />
-              </ProtectedRoute>
-            }
-          />
+          >
+            <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+            <Route path="/instructor/courses" element={<MyCourses />} />
+            <Route path="/instructor/courses/create" element={<CreateCourse />} />
+            <Route path="/instructor/courses/:courseId/curriculum" element={<ManageCurriculum />} />
+            <Route path="/instructor/courses/:courseId/edit" element={<CreateCourse />} />
+          </Route>
 
-          {/* Admin Routes */}
+          {/* Admin Routes — wrapped in AdminLayout */}
           <Route
-            path="/admin/dashboard"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
-                <AdminDashboard />
+                <AdminLayout />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="/admin/enrollments"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <EnrollmentApprovals />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/users"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <UserManagement />
-              </ProtectedRoute>
-            }
-          />
+          >
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/courses" element={<AdminCourses />} />
+            <Route path="/admin/enrollments" element={<EnrollmentApprovals />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/reports" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin/settings" element={<Navigate to="/admin/dashboard" replace />} />
+          </Route>
 
-          {/* 404 - Not Found */}
-          <Route path="*" element={<div className="p-8"><h1 className="text-4xl font-bold">404 - Page Not Found</h1></div>} />
+          {/* 404 */}
+          <Route
+            path="*"
+            element={
+              <div className="p-8">
+                <h1 className="text-4xl font-bold">404 - Page Not Found</h1>
+              </div>
+            }
+          />
         </Routes>
       </div>
     </Router>
   );
 }
 
-export default App
+export default App;

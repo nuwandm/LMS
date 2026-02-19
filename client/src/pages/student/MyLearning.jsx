@@ -10,6 +10,7 @@ import {
   Play,
 } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
+import EmptyState from '../../components/common/EmptyState';
 import { getMyEnrollments } from '../../services/enrollmentService';
 import useAuthStore from '../../store/authStore';
 import toast from 'react-hot-toast';
@@ -35,17 +36,27 @@ const MyLearning = () => {
     try {
       const response = await getMyEnrollments();
       if (response.success) {
-        setEnrollments(response.data);
+        // Safely extract enrollments array
+        const enrollmentsData = Array.isArray(response.data)
+          ? response.data
+          : response.data?.enrollments || [];
+        setEnrollments(enrollmentsData);
       }
     } catch (error) {
       console.error('Error fetching enrollments:', error);
       toast.error('Failed to load your courses');
+      setEnrollments([]); // Ensure it's always an array
     } finally {
       setIsLoading(false);
     }
   };
 
   const filterEnrollments = () => {
+    if (!Array.isArray(enrollments)) {
+      setFilteredEnrollments([]);
+      return;
+    }
+
     let filtered = enrollments;
 
     switch (activeTab) {
@@ -69,11 +80,11 @@ const MyLearning = () => {
 
   // Calculate stats
   const stats = {
-    enrolled: enrollments.length,
-    completed: enrollments.filter((e) => e.progress === 100).length,
-    inProgress: enrollments.filter(
-      (e) => e.status === 'approved' && e.progress > 0 && e.progress < 100
-    ).length,
+    enrolled: Array.isArray(enrollments) ? enrollments.length : 0,
+    completed: Array.isArray(enrollments) ? enrollments.filter((e) => e.progress === 100).length : 0,
+    inProgress: Array.isArray(enrollments)
+      ? enrollments.filter((e) => e.status === 'approved' && e.progress > 0 && e.progress < 100).length
+      : 0,
   };
 
   // Category color mapping
@@ -224,36 +235,34 @@ const MyLearning = () => {
 
           {/* Course Grid */}
           {filteredEnrollments.length === 0 ? (
-            <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                  <BookOpen className="w-8 h-8 text-gray-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {activeTab === 'pending'
-                      ? 'No pending enrollments'
-                      : activeTab === 'completed'
-                      ? 'No completed courses yet'
-                      : activeTab === 'in-progress'
-                      ? 'No courses in progress'
-                      : 'No enrolled courses yet'}
-                  </h3>
-                  <p className="text-gray-500 mb-6">
-                    {activeTab === 'all'
-                      ? 'Start learning by enrolling in a course'
-                      : 'Complete your current courses to see them here'}
-                  </p>
-                  {activeTab === 'all' && (
+            <div className="bg-white rounded-xl border border-gray-200">
+              <EmptyState
+                icon={BookOpen}
+                title={
+                  activeTab === 'pending'
+                    ? 'No pending enrollments'
+                    : activeTab === 'completed'
+                    ? 'No completed courses yet'
+                    : activeTab === 'in-progress'
+                    ? 'No courses in progress'
+                    : 'No enrolled courses yet'
+                }
+                description={
+                  activeTab === 'all'
+                    ? 'Start learning by enrolling in a course'
+                    : 'Complete your current courses to see them here'
+                }
+                action={
+                  activeTab === 'all' ? (
                     <Link
                       to="/courses"
                       className="inline-block bg-primary-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-700 transition-colors"
                     >
                       Browse Courses
                     </Link>
-                  )}
-                </div>
-              </div>
+                  ) : null
+                }
+              />
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
