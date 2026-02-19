@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub - Course Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f3b61",
+                        "secondary": "#D35400",
+                        "accent-green": "#27AE60",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#14181e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-[#101419] antialiased">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e9edf1] bg-white px-6 py-3 lg:px-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#1f3b61]">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">school</span>
+</div>
+<h2 class="text-[#1f3b61] text-xl font-bold leading-tight tracking-[-0.015em]">LearnHub</h2>
+</div>
+<div class="hidden md:flex">
+<button class="text-[#5b6f8b] hover:text-primary font-medium px-4 py-2">Categories</button>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64 lg:w-96">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full border border-[#e9edf1] bg-[#f6f7f8] focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+<div class="text-[#5b6f8b] flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl bg-transparent text-[#101419] focus:outline-0 focus:ring-0 border-none placeholder:text-[#5b6f8b] px-4 pl-2 text-sm font-normal leading-normal" placeholder="Search for anything"/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<a class="hidden lg:block text-[#5b6f8b] hover:text-primary text-sm font-medium" href="#">Teach on LearnHub</a>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-xl size-10 bg-transparent hover:bg-[#e9edf1] text-[#1f3b61] transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="flex items-center justify-center rounded-xl size-10 bg-transparent hover:bg-[#e9edf1] text-[#1f3b61] transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border-2 border-white shadow-sm ring-2 ring-[#e9edf1]" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIoEP_uhHdoajI4dzGGQkccK9obRtsQY3p8R4dQmfP9eSaemuBcMXFcYfzuUUmBHZ9DFh3POSR1I81ST49XfOTFmmcSVFe3-2LlJb3KCeVy-ybDbHvuNqdhPtSxfYrUCEm7IsEojdwjroQkB4CuU8-7DGyDjBdwoGUZBjaLMEszJnEz59uo7jryUvIOyGh64NohIcHH7RtGaHvMLen35WfDXo8ZK3knXbYn3EGWE7s6qbCFoevrFmy-bcdtRxNHVNU4INFCbwa1Q");'></div>
+</div>
+</header>
+<!-- Main Content Wrapper -->
+<main class="relative">
+<!-- Hero Section -->
+<div class="bg-primary text-white pt-8 pb-12">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10 flex flex-col lg:flex-row gap-10">
+<!-- Left Content -->
+<div class="lg:w-[65%] flex flex-col gap-4">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 text-primary-100/70 text-sm font-medium">
+<a class="hover:text-white transition-colors" href="#">Home</a>
+<span class="opacity-50">/</span>
+<a class="hover:text-white transition-colors" href="#">Development</a>
+<span class="opacity-50">/</span>
+<a class="hover:text-white transition-colors" href="#">Web Development</a>
+<span class="opacity-50">/</span>
+<span class="text-white">React</span>
+</div>
+<!-- Title -->
+<h1 class="text-3xl md:text-4xl lg:text-[40px] font-bold leading-tight tracking-tight mt-2">
+                        Complete React Developer Bootcamp 2024
+                    </h1>
+<!-- Description -->
+<p class="text-lg md:text-xl text-white/90 font-light max-w-2xl mt-2 leading-relaxed">
+                        Become a Senior React Developer! Build massive projects, master React, Redux, Node.js, and more from scratch.
+                    </p>
+<!-- Rating & Stats -->
+<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-sm">
+<div class="flex items-center gap-1 bg-[#F1C40F] text-primary px-2 py-0.5 rounded font-bold text-xs">
+                            Bestseller
+                        </div>
+<div class="flex items-center gap-1 text-[#F1C40F]">
+<span class="font-bold text-base mr-1">4.8</span>
+<span class="material-symbols-outlined text-[18px] fill-current">star</span>
+<span class="material-symbols-outlined text-[18px] fill-current">star</span>
+<span class="material-symbols-outlined text-[18px] fill-current">star</span>
+<span class="material-symbols-outlined text-[18px] fill-current">star</span>
+<span class="material-symbols-outlined text-[18px] fill-current">star_half</span>
+</div>
+<a class="text-blue-200 hover:text-white underline underline-offset-2" href="#reviews">(2,400 ratings)</a>
+<span class="text-white/60">•</span>
+<span class="text-white/90">12,500 students</span>
+</div>
+<!-- Instructor & Language -->
+<div class="flex flex-wrap items-center gap-6 mt-2 text-sm text-white/90">
+<div class="flex items-center gap-2">
+<span>Created by</span>
+<a class="text-blue-200 hover:text-white underline underline-offset-2" href="#instructor">Dr. Angela Yu</a>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Last updated 11/2024</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span>English</span>
+<span class="border border-white/30 text-xs px-1.5 rounded ml-1">CC</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Tab Navigation -->
+<div class="sticky top-0 z-40 bg-white border-b border-[#e9edf1] shadow-sm">
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+<nav class="flex gap-8 overflow-x-auto hide-scrollbar">
+<a class="py-4 border-b-2 border-primary text-primary font-semibold whitespace-nowrap text-sm" href="#overview">Overview</a>
+<a class="py-4 border-b-2 border-transparent text-[#5b6f8b] hover:text-[#101419] font-medium whitespace-nowrap text-sm transition-colors" href="#curriculum">Curriculum</a>
+<a class="py-4 border-b-2 border-transparent text-[#5b6f8b] hover:text-[#101419] font-medium whitespace-nowrap text-sm transition-colors" href="#instructor">Instructor</a>
+<a class="py-4 border-b-2 border-transparent text-[#5b6f8b] hover:text-[#101419] font-medium whitespace-nowrap text-sm transition-colors" href="#reviews">Reviews</a>
+</nav>
+</div>
+</div>
+<!-- Two Column Layout -->
+<div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 flex flex-col lg:flex-row gap-10 relative">
+<!-- Main Content Area (Left) -->
+<div class="lg:w-[65%] flex flex-col gap-10">
+<!-- What you'll learn Box -->
+<div class="border border-[#e9edf1] rounded-2xl p-6 bg-white" id="overview">
+<h2 class="text-xl font-bold mb-6 text-[#101419]">What you'll learn</h2>
+<div class="grid md:grid-cols-2 gap-x-6 gap-y-3">
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-[20px] text-[#101419] mt-0.5">check</span>
+<p class="text-sm text-[#374151] leading-relaxed">Build powerful, fast, user-friendly and reactive web apps</p>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-[20px] text-[#101419] mt-0.5">check</span>
+<p class="text-sm text-[#374151] leading-relaxed">Provide amazing user experiences by leveraging the power of JavaScript with ease</p>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-[20px] text-[#101419] mt-0.5">check</span>
+<p class="text-sm text-[#374151] leading-relaxed">Apply for high-paid jobs or work as a freelancer in one of the most demanded sectors</p>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-[20px] text-[#101419] mt-0.5">check</span>
+<p class="text-sm text-[#374151] leading-relaxed">Learn all about React Hooks and React Components</p>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-[20px] text-[#101419] mt-0.5">check</span>
+<p class="text-sm text-[#374151] leading-relaxed">Master Redux for state management in large scale applications</p>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-[20px] text-[#101419] mt-0.5">check</span>
+<p class="text-sm text-[#374151] leading-relaxed">Become fluent in the toolchain of modern React developers</p>
+</div>
+</div>
+</div>
+<!-- Course Content Accordion -->
+<div id="curriculum">
+<h2 class="text-2xl font-bold mb-6 text-[#101419]">Course Content</h2>
+<div class="flex items-center justify-between text-sm text-[#5b6f8b] mb-4">
+<p>15 sections • 145 lectures • 24h 10m total length</p>
+<button class="text-primary font-bold hover:underline">Expand all sections</button>
+</div>
+<div class="border border-[#e9edf1] rounded-xl overflow-hidden divide-y divide-[#e9edf1]">
+<!-- Accordion Item 1 -->
+<details class="group bg-[#fcfcfd]" open="">
+<summary class="flex justify-between items-center p-4 cursor-pointer list-none bg-[#f6f7f8] hover:bg-[#e9edf1] transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#101419] transition-transform group-open:rotate-180">expand_more</span>
+<h3 class="font-bold text-[#101419]">Introduction to React</h3>
+</div>
+<span class="text-sm text-[#5b6f8b]">3 lectures • 12min</span>
+</summary>
+<div class="bg-white p-4 flex flex-col gap-3">
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">play_circle</span>
+<span class="text-[#374151] hover:underline cursor-pointer">Welcome to the Course</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-primary font-semibold text-xs cursor-pointer hover:underline">Preview</span>
+<span class="text-[#5b6f8b] w-12 text-right">04:21</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">play_circle</span>
+<span class="text-[#374151]">What is React?</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[#5b6f8b] w-12 text-right">03:45</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">play_circle</span>
+<span class="text-[#374151]">Setting up the Environment</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[#5b6f8b] w-12 text-right">05:10</span>
+</div>
+</div>
+</div>
+</details>
+<!-- Accordion Item 2 -->
+<details class="group bg-[#fcfcfd]">
+<summary class="flex justify-between items-center p-4 cursor-pointer list-none bg-[#f6f7f8] hover:bg-[#e9edf1] transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#101419] transition-transform group-open:rotate-180">expand_more</span>
+<h3 class="font-bold text-[#101419]">Javascript Refresher</h3>
+</div>
+<span class="text-sm text-[#5b6f8b]">5 lectures • 45min</span>
+</summary>
+<div class="bg-white p-4">
+<!-- Content placeholder -->
+<p class="text-sm text-[#5b6f8b]">Content hidden for preview.</p>
+</div>
+</details>
+<!-- Accordion Item 3 -->
+<details class="group bg-[#fcfcfd]">
+<summary class="flex justify-between items-center p-4 cursor-pointer list-none bg-[#f6f7f8] hover:bg-[#e9edf1] transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#101419] transition-transform group-open:rotate-180">expand_more</span>
+<h3 class="font-bold text-[#101419]">React Basics &amp; Components</h3>
+</div>
+<span class="text-sm text-[#5b6f8b]">12 lectures • 1h 20min</span>
+</summary>
+<div class="bg-white p-4">
+<!-- Content placeholder -->
+<p class="text-sm text-[#5b6f8b]">Content hidden for preview.</p>
+</div>
+</details>
+</div>
+</div>
+<!-- Instructor -->
+<div id="instructor">
+<h2 class="text-2xl font-bold mb-6 text-[#101419]">Instructor</h2>
+<div class="flex flex-col gap-4">
+<a class="text-primary text-xl font-bold underline underline-offset-2" href="#">Dr. Angela Yu</a>
+<p class="text-[#5b6f8b] font-medium">Developer and Lead Instructor</p>
+<div class="flex gap-6 items-center my-2">
+<div class="size-24 rounded-full bg-cover bg-center shrink-0" data-alt="Instructor photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzeVW93Hu2Orw8AxzWVbCNoX_d-mg7DowgxnN38fLEQJXl5dXnjCmT2-YDYIHUG9Iy-pcNfzOHX7D2SaFrd5ODlU4BvliG4sYAxrjiZDqyqIV0JHSa9_wlcjywZpVEO16loYcvy6lebrsTBnv64v6AvRH9JGNAaXyiyJc84PHpC-dnL-R6GH4ta3sMc2TYhte4pnU0wKT15kXxuYLJfq-QazGmKtcfTtPKkD4j6drSLVWUf0OETmM_dccTM5M8vnQ4wb5TpTfgLQ');"></div>
+<div class="flex flex-col gap-2 text-sm text-[#374151]">
+<div class="flex gap-2 items-center">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">star</span>
+<span>4.7 Instructor Rating</span>
+</div>
+<div class="flex gap-2 items-center">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">verified</span>
+<span>150,000 Reviews</span>
+</div>
+<div class="flex gap-2 items-center">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">group</span>
+<span>500,000 Students</span>
+</div>
+<div class="flex gap-2 items-center">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">play_circle</span>
+<span>7 Courses</span>
+</div>
+</div>
+</div>
+<p class="text-sm text-[#374151] leading-relaxed">
+                            I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer.
+                        </p>
+</div>
+</div>
+<!-- Reviews Section -->
+<div class="pt-6" id="reviews">
+<h2 class="text-2xl font-bold mb-6 text-[#101419]">Student Feedback</h2>
+<div class="flex flex-col md:flex-row gap-8 mb-8">
+<!-- Rating Big Number -->
+<div class="flex flex-col items-center justify-center min-w-[140px]">
+<div class="text-[64px] font-bold text-[#101419] leading-none">4.8</div>
+<div class="flex text-[#F1C40F] my-2">
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star_half</span>
+</div>
+<div class="text-[#5b6f8b] font-medium text-sm">Course Rating</div>
+</div>
+<!-- Progress Bars -->
+<div class="flex-1 w-full space-y-2">
+<div class="flex items-center gap-3 text-sm">
+<div class="w-full bg-[#e9edf1] rounded-full h-2 overflow-hidden">
+<div class="bg-[#1f3b61] h-full rounded-full" style="width: 77%"></div>
+</div>
+<div class="flex gap-1 text-[#5b6f8b] w-24">
+<span class="material-symbols-outlined text-[16px] text-[#F1C40F]">star</span>
+<span>57%</span>
+</div>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<div class="w-full bg-[#e9edf1] rounded-full h-2 overflow-hidden">
+<div class="bg-[#1f3b61] h-full rounded-full" style="width: 32%"></div>
+</div>
+<div class="flex gap-1 text-[#5b6f8b] w-24">
+<span class="material-symbols-outlined text-[16px] text-[#F1C40F]">star</span>
+<span>32%</span>
+</div>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<div class="w-full bg-[#e9edf1] rounded-full h-2 overflow-hidden">
+<div class="bg-[#1f3b61] h-full rounded-full" style="width: 8%"></div>
+</div>
+<div class="flex gap-1 text-[#5b6f8b] w-24">
+<span class="material-symbols-outlined text-[16px] text-[#F1C40F]">star</span>
+<span>8%</span>
+</div>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<div class="w-full bg-[#e9edf1] rounded-full h-2 overflow-hidden">
+<div class="bg-[#1f3b61] h-full rounded-full" style="width: 2%"></div>
+</div>
+<div class="flex gap-1 text-[#5b6f8b] w-24">
+<span class="material-symbols-outlined text-[16px] text-[#F1C40F]">star</span>
+<span>2%</span>
+</div>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<div class="w-full bg-[#e9edf1] rounded-full h-2 overflow-hidden">
+<div class="bg-[#1f3b61] h-full rounded-full" style="width: 1%"></div>
+</div>
+<div class="flex gap-1 text-[#5b6f8b] w-24">
+<span class="material-symbols-outlined text-[16px] text-[#F1C40F]">star</span>
+<span>1%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Individual Reviews -->
+<div class="grid md:grid-cols-2 gap-4">
+<div class="border border-[#e9edf1] p-5 rounded-xl bg-white">
+<div class="flex items-center gap-3 mb-3">
+<div class="size-10 rounded-full bg-[#e9edf1] flex items-center justify-center text-[#1f3b61] font-bold">JD</div>
+<div>
+<div class="font-bold text-sm text-[#101419]">John Doe</div>
+<div class="text-[#F1C40F] flex text-[14px]">
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+</div>
+</div>
+</div>
+<p class="text-sm text-[#374151] leading-relaxed">
+                                This course changed my career. I went from knowing zero React to building full-stack applications. Highly recommended!
+                            </p>
+</div>
+<div class="border border-[#e9edf1] p-5 rounded-xl bg-white">
+<div class="flex items-center gap-3 mb-3">
+<div class="size-10 rounded-full bg-[#e9edf1] flex items-center justify-center text-[#1f3b61] font-bold">SM</div>
+<div>
+<div class="font-bold text-sm text-[#101419]">Sarah M.</div>
+<div class="text-[#F1C40F] flex text-[14px]">
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px]">star</span>
+</div>
+</div>
+</div>
+<p class="text-sm text-[#374151] leading-relaxed">
+                                Great explanations and pacing. The section on Redux was a bit fast, but re-watching helped. Overall excellent value.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Right Sidebar (Desktop only visible) -->
+<div class="hidden lg:block lg:w-[35%] relative">
+<div class="sticky top-24 bg-white border border-[#e9edf1] rounded-xl shadow-lg overflow-hidden flex flex-col">
+<!-- Video Preview Area -->
+<div class="relative w-full aspect-video bg-black cursor-pointer group">
+<img alt="Course thumbnail with React logo on screen" class="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity" data-alt="React logo abstract background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiNUPu9_orDFUEPFc6ips8oiuOzAR9QLSiw5Y1Qaa8J8aQ2qwYSlOFw6X9x0zwmTQchoJayq0B61XgFhzwq_TfT4wjhNNoYHP1pdrMXf8SYLIKvpCAH8oPh3HtfLLJkPmAOLJA7A9OBaO1JFAOwvb6CbcrUz23epVQURcgfxv6Y0iVDnSyiAlRJoynhkTDmL25_E5xo4UX-uvbP8qecSQ8pgLTdcFkpEJ5TOk9-T1uy8V8rUqAdH9OGrKhBAo3b4LWqf5hw8tqFg"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="size-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-black text-4xl ml-1">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-0 w-full text-center text-white font-bold text-sm">Preview this course</div>
+</div>
+<div class="p-6">
+<div class="flex items-end gap-3 mb-4">
+<span class="text-3xl font-bold text-[#101419]">$49.99</span>
+<span class="text-lg text-[#5b6f8b] line-through mb-1">$94.99</span>
+<span class="text-sm font-bold text-[#D35400] mb-1.5">47% off</span>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full bg-[#27AE60] hover:bg-[#219150] text-white font-bold h-12 rounded-xl transition-colors shadow-sm text-base">Request Enrollment</button>
+<button class="w-full bg-white border border-[#101419] hover:bg-[#f6f7f8] text-[#101419] font-bold h-12 rounded-xl transition-colors text-base">Add to Wishlist</button>
+</div>
+<div class="mt-6">
+<p class="font-bold text-[#101419] mb-3 text-sm">This course includes:</p>
+<ul class="flex flex-col gap-2.5">
+<li class="flex items-center gap-3 text-sm text-[#374151]">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">ondemand_video</span>
+<span>45 hours on-demand video</span>
+</li>
+<li class="flex items-center gap-3 text-sm text-[#374151]">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">code</span>
+<span>50 Coding Exercises</span>
+</li>
+<li class="flex items-center gap-3 text-sm text-[#374151]">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">description</span>
+<span>12 Articles</span>
+</li>
+<li class="flex items-center gap-3 text-sm text-[#374151]">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">download</span>
+<span>Full lifetime access</span>
+</li>
+<li class="flex items-center gap-3 text-sm text-[#374151]">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">devices</span>
+<span>Access on mobile and TV</span>
+</li>
+<li class="flex items-center gap-3 text-sm text-[#374151]">
+<span class="material-symbols-outlined text-[18px] text-[#5b6f8b]">emoji_events</span>
+<span>Certificate of completion</span>
+</li>
+</ul>
+</div>
+<div class="mt-6 pt-4 border-t border-[#e9edf1] flex justify-between items-center text-sm font-medium">
+<a class="text-[#101419] hover:underline" href="#">Share</a>
+<a class="text-[#101419] hover:underline" href="#">Gift this course</a>
+<a class="text-[#101419] hover:underline" href="#">Apply Coupon</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile Sticky Bottom Bar (Only visible on small screens) -->
+<div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#e9edf1] p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+<div class="flex items-center justify-between gap-4 max-w-[500px] mx-auto">
+<div class="flex flex-col">
+<span class="text-xl font-bold text-[#101419]">$49.99</span>
+<span class="text-xs text-[#5b6f8b] line-through">$94.99</span>
+</div>
+<button class="flex-1 bg-[#27AE60] hover:bg-[#219150] text-white font-bold h-12 rounded-xl transition-colors shadow-sm text-base">Enroll Now</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Simple -->
+<footer class="bg-[#1f3b61] text-white py-12 px-6 border-t border-white/10 mt-12 pb-24 lg:pb-12">
+<div class="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-2xl">school</span>
+<span class="text-xl font-bold">LearnHub</span>
+</div>
+<div class="text-sm text-white/60">
+                © 2024 LearnHub, Inc. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

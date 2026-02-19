@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub Instructor Curriculum Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1458b8",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111821",
+                        "surface": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem", // Approx 12px
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 antialiased overflow-hidden">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Sidebar (Modified for Deep Blue Theme as requested) -->
+<aside class="flex w-72 flex-col bg-[#0e131b] border-r border-slate-800 text-white h-full shrink-0 overflow-y-auto">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl">LH</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-semibold leading-tight">LearnHub</h1>
+<p class="text-slate-400 text-xs font-normal">Instructor Portal</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-blue-400 cursor-pointer border-l-4 border-primary">
+<span class="material-symbols-outlined text-[24px] fill-1">book_2</span> <!-- Added fill for active state visual -->
+<span class="text-sm font-medium">My Courses</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">chat_bubble</span>
+<span class="text-sm font-medium">Communication</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">bar_chart</span>
+<span class="text-sm font-medium">Performance</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">build</span>
+<span class="text-sm font-medium">Tools</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</div>
+</div>
+</div>
+<div class="mt-auto p-6 border-t border-slate-800">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-slate-700" data-alt="Instructor profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8P83K9cTerJizPCjvRJr4kerHoT5kJ-s6nEDmmLrC9rzGEbXWJdl6Yxpp-fgZnecFfg4BI8IrP8_b85IhBLDgvqfk2ny4D0k__Zlw40wNtszdvjoukZCMsHkBkVmhTkGf2V110b-WK1j4nZZcatTE-5-cX3AG8Qa4Pwwii2J2xHNIySb7Qqz_4Uw7QDmaO0x3hAuOb9OQV6YntJnCwF-paaTbXvzQk2djfjWFoVeR46Q3CrPrGB9clsGPgTx8uwYmMyS27Vio-g");'></div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium">Alex Morgan</p>
+<p class="text-slate-400 text-xs">Senior Instructor</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Bar -->
+<header class="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-8 shrink-0">
+<h2 class="text-lg font-bold text-slate-800">Edit Course: "Advanced UX Design Principles"</h2>
+<div class="flex gap-4">
+<button class="text-slate-500 hover:text-primary text-sm font-medium px-4 py-2 rounded-lg">Preview</button>
+<button class="bg-primary text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">Save Changes</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto bg-background-light p-8">
+<div class="max-w-5xl mx-auto flex flex-col gap-8 pb-20">
+<!-- Header Section -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl font-black text-slate-900 tracking-tight">Manage Curriculum</h1>
+<p class="text-slate-500">Organize your lectures and quizzes into sections to build a cohesive learning path.</p>
+</div>
+<!-- Stepper -->
+<div class="w-full bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-3 opacity-50">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-sm">1</div>
+<span class="text-sm font-medium text-slate-600 hidden sm:block">Intended Learners</span>
+</div>
+<div class="h-px w-8 bg-slate-200"></div>
+<div class="flex items-center gap-3 opacity-50">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-sm">2</div>
+<span class="text-sm font-medium text-slate-600 hidden sm:block">Course Structure</span>
+</div>
+<div class="h-px w-8 bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md ring-2 ring-blue-100">3</div>
+<span class="text-sm font-bold text-primary hidden sm:block">Curriculum</span>
+</div>
+<div class="h-px w-8 bg-slate-200"></div>
+<div class="flex items-center gap-3 opacity-50">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-sm">4</div>
+<span class="text-sm font-medium text-slate-600 hidden sm:block">Pricing</span>
+</div>
+</div>
+</div>
+<!-- Add Section Row -->
+<div class="flex gap-4 items-center bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+<span class="material-symbols-outlined text-slate-400 cursor-grab">drag_indicator</span>
+<div class="flex-1">
+<input class="w-full border-slate-200 rounded-lg text-sm placeholder:text-slate-400 focus:ring-primary focus:border-primary" placeholder="Enter new section title (e.g., Introduction)" type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2.5 border border-primary text-primary hover:bg-blue-50 rounded-lg text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+                            Add Section
+                        </button>
+</div>
+<!-- Section List -->
+<div class="flex flex-col gap-6">
+<!-- Section 1 (Expanded) -->
+<div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden group">
+<div class="bg-slate-50 p-4 flex items-center gap-4 border-b border-slate-200 select-none">
+<span class="material-symbols-outlined text-slate-400 cursor-grab">drag_indicator</span>
+<div class="flex-1 flex items-center gap-3">
+<span class="font-bold text-slate-900">Section 1:</span>
+<span class="text-slate-700">Introduction to UX</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-200 rounded-full text-slate-500">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 hover:bg-slate-200 rounded-full text-slate-500">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<button class="p-2 hover:bg-slate-200 rounded-full text-slate-500 transform rotate-180">
+<span class="material-symbols-outlined">expand_less</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-3 bg-white">
+<!-- Lecture 1 -->
+<div class="flex items-center gap-4 p-3 hover:bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all group/item">
+<span class="material-symbols-outlined text-slate-300 group-hover/item:text-slate-400 cursor-grab">drag_indicator</span>
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-slate-900">1. What is User Experience?</p>
+<div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">videocam</span> Video</span>
+<span>•</span>
+<span>04:23</span>
+</div>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover/item:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-slate-200 rounded text-slate-500"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1.5 hover:bg-red-50 hover:text-red-500 rounded text-slate-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<!-- Lecture 2 -->
+<div class="flex items-center gap-4 p-3 hover:bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all group/item">
+<span class="material-symbols-outlined text-slate-300 group-hover/item:text-slate-400 cursor-grab">drag_indicator</span>
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-slate-900">2. The Design Process</p>
+<div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">article</span> Article</span>
+<span>•</span>
+<span>5 min read</span>
+</div>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover/item:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-slate-200 rounded text-slate-500"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1.5 hover:bg-red-50 hover:text-red-500 rounded text-slate-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<!-- Lecture 3 (Action Required) -->
+<div class="flex items-center gap-4 p-3 bg-orange-50/50 rounded-lg border border-orange-100 transition-all group/item">
+<span class="material-symbols-outlined text-slate-300 cursor-grab">drag_indicator</span>
+<div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+<span class="material-symbols-outlined text-sm">warning</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-slate-900">3. Understanding Users</p>
+<div class="flex items-center gap-2 text-xs text-orange-600 mt-0.5 font-medium">
+<span>Content missing</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+<span class="material-symbols-outlined text-sm">upload</span>
+                                            Upload Video
+                                        </button>
+<div class="flex items-center gap-1">
+<button class="p-1.5 hover:bg-slate-200 rounded text-slate-500"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-1.5 hover:bg-red-50 hover:text-red-500 rounded text-slate-500"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+</div>
+<button class="mt-2 flex w-full items-center justify-center gap-2 py-2 border border-dashed border-slate-300 rounded-lg text-slate-500 hover:border-primary hover:text-primary hover:bg-blue-50/50 transition-all text-sm font-medium">
+<span class="material-symbols-outlined text-lg">add</span>
+                                    Add Curriculum Item
+                                </button>
+</div>
+</div>
+<!-- Section 2 (Collapsed) -->
+<div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden opacity-80 hover:opacity-100 transition-opacity">
+<div class="bg-slate-50 p-4 flex items-center gap-4 select-none cursor-pointer">
+<span class="material-symbols-outlined text-slate-400 cursor-grab">drag_indicator</span>
+<div class="flex-1 flex items-center gap-3">
+<span class="font-bold text-slate-900">Section 2:</span>
+<span class="text-slate-700">Wireframing Basics</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-200 rounded-full text-slate-500">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section 3 (Collapsed) -->
+<div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden opacity-80 hover:opacity-100 transition-opacity">
+<div class="bg-slate-50 p-4 flex items-center gap-4 select-none cursor-pointer">
+<span class="material-symbols-outlined text-slate-400 cursor-grab">drag_indicator</span>
+<div class="flex-1 flex items-center gap-3">
+<span class="font-bold text-slate-900">Section 3:</span>
+<span class="text-slate-700">Prototyping</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-200 rounded-full text-slate-500">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal Overlay -->
+<div class="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm">
+<div class="bg-white w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden animate-fade-in-up">
+<div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+<h3 class="text-lg font-bold text-slate-900">Add Lecture Content</h3>
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-6">
+<!-- Title Input -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700">Lecture Title</label>
+<input class="w-full border-slate-200 rounded-lg text-sm focus:ring-primary focus:border-primary placeholder:text-slate-400 text-slate-900" type="text" value="3. Understanding Users"/>
+</div>
+<!-- Upload Dropzone -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700">Video Content</label>
+<div class="relative w-full h-48 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 hover:bg-slate-100 hover:border-primary/50 transition-all cursor-pointer flex flex-col items-center justify-center gap-3 group">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-2xl">cloud_upload</span>
+</div>
+<div class="text-center">
+<p class="text-sm font-medium text-slate-900">Drag and drop video here</p>
+<p class="text-xs text-slate-500 mt-1">or <span class="text-primary font-bold hover:underline">Browse files</span></p>
+</div>
+<div class="absolute bottom-3 text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Max Size: 2GB</div>
+</div>
+</div>
+<!-- Toggle & Additional Options -->
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-slate-700">Free Preview</span>
+</label>
+<span class="material-symbols-outlined text-slate-400 text-sm cursor-help" title="Allow students to watch this without purchasing">info</span>
+</div>
+<div class="text-xs text-slate-400 font-medium">Supported formats: .mp4, .mov</div>
+</div>
+</div>
+<div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+<button class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition-colors">Cancel</button>
+<button class="px-5 py-2.5 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-blue-700 shadow-md transition-colors flex items-center gap-2">
+<span>Save Lecture</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

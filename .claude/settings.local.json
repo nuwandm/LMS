@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(fi)",
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout 10 npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(INSTRUCTOR_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OTVmMzlmYjJkZGYwNjc3NjI2Y2NiYiIsInJvbGUiOiJpbnN0cnVjdG9yIiwiaWF0IjoxNzcxNDM0OTEyLCJleHAiOjE3NzIwMzk3MTJ9.yiqYPj_ppnlui_uYOuP-sNRqmHtoO7XlXSFSaFWUkSg\")",
+      "Bash(COURSE_ID=\"6995f3bbb2ddf0677626ccc1\":*)",
+      "Bash(NEW_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OTVmMzlmYjJkZGYwNjc3NjI2Y2NiYiIsInJvbGUiOiJpbnN0cnVjdG9yIiwiaWF0IjoxNzcxNDM0OTcyLCJleHAiOjE3NzIwMzk3NzJ9.tngXR10-h8L6aFals4qw9LyuQ3YWy0FGufMWN5XKePQ\")",
+      "Bash(STUDENT_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OTVmM2ExYjJkZGYwNjc3NjI2Y2NiZSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzcxNDM0OTEzLCJleHAiOjE3NzIwMzk3MTN9.xfe8Uvidj5CpA-oj1Q4J8e0zKzqmhm_p7qHBJ7I2fzE\":*)",
+      "Bash(INSTRUCTOR_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OTVmMzlmYjJkZGYwNjc3NjI2Y2NiYiIsInJvbGUiOiJpbnN0cnVjdG9yIiwiaWF0IjoxNzcxNDM0OTcyLCJleHAiOjE3NzIwMzk3NzJ9.tngXR10-h8L6aFals4qw9LyuQ3YWy0FGufMWN5XKePQ\")",
+      "Bash(npm create:*)",
+      "Bash(npx tailwindcss init:*)",
+      "Bash(npm run build:*)",
+      "Bash(PROGRESS_TRACKER.md:*)",
+      "Bash(create_admin.js:*)",
+      "Bash(TESTING_SUMMARY.md:*)",
+      "Bash(FINAL_STATUS.md:*)",
+      "Bash(wc:*)",
+      "Bash(.gitignore:*)"
+    ]
+  }
+}

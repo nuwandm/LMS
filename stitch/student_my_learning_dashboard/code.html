@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student My Learning Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d131b] dark:text-white min-h-screen flex flex-col font-display">
+<!-- Main Container -->
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header / TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7ecf3] dark:border-gray-800 bg-white dark:bg-[#1a2332] px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#0d131b] dark:text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">school</span>
+</div>
+<h2 class="text-[#0d131b] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">LearnHub</h2>
+</div>
+<!-- Search Bar -->
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-[#4c6c9a] flex border-none bg-[#e7ecf3] dark:bg-gray-800 items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d131b] dark:text-white focus:outline-0 focus:ring-0 border-none bg-[#e7ecf3] dark:bg-gray-800 focus:border-none h-full placeholder:text-[#4c6c9a] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search courses..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<button class="flex items-center justify-center text-[#4c6c9a] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-[#0d131b] dark:text-white">Sarah Jenkins</p>
+<p class="text-xs text-[#4c6c9a]">Student</p>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white dark:border-gray-700 shadow-sm" data-alt="Portrait of Sarah Jenkins, a student" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBwoWsLROF_rAc3i0VwkSIg7kIFlMaYLY1HIe-5QELB1qLr8AxXulAsmAl0bNUwgqRXbltwGebN_15sbq91fHAIS6EPo2FvwXn3JkhKFJeNB4AZDgiMmdzdI0hA37awQoxSX-Gwl7zZC_LY-baX-YAluMLOMGfKphdC3R2vgVwUhJ_auX_LWT9MTlB4uXZEa65TWeVMnz1r18t9ELoXJw_5MzmfYTFPwFxDCLK64LXeCobdTDxJba43e9hYHl6qasQDpEkr7ClnoQ");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex justify-center py-8 px-4 sm:px-8 lg:px-40">
+<div class="max-w-[1200px] w-full flex flex-col gap-8">
+<!-- Greeting & Stats Section -->
+<section class="flex flex-col gap-6">
+<div>
+<h1 class="text-[#0d131b] dark:text-white tracking-tight text-[32px] font-bold leading-tight">Hi, Sarah! 👋</h1>
+<p class="text-[#4c6c9a] dark:text-gray-400 text-lg font-medium leading-tight mt-2">Let's learn something new today.</p>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<!-- Card 1: Enrolled -->
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-[#1a2332] shadow-sm border border-slate-100 dark:border-gray-800 transition-transform hover:-translate-y-1 duration-300">
+<div class="flex justify-between items-start">
+<div class="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-2 rounded-lg">
+<span class="material-symbols-outlined">local_library</span>
+</div>
+<span class="material-symbols-outlined text-gray-300">more_horiz</span>
+</div>
+<div>
+<p class="text-[#4c6c9a] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">Enrolled</p>
+<p class="text-[#0d131b] dark:text-white text-3xl font-bold mt-1">5</p>
+</div>
+</div>
+<!-- Card 2: Completed -->
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-[#1a2332] shadow-sm border border-slate-100 dark:border-gray-800 transition-transform hover:-translate-y-1 duration-300">
+<div class="flex justify-between items-start">
+<div class="bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 p-2 rounded-lg">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="material-symbols-outlined text-gray-300">more_horiz</span>
+</div>
+<div>
+<p class="text-[#4c6c9a] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">Completed</p>
+<p class="text-[#0d131b] dark:text-white text-3xl font-bold mt-1">2</p>
+</div>
+</div>
+<!-- Card 3: In Progress -->
+<div class="flex flex-col gap-3 rounded-xl p-6 bg-white dark:bg-[#1a2332] shadow-sm border border-slate-100 dark:border-gray-800 transition-transform hover:-translate-y-1 duration-300">
+<div class="flex justify-between items-start">
+<div class="bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 p-2 rounded-lg">
+<span class="material-symbols-outlined">timelapse</span>
+</div>
+<span class="material-symbols-outlined text-gray-300">more_horiz</span>
+</div>
+<div>
+<p class="text-[#4c6c9a] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">In Progress</p>
+<p class="text-[#0d131b] dark:text-white text-3xl font-bold mt-1">3</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Course Navigation Tabs -->
+<div class="border-b border-[#e7ecf3] dark:border-gray-800">
+<div class="flex gap-8 overflow-x-auto no-scrollbar">
+<a class="relative flex flex-col items-center justify-center pb-4 pt-2 group cursor-pointer" href="#">
+<p class="text-primary font-bold text-sm tracking-wide">All Courses</p>
+<div class="absolute bottom-0 h-0.5 w-full bg-primary rounded-t-full"></div>
+</a>
+<a class="relative flex flex-col items-center justify-center pb-4 pt-2 group cursor-pointer" href="#">
+<p class="text-[#4c6c9a] group-hover:text-[#0d131b] dark:group-hover:text-white transition-colors font-medium text-sm tracking-wide">In Progress</p>
+<div class="absolute bottom-0 h-0.5 w-full bg-transparent group-hover:bg-gray-300 transition-colors rounded-t-full"></div>
+</a>
+<a class="relative flex flex-col items-center justify-center pb-4 pt-2 group cursor-pointer" href="#">
+<p class="text-[#4c6c9a] group-hover:text-[#0d131b] dark:group-hover:text-white transition-colors font-medium text-sm tracking-wide">Completed</p>
+<div class="absolute bottom-0 h-0.5 w-full bg-transparent group-hover:bg-gray-300 transition-colors rounded-t-full"></div>
+</a>
+<a class="relative flex flex-col items-center justify-center pb-4 pt-2 group cursor-pointer" href="#">
+<p class="text-[#4c6c9a] group-hover:text-[#0d131b] dark:group-hover:text-white transition-colors font-medium text-sm tracking-wide">Pending Approval</p>
+<div class="absolute bottom-0 h-0.5 w-full bg-transparent group-hover:bg-gray-300 transition-colors rounded-t-full"></div>
+</a>
+</div>
+</div>
+<!-- Course Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
+<!-- Card 1: Active Course -->
+<div class="group flex flex-col bg-white dark:bg-[#1a2332] rounded-xl overflow-hidden border border-slate-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300">
+<div class="relative h-48 w-full bg-gray-200 overflow-hidden">
+<img alt="UX Design course thumbnail showing wireframes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="UX Design course thumbnail showing wireframes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX4G-WCAntIoKkTzSX4Vpmh8Bg5eiZBUQqLeWyBI3t6TgmQK-JbbM1oORZthc0ls5qq0hKYhLVIH4lY02-GkMMTBGIeFx7yRjjRzHFKMkHUtG46kH8uwRF9zM5gNRLl5K_thREErMok5ZG0RPPD90Lo9dSvQANj0QYyVIxDoTHeZxCzm0ksEpsxfiGfr2Aa-Y9TawkhsGFPU5038Kf3aieO-Cb94_386gLnimOwnQSTACDrvjvFnjgMCiWVYnYoFz7S5HLMPjizA"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/70 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-[#0d131b] dark:text-white flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-amber-500">star</span>
+                                4.9
+                            </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Design</span>
+</div>
+<h3 class="text-[#0d131b] dark:text-white text-lg font-bold leading-snug mb-1">Advanced UX Design Principles</h3>
+<p class="text-[#4c6c9a] text-sm">By <span class="text-[#0d131b] dark:text-gray-300 font-medium">Jane Doe</span></p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-[#4c6c9a] dark:text-gray-400">
+<span>Progress</span>
+<span>75%</span>
+</div>
+<div class="w-full bg-[#e7ecf3] dark:bg-gray-700 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<button class="w-full mt-2 py-2.5 px-4 bg-primary hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2">
+<span>Continue Learning</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Active Course -->
+<div class="group flex flex-col bg-white dark:bg-[#1a2332] rounded-xl overflow-hidden border border-slate-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300">
+<div class="relative h-48 w-full bg-gray-200 overflow-hidden">
+<img alt="React coding screen showing syntax highlighted code" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="React coding screen showing syntax highlighted code" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcGOOLR6sO-N4U6CL68JYVlNgUFdv8m2iyjmigaMb5wHfOBFqucEyOl5jkmUE5J65zvb9WSxYR2N5GBmS05W4Xx22ilLFOOzr-6rXm4Tkbm8Av36XTi0VDDNW97tzrhGVP3KR5EsNy9CgQ1_76iyE_tRLx-oDM4Y4JBsRGz4yxY9wY2ptV_-_9VAvBMf8_yi88orLE3O99MQvi2go3cec6LdbxW66s4rXMRy-C7AIJM5UMhIEnvRZZoWMhluACjQTJRTuIt6MAdQ"/>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Development</span>
+</div>
+<h3 class="text-[#0d131b] dark:text-white text-lg font-bold leading-snug mb-1">React for Beginners</h3>
+<p class="text-[#4c6c9a] text-sm">By <span class="text-[#0d131b] dark:text-gray-300 font-medium">John Smith</span></p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-[#4c6c9a] dark:text-gray-400">
+<span>Progress</span>
+<span>30%</span>
+</div>
+<div class="w-full bg-[#e7ecf3] dark:bg-gray-700 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 30%"></div>
+</div>
+</div>
+<button class="w-full mt-2 py-2.5 px-4 bg-primary hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2">
+<span>Continue Learning</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Pending Approval -->
+<div class="group flex flex-col bg-white dark:bg-[#1a2332] rounded-xl overflow-hidden border-2 border-amber-300 dark:border-amber-700 hover:shadow-lg transition-all duration-300 relative">
+<div class="absolute top-4 left-4 z-10">
+<span class="bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs font-bold px-3 py-1.5 rounded-full border border-amber-200 dark:border-amber-800 shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock_clock</span>
+                                Pending Approval
+                            </span>
+</div>
+<div class="relative h-48 w-full bg-gray-200 overflow-hidden opacity-90">
+<div class="absolute inset-0 bg-slate-900/10 z-0"></div>
+<img alt="Data visualization dashboard charts" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale-[20%]" data-alt="Data visualization dashboard charts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlXEWyrJX1JTk2UDMRmKhgeVbJaMHD5kfGELQTEZpy5mCoCAvt3luszSd6ftK8U6UKYKMfqEfIQhXNE0UdtB_5LGC8qv_TjHIEArVw6JdQP69_kGaIMM_yPugQ9FSFT3wO1AwzMeYzWhgF-FfMA-wyWErukaTeYSOTpwXWZUDpkIAy6AuwoSSNRrvWe1pOkKnj8J-z8d2_hh9DNUBBOo3g6seXG_RDIHY_nakQBlQZm2W1SGvq0oLvjm46lAP-wsVHi1OhOjv4pQ"/>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Data Science</span>
+</div>
+<h3 class="text-[#0d131b] dark:text-white text-lg font-bold leading-snug mb-1">Data Science Fundamentals</h3>
+<p class="text-[#4c6c9a] text-sm">By <span class="text-[#0d131b] dark:text-gray-300 font-medium">Alice Chen</span></p>
+</div>
+<div class="flex flex-col gap-2 opacity-60">
+<div class="flex justify-between text-xs font-medium text-[#4c6c9a] dark:text-gray-400">
+<span>Not Started</span>
+</div>
+<div class="w-full bg-[#e7ecf3] dark:bg-gray-700 rounded-full h-2">
+<div class="bg-slate-400 h-2 rounded-full w-0"></div>
+</div>
+</div>
+<button class="w-full mt-2 py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 rounded-lg font-medium text-sm cursor-not-allowed flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700" disabled="">
+<span>Awaiting Approval</span>
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</button>
+</div>
+</div>
+<!-- Card 4: Another Active Course -->
+<div class="group flex flex-col bg-white dark:bg-[#1a2332] rounded-xl overflow-hidden border border-slate-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300">
+<div class="relative h-48 w-full bg-gray-200 overflow-hidden">
+<img alt="Code on a laptop screen in a dark room" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Code on a laptop screen in a dark room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzPt02gl-19q7TZNB5RZ9Y2xlRv4XtCbRBR1BLF9Tde_hPJYjSjxRnb2hakeD2g4e7MI4XCO0KP0O6va582pwGrk-RB_wppegFZ4zRyMRMJriDR3vgtNU-HloqYNiThiB2oTE2-dJten9vJSxpXCATlTL1wmmy1DN6mh-rxWBTQYo8SVpAUoORWB9cVcoJyC4DgSrypOL6MHyxsJxYXhC9eEPizabeNYjdWvhKZOg3wem5EHeHr9N4DhCqMPoEHqBf7_j1vnxHcQ"/>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Marketing</span>
+</div>
+<h3 class="text-[#0d131b] dark:text-white text-lg font-bold leading-snug mb-1">Digital Marketing Mastery</h3>
+<p class="text-[#4c6c9a] text-sm">By <span class="text-[#0d131b] dark:text-gray-300 font-medium">David Miller</span></p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-[#4c6c9a] dark:text-gray-400">
+<span>Progress</span>
+<span>10%</span>
+</div>
+<div class="w-full bg-[#e7ecf3] dark:bg-gray-700 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 10%"></div>
+</div>
+</div>
+<button class="w-full mt-2 py-2.5 px-4 bg-primary hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors flex items-center justify-center gap-2">
+<span>Continue Learning</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

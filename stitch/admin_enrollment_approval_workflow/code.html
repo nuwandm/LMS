@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub Admin - Enrollment Approvals</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1263a1",
+                        "primary-light": "#e0eff8",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111a21",
+                        "status-pending": "#f59e0b",
+                        "status-pending-bg": "#fef3c7",
+                        "status-approved": "#10b981",
+                        "status-approved-bg": "#d1fae5",
+                        "status-rejected": "#ef4444",
+                        "status-rejected-bg": "#fee2e2",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased">
+<div class="flex min-h-screen w-full overflow-hidden">
+<!-- Sidebar -->
+<aside class="hidden w-72 flex-col bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 lg:flex">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-6">
+<!-- Brand -->
+<div class="flex items-center gap-3 px-2">
+<div class="flex items-center justify-center rounded-xl bg-gradient-to-br from-primary to-blue-600 w-10 h-10 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white">school</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">LearnHub</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Admin Portal</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">grid_view</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:text-blue-400" href="#">
+<span class="material-symbols-outlined fill-1">check_circle</span>
+<span class="font-medium text-sm">Enrollment Approvals</span>
+<span class="ml-auto bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">12</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">menu_book</span>
+<span class="font-medium text-sm">Courses</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">group</span>
+<span class="font-medium text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">bar_chart</span>
+<span class="font-medium text-sm">Reports</span>
+</a>
+</nav>
+</div>
+<!-- User Profile -->
+<div class="mt-auto border-t border-slate-200 dark:border-slate-800 pt-4">
+<div class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<img alt="Profile picture of Admin User" class="h-9 w-9 rounded-full object-cover ring-2 ring-white dark:ring-slate-700" data-alt="Admin user profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0X4U8TlvS0JW6vHjwxMkt_9X-SfwP5YB10bQlxMkEIRz0c354plYMl8LCIH_3yjI1Toa9XSJ9TRxID0w3f2TZA5RYVamtVb-7pnGN8msqSzonfpMXPrZEB9sKAPWjMYgchW6Stht2qhaZ4RuQrs9NitN7zql7W1Mq5C-Amgv4_iCly2BTUVr93TY06yDVYdrTdomK08lGsLem-FMZNigi-c6xJk0pNp3C2MM45YwZZaAwnOZeP4k3Jtf61N1vmRBLan7mw9fQpQ"/>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Alex Morgan</span>
+<span class="text-xs text-slate-500 dark:text-slate-400">Super Admin</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 ml-auto text-lg">expand_more</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-h-0 overflow-hidden relative">
+<!-- Header Area -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-20">
+<div class="px-8 py-6">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Enrollment Approvals</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Review and manage student course enrollment requests.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-lg">download</span>
+                                Export CSV
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm shadow-blue-200 dark:shadow-none">
+<span class="material-symbols-outlined text-lg">add</span>
+                                Manual Enrollment
+                            </button>
+</div>
+</div>
+<!-- Filters & Tabs -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-6 border-b border-transparent">
+<button class="pb-3 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors border-b-2 border-transparent">
+                                All Requests
+                            </button>
+<button class="pb-3 text-sm font-bold text-primary dark:text-blue-400 border-b-2 border-primary dark:border-blue-400">
+                                Pending <span class="ml-1.5 py-0.5 px-2 rounded-full bg-primary/10 text-primary dark:text-blue-400 text-xs">12</span>
+</button>
+<button class="pb-3 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors border-b-2 border-transparent">
+                                Approved
+                            </button>
+<button class="pb-3 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors border-b-2 border-transparent">
+                                Rejected
+                            </button>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="pl-10 pr-4 py-2 w-64 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-full text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm placeholder:text-slate-400 text-slate-700 dark:text-slate-200" placeholder="Search student or course..." type="text"/>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors relative" title="Filter by Date">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors" title="More Filters">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Table Content -->
+<div class="flex-1 overflow-auto p-8 pt-6">
+<div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
+<th class="py-4 px-6 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-1/4">Student Name</th>
+<th class="py-4 px-6 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-1/4">Course Title</th>
+<th class="py-4 px-6 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Request Date</th>
+<th class="py-4 px-6 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Payment</th>
+<th class="py-4 px-6 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+<th class="py-4 px-6 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1: Pending -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<img alt="Sarah Jenkins profile" class="h-10 w-10 rounded-full object-cover border border-slate-100 dark:border-slate-700" data-alt="Sarah Jenkins portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfszKzz19l-E5gL8H-_bSFYICgML4Hu-rnqlQJnpLA_EVR11iBtVxNabiEG2N2UNkoMTzSibOQwBkAl7ovRYgz6xps5xtea5AOCOX0hsZH8kwGryJUmJP5jlDY9crHiFk1NX0q-h8FPUHlMX8oqFd-Z_9k7pQNKxu7HCTJaUyC6eopNdLbhLjXbFxSNZLop5bwVKwjvpT8jwCylOmmoPykZ9X2Eyj9hH0yFcltHPMEGRR-lRCNv2W1kfIfZleKLfVvZ5-kCLhrHw"/>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">Sarah Jenkins</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">sarah.j@example.com</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="font-medium text-slate-900 dark:text-white">Advanced Python for Data Science</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: CS-301</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">Oct 24, 2023</div>
+<div class="text-xs text-slate-400">10:42 AM</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">account_balance</span>
+<span class="text-sm text-slate-600 dark:text-slate-300">Bank Transfer #9921</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-status-pending-bg text-status-pending dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/50">
+<span class="w-1.5 h-1.5 rounded-full bg-status-pending dark:bg-yellow-400 animate-pulse"></span>
+                                        Pending
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 rounded-full hover:bg-red-50 text-red-500 hover:text-red-700 dark:hover:bg-red-900/20 dark:text-red-400 transition-colors" title="Reject">
+<span class="material-symbols-outlined">close</span>
+</button>
+<button class="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/40 transition-colors" title="Approve">
+<span class="material-symbols-outlined">check</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Pending (Action Overlay Mock) -->
+<tr class="group bg-blue-50/30 dark:bg-blue-900/10 border-l-4 border-l-primary">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 flex items-center justify-center font-bold text-sm">MC</div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">Michael Chen</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">m.chen@university.edu</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="font-medium text-slate-900 dark:text-white">UX Design Fundamentals</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: DS-101</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">Oct 23, 2023</div>
+<div class="text-xs text-slate-400">02:15 PM</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">credit_card</span>
+<span class="text-sm text-slate-600 dark:text-slate-300">Visa ending *4452</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-status-pending-bg text-status-pending dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/50">
+<span class="w-1.5 h-1.5 rounded-full bg-status-pending dark:bg-yellow-400"></span>
+                                        Pending
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<!-- Interactive buttons visible for demonstration -->
+<div class="flex items-center justify-end gap-2">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full border border-red-200 bg-red-50 text-red-600 text-xs font-semibold hover:bg-red-100 hover:border-red-300 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/40 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">block</span>
+                                            Reject
+                                        </button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full border border-green-200 bg-green-50 text-green-600 text-xs font-semibold hover:bg-green-100 hover:border-green-300 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800 dark:hover:bg-green-900/40 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                            Approve
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Approved -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<img alt="Jessica Wong profile" class="h-10 w-10 rounded-full object-cover border border-slate-100 dark:border-slate-700" data-alt="Jessica Wong portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8-baVoM8WYlo4R_AhZHvEz48lLayZ4o_0hYMRehIJhQVeQAC8yZhEDK1FZTFl-4BmqDpjyndpe3lKckpcev6Vt8FVOYhgU3vLoHZOM-dDhdDu5n6Vt18YxoT241LvbcbUNFAra6HQJ8l9X0Zb65LHChRnG39srAvu1BwG3xmV_dZaaCbucUnbzqw8-CGrI0yQ3BeX9AXhOVO9Rg-F7OBurh3L4rg5SSxOa5iwZX0eMrzygfYfXys7ss3wsmZA3ZRgWIoi6hTuGg"/>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">Jessica Wong</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">jess.wong@design.co</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="font-medium text-slate-900 dark:text-white">Machine Learning Basics</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: ML-101</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">Oct 22, 2023</div>
+<div class="text-xs text-slate-400">09:15 AM</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">payments</span>
+<span class="text-sm text-slate-600 dark:text-slate-300">PayPal</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-status-approved-bg text-status-approved dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50">
+<span class="w-1.5 h-1.5 rounded-full bg-status-approved dark:bg-emerald-400"></span>
+                                        Approved
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-xs font-medium text-primary hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">View Details</button>
+</td>
+</tr>
+<!-- Row 4: Rejected -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">David Miller</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">d.miller@tech.net</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="font-medium text-slate-900 dark:text-white">Digital Marketing 101</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: DM-202</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">Oct 21, 2023</div>
+<div class="text-xs text-slate-400">11:30 AM</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">credit_card</span>
+<span class="text-sm text-slate-600 dark:text-slate-300">Mastercard *1123</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-status-rejected-bg text-status-rejected dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800/50">
+<span class="w-1.5 h-1.5 rounded-full bg-status-rejected dark:bg-red-400"></span>
+                                        Rejected
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-xs font-medium text-primary hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">See Reason</button>
+</td>
+</tr>
+<!-- Row 5: Pending -->
+<tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<img alt="James Wilson profile" class="h-10 w-10 rounded-full object-cover border border-slate-100 dark:border-slate-700" data-alt="James Wilson portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApjMPXTvwkw2LQvE0xTLSjNNPrwNYjjcXIJYKIeC75EStqRc4HOUQVjWSg7XzDh4CLH5yGMyaYt7AipTEax_nYO03jmag_1qa5nkODLNI49uFtm6Z9VjqK5tbCGosss-UZex6_HwvYxK79zCEmo8PkTlbaaUnO1DVs41izhFDpCdE2CqMBgSKiU70-II6-YyPSOU0kyV_jT4mtLcWTAAXxQTyALGkEeLTPCJUTMTnxOy_8Cmd-Pv7VvC_hBoyiBldGtpH0XFPu3g"/>
+<div>
+<div class="font-medium text-slate-900 dark:text-white">James Wilson</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">james.wilson@corp.com</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="font-medium text-slate-900 dark:text-white">Advanced React Patterns</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: FE-404</div>
+</td>
+<td class="py-4 px-6">
+<div class="text-sm text-slate-600 dark:text-slate-300">Oct 20, 2023</div>
+<div class="text-xs text-slate-400">03:45 PM</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">domain</span>
+<span class="text-sm text-slate-600 dark:text-slate-300">Corp Invoice</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-status-pending-bg text-status-pending dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/50">
+<span class="w-1.5 h-1.5 rounded-full bg-status-pending dark:bg-yellow-400 animate-pulse"></span>
+                                        Pending
+                                    </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 rounded-full hover:bg-red-50 text-red-500 hover:text-red-700 dark:hover:bg-red-900/20 dark:text-red-400 transition-colors" title="Reject">
+<span class="material-symbols-outlined">close</span>
+</button>
+<button class="p-2 rounded-full bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/40 transition-colors" title="Approve">
+<span class="material-symbols-outlined">check</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between mt-4 text-sm text-slate-500 dark:text-slate-400">
+<p>Showing <span class="font-medium text-slate-900 dark:text-white">1</span> to <span class="font-medium text-slate-900 dark:text-white">5</span> of <span class="font-medium text-slate-900 dark:text-white">12</span> pending requests</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800">Next</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Rejection Modal (Overlay) -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" role="dialog">
+<div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl ring-1 ring-slate-900/5 dark:ring-white/10 overflow-hidden transform transition-all scale-100 opacity-100">
+<!-- Modal Header -->
+<div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/30">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-red-100 dark:bg-red-900/30 rounded-full text-red-600 dark:text-red-400">
+<span class="material-symbols-outlined text-xl">warning</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Reject Enrollment</h3>
+</div>
+<button class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="px-6 py-6">
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                    Please provide a reason for rejecting <span class="font-bold text-slate-900 dark:text-white">Michael Chen</span>'s enrollment. This will be sent to the student via email.
+                </p>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">Common Reasons</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Payment Failed</button>
+<button class="px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Prerequisites Missing</button>
+<button class="px-3 py-1.5 rounded-full border border-primary bg-primary/5 text-xs font-medium text-primary dark:text-blue-400 dark:bg-blue-900/20 dark:border-blue-400 transition-colors">Invalid Documents</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="reason">Detailed Reason</label>
+<textarea class="w-full rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary text-sm p-3 resize-none" id="reason" placeholder="Type the specific reason for rejection here..." rows="4"></textarea>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3">
+<button class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 transition-colors shadow-sm">
+                    Cancel
+                </button>
+<button class="px-4 py-2 rounded-full bg-status-rejected text-white text-sm font-bold hover:bg-red-600 transition-colors shadow-md shadow-red-200 dark:shadow-none flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">send</span>
+                    Confirm Rejection
+                </button>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Course Catalog Selection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1f3b61",
+              "primary-light": "#365685",
+              "primary-dark": "#13253d",
+              "accent-orange": "#D35400",
+              "background-light": "#F8F9FA",
+              "background-dark": "#14181e",
+              "neutral-100": "#e9edf1",
+              "neutral-200": "#d4dae3",
+              "neutral-500": "#5b6f8b",
+              "neutral-900": "#101419",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "sans": ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem", // 8px
+              "lg": "0.75rem", // 12px (adjusted to match user request of 12px for cards)
+              "xl": "1.5rem", 
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+      .material-symbols-outlined.filled {
+        font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-neutral-900 dark:text-white antialiased">
+<div class="flex min-h-screen flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-neutral-200 dark:border-gray-800 bg-white dark:bg-background-dark px-6 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary dark:text-white">
+<div class="size-8 flex items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">school</span>
+</div>
+<h2 class="text-primary dark:text-white text-xl font-bold leading-tight tracking-tight">LMS Platform</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-neutral-900 dark:text-gray-200 text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-neutral-500 dark:text-gray-400 text-sm font-medium hover:text-primary transition-colors" href="#">Instructors</a>
+<a class="text-neutral-500 dark:text-gray-400 text-sm font-medium hover:text-primary transition-colors" href="#">My Learning</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<label class="hidden lg:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full border border-neutral-200 dark:border-gray-700 bg-neutral-100 dark:bg-gray-800 overflow-hidden">
+<div class="text-neutral-500 flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full bg-transparent border-none text-sm text-neutral-900 dark:text-white placeholder:text-neutral-500 focus:ring-0 h-full px-3" placeholder="Search"/>
+</div>
+</label>
+<div class="flex gap-3 items-center">
+<button class="hidden sm:flex h-10 px-5 items-center justify-center rounded-lg bg-neutral-100 dark:bg-gray-800 text-primary dark:text-white text-sm font-bold hover:bg-neutral-200 transition-colors">
+                    Log In
+                </button>
+<button class="flex h-10 px-5 items-center justify-center rounded-lg bg-primary text-white text-sm font-bold shadow-md hover:bg-primary-light transition-colors">
+                    Sign Up
+                </button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col md:flex-row max-w-[1440px] mx-auto w-full p-4 md:p-8 gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 lg:w-72 flex-shrink-0 space-y-8 hidden md:block">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined">tune</span> Filters
+                </h2>
+<button class="text-xs font-semibold text-primary hover:underline">Clear All</button>
+</div>
+<!-- Filter Group: Categories -->
+<div class="space-y-3">
+<h3 class="text-sm font-bold uppercase tracking-wider text-neutral-500 dark:text-gray-400">Category</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Development</span>
+<span class="ml-auto text-xs text-neutral-400">120</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Design</span>
+<span class="ml-auto text-xs text-neutral-400">45</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Business</span>
+<span class="ml-auto text-xs text-neutral-400">32</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Marketing</span>
+<span class="ml-auto text-xs text-neutral-400">18</span>
+</label>
+</div>
+</div>
+<hr class="border-neutral-200 dark:border-gray-700"/>
+<!-- Filter Group: Level -->
+<div class="space-y-3">
+<h3 class="text-sm font-bold uppercase tracking-wider text-neutral-500 dark:text-gray-400">Level</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Beginner</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Intermediate</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Advanced</span>
+</label>
+</div>
+</div>
+<hr class="border-neutral-200 dark:border-gray-700"/>
+<!-- Filter Group: Rating -->
+<div class="space-y-3">
+<h3 class="text-sm font-bold uppercase tracking-wider text-neutral-500 dark:text-gray-400">Rating</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" name="rating" type="radio"/>
+<div class="flex items-center text-yellow-500">
+<span class="material-symbols-outlined filled text-[18px]">star</span>
+<span class="material-symbols-outlined filled text-[18px]">star</span>
+<span class="material-symbols-outlined filled text-[18px]">star</span>
+<span class="material-symbols-outlined filled text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300">&amp; Up</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" name="rating" type="radio"/>
+<div class="flex items-center text-yellow-500">
+<span class="material-symbols-outlined filled text-[18px]">star</span>
+<span class="material-symbols-outlined filled text-[18px]">star</span>
+<span class="material-symbols-outlined filled text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300">&amp; Up</span>
+</label>
+</div>
+</div>
+<hr class="border-neutral-200 dark:border-gray-700"/>
+<!-- Filter Group: Price -->
+<div class="space-y-3">
+<h3 class="text-sm font-bold uppercase tracking-wider text-neutral-500 dark:text-gray-400">Price</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Paid</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-neutral-300 text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-neutral-700 dark:text-gray-300 group-hover:text-primary transition-colors">Free</span>
+</label>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col gap-6">
+<!-- Breadcrumbs & Search -->
+<div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-sm text-neutral-500 dark:text-gray-400">
+<a class="hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-neutral-900 dark:text-white font-medium">All Courses</span>
+</div>
+<h1 class="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-white">Explore Courses</h1>
+</div>
+<div class="w-full sm:w-auto flex items-center gap-3">
+<button class="md:hidden flex items-center justify-center h-10 w-10 rounded bg-white border border-neutral-200 text-neutral-900 shadow-sm">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<div class="relative w-full sm:w-64">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-500">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border border-neutral-200 dark:border-gray-700 rounded-lg leading-5 bg-white dark:bg-gray-800 text-neutral-900 dark:text-white placeholder-neutral-500 focus:outline-none focus:placeholder-neutral-400 focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search results..." type="text"/>
+</div>
+<div class="relative hidden sm:block">
+<select class="block w-full pl-3 pr-10 py-2 text-base border-neutral-200 dark:border-gray-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-gray-800 text-neutral-700 dark:text-white">
+<option>Most Popular</option>
+<option>Newest</option>
+<option>Lowest Price</option>
+<option>Highest Rated</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Active Filters (Chips) -->
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                    Development
+                    <button class="hover:text-primary-dark"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                    Beginner
+                    <button class="hover:text-primary-dark"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+<!-- Course Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-neutral-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Laptop screen showing code editor in a modern workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo-fReQbEJGRhMV5MrL9SSMZ_ev0RSgTLzBFhfF-5bOEI37x-uyJjeExIk0fD7ZN1vN12FSCeB_ngxp6QwoiLq15NTA_Sh2SvYOMlyb-Ql50sS8I01PIj7jKiDQemSlRDpqLvCJLRl2N0cgSCInXI5f6vncZhJnXbI7CrKHn2yZnrt514Z1JH8rGoPmwM4lu2-TDFgCVZp6n0deSZS4zEsnEVYgBvEJ2f8pgkHwHStZevdrZrnGWouzR1lVY-iQPaK3zpNffcLxA"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-neutral-900 dark:text-white flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-accent-orange text-[14px] filled">local_fire_department</span> Best Seller
+                        </div>
+</div>
+<div class="flex flex-col flex-1 p-5 gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-primary uppercase tracking-wide">Development</span>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="text-sm font-bold text-neutral-900 dark:text-white">4.8</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="text-xs text-neutral-500 dark:text-gray-400 font-normal">(1.2k)</span>
+</div>
+</div>
+<h3 class="text-[18px] font-bold text-neutral-900 dark:text-white leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                            The Complete 2024 Web Development Bootcamp
+                        </h3>
+<div class="flex items-center gap-2 mt-auto pt-2">
+<div class="h-8 w-8 rounded-full overflow-hidden bg-neutral-200">
+<img class="h-full w-full object-cover" data-alt="Portrait of instructor Angela Yu" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx6bnMYsp343Fsx5GO6FuQ04xKe0cgVPdTXnyL0amuN4HuuICdc9IN_W8AqHplWs0PCBSEtbyd0XOicpawTqPpV7TG52MyTV20Mi6aucIlTvOgP34gmG8aqKVdU9Ah_a-XCuaQIoywASmKWb_ADxcr6I0HmNpOT7fOGTVjmOhXS2iWkvgvGqW3BU_BoRC2wyX_lacNUSth-1ftva4-FJ0XYif1WBYf08cmB7gD0HMOnLeVge2lFc18I0Hxnant10Iy_8DkFQG-Bw"/>
+</div>
+<span class="text-sm text-neutral-600 dark:text-gray-300 font-medium">Dr. Angela Yu</span>
+</div>
+<div class="flex items-center justify-between pt-4 mt-2 border-t border-neutral-100 dark:border-gray-700">
+<div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 62h total
+                                <span class="block w-1 h-1 rounded-full bg-neutral-300"></span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span> All Levels
+                            </div>
+<span class="text-lg font-bold text-accent-orange">$19.99</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-neutral-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Team brainstorming session with sticky notes on glass wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAubfS7JoUradi1sQkvbXyNfP5Ih1m7gkyr1fW7EEAc0unBGjaUXqvf0s49SHCd0MJRyH6tRNPQ0JnGnFHrwdmZs_9-9_zXWK-E2D5hz-O5RdUO82RFXHb4TmxxB9J6EJhgpRSIBEtgJqq1ojknqi90MS4RGKBFJC1fPE3YOc4NUe6-wZzoTwQCO4kHjMkFbScNlE6Jv7rt8pUKaXOBhfUbxM4Y4yjsmfwiwyDYI7A-jhjNnWYdfLQxQANrcAY3s8ETNAMcw6oUAg"/>
+</div>
+<div class="flex flex-col flex-1 p-5 gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-primary uppercase tracking-wide">Business</span>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="text-sm font-bold text-neutral-900 dark:text-white">4.6</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="text-xs text-neutral-500 dark:text-gray-400 font-normal">(850)</span>
+</div>
+</div>
+<h3 class="text-[18px] font-bold text-neutral-900 dark:text-white leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                            Product Management 101: From Idea to Launch
+                        </h3>
+<div class="flex items-center gap-2 mt-auto pt-2">
+<div class="h-8 w-8 rounded-full overflow-hidden bg-neutral-200">
+<img class="h-full w-full object-cover" data-alt="Portrait of instructor Michael Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJa1v-TJy4YBFUCNrsNCeC8f9Lb61E4iArShhKoqTQ0qCuOp_iYSRkAltNnxbRbNxfn0sWeuX9QV3UPZKPCXbpyqEVF8o2EyqZ2TM5iuIlLF962D5igEIAMIj6uFE6bEutTytdNFQpwyq6dY0ww07L5fTJ8vpry3aprbVnpFWOWSV3sPEfqpiCN7rDIeJNBOJGmtkI9oohyqmxCc_iGLCecaZBJJUSs33i1ilLtOSRCAjvnpieEJiey6ubE8sr3yox0hwFz3sxnA"/>
+</div>
+<span class="text-sm text-neutral-600 dark:text-gray-300 font-medium">Michael Chen</span>
+</div>
+<div class="flex items-center justify-between pt-4 mt-2 border-t border-neutral-100 dark:border-gray-700">
+<div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 12h total
+                                <span class="block w-1 h-1 rounded-full bg-neutral-300"></span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span> Beginner
+                            </div>
+<span class="text-lg font-bold text-accent-orange">$24.99</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-neutral-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Code syntax highlighting on dark computer screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtZccd3clKmTbY0tzXcnmUwf9vfbDtAQUP6o0J5HUs_5PmRzkeJAY4XeJhAKc54Y9vfcjjtIrJV2mE_M5OkRyaWWPDQ6vm1VkLxwBU9R0CSy6l6jGtzxtLYHoy4hZzZKUIIuppsoh8WQXFI4h6JrEmXEiM4t50tBDWs_0g4G_t-CGF0_Jp3sivyI2M5pSduMWBe6AWcouYwDptY870p0NnUOELt9SzFfT-skUOXLusDOYk4ytlxdYbXYw5qsAjI3BI8P-iPhGdkw"/>
+<div class="absolute top-3 right-3 bg-primary/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-white flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">new_releases</span> New
+                        </div>
+</div>
+<div class="flex flex-col flex-1 p-5 gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-primary uppercase tracking-wide">Development</span>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="text-sm font-bold text-neutral-900 dark:text-white">4.9</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="text-xs text-neutral-500 dark:text-gray-400 font-normal">(230)</span>
+</div>
+</div>
+<h3 class="text-[18px] font-bold text-neutral-900 dark:text-white leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                            Advanced React Patterns and Performance
+                        </h3>
+<div class="flex items-center gap-2 mt-auto pt-2">
+<div class="h-8 w-8 rounded-full overflow-hidden bg-neutral-200">
+<img class="h-full w-full object-cover" data-alt="Portrait of instructor Sarah Smith" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFDoJ1sGM2nv8NtFP-ENoGIxk0wMOOlWSzt80ECqhD2OYlk0C7UQ6wAwL78PMYp5HTYUOL4MHHQZQ61jPeFiIiTrbZnHMm8PKqaKep6mQQhblT-vIsMtTblcYzCXi0aMcMKqmDlJk26Yijbr-Pp2dFCpyOcrRUzEckLk_p47QIyWTZu9SnlKn7QDIjaMRaUD7TGWWZufRm1OkOEoCwE-R3A1PTjPKBwYQGiuXMIV_PiYy5mvfmMJx6eZvp2Qw4xg_e0dKHBlh3vA"/>
+</div>
+<span class="text-sm text-neutral-600 dark:text-gray-300 font-medium">Sarah Smith</span>
+</div>
+<div class="flex items-center justify-between pt-4 mt-2 border-t border-neutral-100 dark:border-gray-700">
+<div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 8h total
+                                <span class="block w-1 h-1 rounded-full bg-neutral-300"></span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span> Advanced
+                            </div>
+<span class="text-lg font-bold text-accent-orange">$39.99</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-neutral-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Abstract colorful fluid art pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABtxciQQfG3MGY4zt2c6wUdIMSF8-Q9kUkvwgxJrJgFztz5GZnQho3QH0zIGw1luq-E-0h5zG5EA3ihSqGZPvz5pgpM0nzIxMYlL5BctvL8zLA-tfSBtUGyzvuao6n-80Lrm9hXt0lr-wZBgX8liqOdyGY1_p_JecvkTAMngKUPzIMRpYHtGOJBmV9zsHqDvnl29CNdyNQS-9c6nBRqZTEHl8YjoaAjeGcGEwPtDJtY-RvCE9giRjibXCiIxfBN1eLx3TKmoONzA"/>
+</div>
+<div class="flex flex-col flex-1 p-5 gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-primary uppercase tracking-wide">Design</span>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="text-sm font-bold text-neutral-900 dark:text-white">4.7</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="text-xs text-neutral-500 dark:text-gray-400 font-normal">(1.8k)</span>
+</div>
+</div>
+<h3 class="text-[18px] font-bold text-neutral-900 dark:text-white leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                            Graphic Design Masterclass - Learn GREAT Design
+                        </h3>
+<div class="flex items-center gap-2 mt-auto pt-2">
+<div class="h-8 w-8 rounded-full overflow-hidden bg-neutral-200">
+<img class="h-full w-full object-cover" data-alt="Portrait of instructor Lindsay Marsh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdjcDL-wVwKuG5o9FJIEd6kwyJ3opULdGa1fTgXnc1PlBO4nP6rPkbFkhTcHrVSCn6D1RhSsTjtNbYYL3KAsGujzg7JxaZ5NEST_6Rtyqq1e0uRY63wGvBxSby5QzB4ZwT3ZYWwm0DJ8lrqIJ0RfFujV3Gui2mQHms4FLCj3Zlvry-vIpiRHMdMVVOcSLJva8XN1Lfxzd6j3IMaeM-xe9SKXCT5pL3bMkJFQihOeHtjphUG2nTZRHMCKP3T4RzWAPZiNnJcaSa7g"/>
+</div>
+<span class="text-sm text-neutral-600 dark:text-gray-300 font-medium">Lindsay Marsh</span>
+</div>
+<div class="flex items-center justify-between pt-4 mt-2 border-t border-neutral-100 dark:border-gray-700">
+<div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 28h total
+                                <span class="block w-1 h-1 rounded-full bg-neutral-300"></span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span> Beginner
+                            </div>
+<span class="text-lg font-bold text-accent-orange">$14.99</span>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-neutral-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Person working on data analysis charts on tablet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfQpxyk-7Xu89m4sX6wxoOmkYLQg4smnNaFd4qxx8tGUvrOQNKXD7QSThljkaDaPn57aIMJRWr_TncPu4pjPA_tj1NE7-rHnuRUnuCE0h1e-LAEVX_I9X--zzgHHqo6PoI6Hv4fGCWEnhLcIdMMvCc7CzbH4cJyaiAetAE3WcrxvXItF6_M7DYNYc19piuneJOFVYt-c2Qecq0woUWiSmgqNEV7xeLAawaWs2-mcfjebpfWleTuUfdB-n-5dQZAlESG3rjgh44Jg"/>
+</div>
+<div class="flex flex-col flex-1 p-5 gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-primary uppercase tracking-wide">Data Science</span>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="text-sm font-bold text-neutral-900 dark:text-white">4.5</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="text-xs text-neutral-500 dark:text-gray-400 font-normal">(560)</span>
+</div>
+</div>
+<h3 class="text-[18px] font-bold text-neutral-900 dark:text-white leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                            Python for Data Science and Machine Learning
+                        </h3>
+<div class="flex items-center gap-2 mt-auto pt-2">
+<div class="h-8 w-8 rounded-full overflow-hidden bg-neutral-200">
+<img class="h-full w-full object-cover" data-alt="Portrait of instructor Jose Portilla" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSV7Kf1z9B6uAHWx_sWrVWFaKD0QrOZZFIo7G0TiVFYyr5smXcDZR6rutWgI4MkWfsU_klJZ5aqPF1B6KQKrS3JWaRfu-DlLbrPdGpawpo-1WhiGiGn1C9smb-Yrwxo4DzSS5P7cNxxylvOO0ghJIzscfWC84A9nBTfYq6Zl8Gckqd7vtnz5oWkvy2qfiZuivtaxmYiNYfXMzK21-hmD4igDBMa3fn-3mYlyT9vONGri73pqjQv8TeNQ6b56zmr9OREZzCoFbNbg"/>
+</div>
+<span class="text-sm text-neutral-600 dark:text-gray-300 font-medium">Jose Portilla</span>
+</div>
+<div class="flex items-center justify-between pt-4 mt-2 border-t border-neutral-100 dark:border-gray-700">
+<div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 45h total
+                                <span class="block w-1 h-1 rounded-full bg-neutral-300"></span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span> Intermediate
+                            </div>
+<span class="text-lg font-bold text-accent-orange">$12.99</span>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-neutral-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Marketing team discussion with digital charts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUOQX8OubicMDhjw5tTFI47-HqZ7tADtLBxdlbBw5OZQZsAdeLeVqESc_xItuU2YPtOAYK79rYsLzjTg-bL0iGKgGmBFeR8GuW_FLl5ERyDWlp6Vkb5bNNFJOOxev0vdnw8Ib_jRFHA7gZhsFbpIkAJhIdYBQSGiCFfl7ACRvz2bYbyqtB4w3rfDFwv_NeHpj-VhiJZYUTOm57ENRAQ07gtKHiDx2wentBUfvoIj2IkOwrM5oHItlmFzVsZs1cgshYxuqJMgjtrA"/>
+</div>
+<div class="flex flex-col flex-1 p-5 gap-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-primary uppercase tracking-wide">Marketing</span>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="text-sm font-bold text-neutral-900 dark:text-white">4.8</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="text-xs text-neutral-500 dark:text-gray-400 font-normal">(3.2k)</span>
+</div>
+</div>
+<h3 class="text-[18px] font-bold text-neutral-900 dark:text-white leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                            The Complete Digital Marketing Course - 12 in 1
+                        </h3>
+<div class="flex items-center gap-2 mt-auto pt-2">
+<div class="h-8 w-8 rounded-full overflow-hidden bg-neutral-200">
+<img class="h-full w-full object-cover" data-alt="Portrait of instructor Rob Percival" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJsUMJyY0MxhL0jvQgWvZirjd2RP6V5YnepOYWmyguhEvD2yeJ9rmVATdz058CyNvdrGSKAkC4gUtyJaSM7X75Fs--r4lDYfSOZ8Q_6V2p6O92EB6auGdqrv6uqpBtvpMr_SttwBuaLxHTLJPkcHXnKM0oNPA8awOdoiEwYNeCol7Vx-1W2-WAOVSVnlrkw09Hiz44u4HjNYTUNNn7jY3RpckV3rEmXvSVHp8-ILty5MlPZ94LFjc9V3-u8f0PTbR-ILeGF9b28w"/>
+</div>
+<span class="text-sm text-neutral-600 dark:text-gray-300 font-medium">Rob Percival</span>
+</div>
+<div class="flex items-center justify-between pt-4 mt-2 border-t border-neutral-100 dark:border-gray-700">
+<div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 22h total
+                                <span class="block w-1 h-1 rounded-full bg-neutral-300"></span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span> Beginner
+                            </div>
+<span class="text-lg font-bold text-accent-orange">$18.99</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-8">
+<nav class="flex items-center gap-2">
+<button class="flex items-center justify-center h-10 w-10 rounded-lg border border-neutral-200 hover:bg-neutral-100 text-neutral-500 disabled:opacity-50">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary text-white font-medium">1</button>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg border border-neutral-200 hover:bg-neutral-100 text-neutral-700 font-medium">2</button>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg border border-neutral-200 hover:bg-neutral-100 text-neutral-700 font-medium">3</button>
+<span class="px-2 text-neutral-400">...</span>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg border border-neutral-200 hover:bg-neutral-100 text-neutral-700 font-medium">8</button>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg border border-neutral-200 hover:bg-neutral-100 text-neutral-500">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+</main>
+<!-- Footer Area (Simple) -->
+<footer class="mt-auto border-t border-neutral-200 dark:border-gray-800 bg-white dark:bg-background-dark py-8 px-8 text-center text-sm text-neutral-500">
+<p>© 2024 LMS Platform. All rights reserved.</p>
+</footer>
+</div>
+</body></html>

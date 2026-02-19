@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin User Management - LearnHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f3b61",
+                        "primary-dark": "#162a45",
+                        "primary-light": "#2e5282",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#14181e",
+                        "secondary-bg": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 font-display overflow-hidden h-screen flex">
+<!-- Sidebar -->
+<aside class="w-64 bg-primary flex flex-col h-full shrink-0 transition-all duration-300">
+<div class="h-16 flex items-center px-6 border-b border-primary-light">
+<span class="material-symbols-outlined text-white mr-2 text-3xl">school</span>
+<h1 class="text-white text-xl font-bold tracking-wide">LearnHub</h1>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 px-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-primary-light hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary-light text-white shadow-sm transition-colors" href="#">
+<span class="material-symbols-outlined fill-1">group</span>
+<span class="font-medium">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-primary-light hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-medium">Courses</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-primary-light hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-primary-light hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-primary-light">
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-light cursor-pointer transition-colors">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-primary font-bold text-xs">JD</div>
+<div class="flex flex-col">
+<span class="text-white text-sm font-medium">John Doe</span>
+<span class="text-slate-400 text-xs">Super Admin</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Header -->
+<header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0">
+<h2 class="text-2xl font-bold text-slate-800">User Management</h2>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+</button>
+<button class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Add User
+                </button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-[1400px] mx-auto flex flex-col gap-8">
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-slate-500 text-sm font-medium">Total Users</span>
+<span class="p-2 bg-blue-50 text-blue-600 rounded-lg material-symbols-outlined text-[20px]">group</span>
+</div>
+<span class="text-3xl font-bold text-slate-900">12,403</span>
+<div class="flex items-center gap-1 text-sm font-medium text-emerald-600">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>12% from last month</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-slate-500 text-sm font-medium">Active Students</span>
+<span class="p-2 bg-indigo-50 text-indigo-600 rounded-lg material-symbols-outlined text-[20px]">school</span>
+</div>
+<span class="text-3xl font-bold text-slate-900">10,200</span>
+<div class="flex items-center gap-1 text-sm font-medium text-emerald-600">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>5% from last month</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-slate-500 text-sm font-medium">Instructors</span>
+<span class="p-2 bg-purple-50 text-purple-600 rounded-lg material-symbols-outlined text-[20px]">cast_for_education</span>
+</div>
+<span class="text-3xl font-bold text-slate-900">1,800</span>
+<div class="flex items-center gap-1 text-sm font-medium text-emerald-600">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>2% from last month</span>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-slate-500 text-sm font-medium">Admins</span>
+<span class="p-2 bg-orange-50 text-orange-600 rounded-lg material-symbols-outlined text-[20px]">admin_panel_settings</span>
+</div>
+<span class="text-3xl font-bold text-slate-900">403</span>
+<div class="flex items-center gap-1 text-sm font-medium text-slate-400">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+<span>0% from last month</span>
+</div>
+</div>
+</div>
+<!-- Filters & Table Section -->
+<div class="bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col">
+<!-- Filter Row -->
+<div class="p-5 border-b border-slate-200 flex flex-wrap gap-4 items-center justify-between">
+<div class="relative flex-1 min-w-[280px] max-w-md">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-slate-700 placeholder-slate-400" placeholder="Search by name, email, or ID" type="text"/>
+</div>
+<div class="flex gap-3">
+<div class="relative min-w-[160px]">
+<select class="w-full pl-4 pr-10 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-slate-700 appearance-none bg-white">
+<option>All Roles</option>
+<option>Student</option>
+<option>Instructor</option>
+<option>Admin</option>
+</select>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 pointer-events-none text-[20px]">arrow_drop_down</span>
+</div>
+<div class="relative min-w-[160px]">
+<select class="w-full pl-4 pr-10 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-slate-700 appearance-none bg-white">
+<option>All Statuses</option>
+<option>Active</option>
+<option>Inactive</option>
+<option>Suspended</option>
+</select>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500 pointer-events-none text-[20px]">arrow_drop_down</span>
+</div>
+<button class="p-2.5 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors" title="Export CSV">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200 text-xs uppercase text-slate-500 font-semibold tracking-wider">
+<th class="px-6 py-4 w-12 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer" type="checkbox"/>
+</th>
+<th class="px-6 py-4">User</th>
+<th class="px-6 py-4">Role</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4">Last Login</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0">
+<img alt="Profile of Alice Johnson" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYFm5DCJMC2sUZvQRBUHxUiXezCUS9TGVYVeuSL5SVxvf9epUdFUE4iAwGmqY0QdwNqbmS8fTjrBz0lRo1nepA85Zs5MUM8NA6bhF9SgqI8UF2RpFQ1JDNGOjZZY73CsHmNMq54mJaXxE3PXFvpc3dpgexnHcg3JDOjN-dAEZgpyfQAXst2y9LR9uweyLG4oxivJ_rt7Fg-gWbpPPMxHGvG-W3-GI3yknXG6fN6vrCh6AAtVVtf77KT2Jk3XOm__LiI-1Otq3pLQ"/>
+</div>
+<div>
+<p class="font-medium text-slate-900">Alice Johnson</p>
+<p class="text-slate-500 text-xs">alice.j@learnhub.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Student
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-slate-700">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500">
+                                        2 hours ago
+                                    </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0">
+<img alt="Profile of Dr. Robert Smith" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8B70lgueu7QFEAEG-cDvEHFYsUAEGqx0Y9PYIulZldk4lZCDOHw-8TzVSIKbuX7xiUAOr9K5dAYw9plI5PK56eLzhzj24GhFVC1NpAgVK4fqdHHk-AsaNfYfOCXlDlMsLNvFHY29UAHCpDx1kt1ETRpsoUN4S0DJljRvrMIrF2iI4a3KwJmhJVBhpOdo1Ul9EUDCdNdQ8Mj0rTXqJAFdtATePH9kLRvg_62fBeYRwrhf1bevgAp6TS4iNkLBH5hzT18IQx8nLJQ"/>
+</div>
+<div>
+<p class="font-medium text-slate-900">Dr. Robert Smith</p>
+<p class="text-slate-500 text-xs">r.smith@learnhub.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                            Instructor
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-slate-700">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500">
+                                        Yesterday
+                                    </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0">
+<img alt="Profile of Michael Chen" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaTCYaa8mQrpBZXEvuxo_-27T2y43cddO5hukKZqsY94KdMlaYgfeyNeibtk7VMvNzIUXWYgC6QGAWMmzpvqt2E_4z7N267xPh7TFKEYR7oNfNVugLq6yha_UUTuLV-0d7F7g5QoLrO7kBCIwVJeaKhfsPV5Px93FlzirOG7AsYQHYWLGkKjgOd-Gca_DmseV6N7g026GKvuoayHolks-3hxy9pr5pVkfeAf4U5eYUU0M3j0uPxvM3MYzqG9cpiLemwMsc8FrKaA"/>
+</div>
+<div>
+<p class="font-medium text-slate-900">Michael Chen</p>
+<p class="text-slate-500 text-xs">m.chen@learnhub.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            Admin
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-slate-700">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500">
+                                        Just now
+                                    </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0">
+<img alt="Profile of Sarah Davis" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy6DrJT_LMpsdwSUI6Wi8MbIFBK83sMCpmPlje2DphrT1DjeXJHzPy_G126aYj5oHqQVY4inrsAUqY-gA4nbphMrKaZ3GQUlSiuYjrVlr1thXIdcVXUfLJfSDUlf4oce0Crsco_JXyn66YYqZcxpApHdGVIOosBo4wLmIM_IVerrEGQZ_2HNict-KdDBNQu7dZl7P978FyPLkRQNNUgi7wxQ_b6lxkdaNC07RPUXw5PNbEe-Jya-Hc4JVer0F2zxx_gFMTuUzP-g"/>
+</div>
+<div>
+<p class="font-medium text-slate-900">Sarah Davis</p>
+<p class="text-slate-500 text-xs">s.davis@learnhub.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Student
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="text-slate-700">Inactive</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500">
+                                        5 days ago
+                                    </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 transition-colors group bg-blue-50/30">
+<td class="px-6 py-4 text-center">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0">
+<img alt="Profile of James Wilson" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWGkEVraun5mC-uJ7EnwevMuMvZ-dLaE4iesFFx_SgMhwtDhTtj5o7aTZImRY-QBQ5WcMBik2Fug1awyaB5KjvKDdEO3PDiK1P3I8QdURCbhmPhumebNVRdnWWQk3qrVhAeNp0RG86QZM7BlXTjiXfjNOLu-Qb_HIVnovLqCufi7LXlz-4HwnaF8g38hlrJjFbwgofb2vvD_hA8CP0nz2EhHoD1u8LEeDhFeY_w81JrMR-fRB3m4H0zFrWhoS4FL36GRLH0eLCKA"/>
+</div>
+<div>
+<p class="font-medium text-slate-900">James Wilson</p>
+<p class="text-slate-500 text-xs">j.wilson@learnhub.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Student
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-slate-700">Suspended</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500">
+                                        2 weeks ago
+                                    </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-600 hover:text-slate-900 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 text-center">
+<input class="rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0">
+<img alt="Profile of Emily Clark" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7c4-DcG7cMsTqs-qkhpgol6CmW5N-dEOhOXU8dHswbJ_LMkuffHzuT3mhgNOnra3hPUZ08h38wdYHCELs7Mw3YnGvMdRkXX0Xc74xQD3AjXoT1bs7fTa5JDHZb4NSwHPerknurKG0G_cY2XA4dQBuIqPN8VpN6BVFkiCHUKXRO3wMA9K-Ilx19_9RDHQHysRVwyqDH0-vgYYaUEKBv5AIoF-CTHaXxa5G5mhhUtKkIP-2EclCZuxqY8xCmzfp71Y_hCiRuUjQqw"/>
+</div>
+<div>
+<p class="font-medium text-slate-900">Emily Clark</p>
+<p class="text-slate-500 text-xs">e.clark@learnhub.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                            Instructor
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-slate-700">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500">
+                                        3 days ago
+                                    </td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
+<span class="text-sm text-slate-500">Showing 1 to 6 of 12,403 results</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-slate-300 rounded text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-50">Previous</button>
+<button class="px-3 py-1 border border-slate-300 rounded text-sm text-slate-600 hover:bg-slate-50">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Drawer Backdrop -->
+<div class="absolute inset-0 bg-slate-900/20 backdrop-blur-[1px] z-10"></div>
+<!-- Edit User Drawer -->
+<div class="absolute right-0 top-0 h-full w-[400px] bg-white shadow-2xl z-20 flex flex-col transform transition-transform duration-300 ease-in-out border-l border-slate-200">
+<!-- Drawer Header -->
+<div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between shrink-0 bg-slate-50/50">
+<div>
+<h3 class="text-lg font-bold text-slate-900">Edit User</h3>
+<p class="text-sm text-slate-500 mt-0.5">Manage user details and permissions</p>
+</div>
+<button class="text-slate-400 hover:text-slate-600 rounded-full p-1 hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Drawer Content -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+<!-- User Profile Header -->
+<div class="flex flex-col items-center gap-3 pb-4 border-b border-slate-100">
+<div class="relative group cursor-pointer">
+<div class="w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-md">
+<img alt="Profile of James Wilson" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC09nWicJvC5LsvKY1T0UHJeQYzQOyC_2L0g45TPnRe6fZeM1iCZBhferlLc4NFwRKdOeMvNeNLDVw5oKciGY2pejVbO64VCnLgp9SxnEFDp2vn0oT3DDkR1T-T_EEcsY176xEV4K35rjSdTWl9rCjQAa7_fSv8SsnqSlK-GM05MOB_nOP8hLI5WAHjZLVntFVHmTLZuAD2kHEL3Js0L-otUjbJ0fFR84FBKFxtGikrAyzQsfvAlAON8fMdRJcUBheKuN216UHTXA"/>
+</div>
+<div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">edit</span>
+</div>
+</div>
+<div class="text-center">
+<h4 class="text-lg font-semibold text-slate-900">James Wilson</h4>
+<p class="text-sm text-slate-500">User ID: #849201</p>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="flex flex-col gap-4">
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700">Full Name</span>
+<input class="w-full px-3 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-slate-900" type="text" value="James Wilson"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700">Email Address</span>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[18px]">mail</span>
+<input class="w-full pl-9 pr-3 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-slate-900" type="email" value="j.wilson@learnhub.com"/>
+</div>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700">Role</span>
+<div class="grid grid-cols-3 gap-2">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="role" type="radio"/>
+<div class="rounded-lg border border-slate-200 p-3 text-center hover:bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all">
+<span class="block text-sm font-medium">Student</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio"/>
+<div class="rounded-lg border border-slate-200 p-3 text-center hover:bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all">
+<span class="block text-sm font-medium">Instructor</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio"/>
+<div class="rounded-lg border border-slate-200 p-3 text-center hover:bg-slate-50 peer-checked:border-primary peer-checked:bg-primary/5 peer-checked:text-primary transition-all">
+<span class="block text-sm font-medium">Admin</span>
+</div>
+</label>
+</div>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700">Account Status</span>
+<select class="w-full px-3 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-slate-900 bg-white">
+<option value="active">Active</option>
+<option value="inactive">Inactive</option>
+<option selected="" value="suspended">Suspended</option>
+</select>
+</label>
+<div class="bg-amber-50 border border-amber-200 rounded-lg p-3 flex gap-3 mt-2">
+<span class="material-symbols-outlined text-amber-600 shrink-0">warning</span>
+<div class="text-xs text-amber-800">
+<p class="font-medium">User Suspended</p>
+<p class="mt-0.5 opacity-90">This user was suspended automatically due to multiple failed login attempts on Oct 24, 2023.</p>
+</div>
+</div>
+</div>
+<!-- Danger Zone -->
+<div class="mt-2 pt-4 border-t border-slate-100">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-medium text-sm hover:bg-slate-50 hover:text-slate-900 transition-colors">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+                    Send Password Reset Email
+                </button>
+</div>
+</div>
+<!-- Drawer Footer -->
+<div class="px-6 py-4 border-t border-slate-200 bg-slate-50/50 flex items-center justify-between shrink-0">
+<button class="px-4 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                Cancel
+            </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white text-sm font-medium shadow-sm transition-all transform active:scale-95">
+                Save Changes
+            </button>
+</div>
+</div>
+</body></html>

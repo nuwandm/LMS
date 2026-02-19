@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LMS Platform - Unlock Your Potential</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f3b61", // Deep Blue
+                        "secondary": "#2E86C1", // Bright Blue
+                        "accent": "#D35400", // Orange
+                        "background-light": "#F8F9FA",
+                        "background-dark": "#14181e",
+                        "surface": "#FFFFFF",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light text-[#101419] font-display min-h-screen flex flex-col">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 bg-surface border-b border-[#e9edf1] shadow-sm">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<!-- Logo & Nav Links -->
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-3 text-primary">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+</div>
+<h2 class="text-primary text-xl font-bold tracking-tight">LMS Platform</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#101419] hover:text-secondary text-sm font-medium transition-colors" href="#">Home</a>
+<a class="text-[#5b6f8b] hover:text-secondary text-sm font-medium transition-colors" href="#">Courses</a>
+<a class="text-[#5b6f8b] hover:text-secondary text-sm font-medium transition-colors" href="#">Mentors</a>
+</nav>
+</div>
+<!-- Search & Actions -->
+<div class="flex items-center gap-6">
+<!-- Search Bar (Hidden on small mobile) -->
+<div class="hidden lg:flex items-center w-80 bg-background-light rounded-xl border border-transparent focus-within:border-primary/20 focus-within:bg-white transition-all">
+<div class="pl-4 text-[#5b6f8b]">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 text-sm py-2.5 text-[#101419] placeholder:text-[#5b6f8b]" placeholder="Search for courses..." type="text"/>
+</div>
+<!-- Auth Buttons -->
+<div class="flex gap-3">
+<button class="hidden sm:flex items-center justify-center px-5 py-2.5 rounded-lg border border-[#e9edf1] text-[#101419] text-sm font-semibold hover:bg-[#e9edf1] transition-colors">
+                            Log In
+                        </button>
+<button class="flex items-center justify-center px-5 py-2.5 rounded-lg bg-secondary text-white text-sm font-semibold hover:bg-secondary/90 shadow-md shadow-secondary/20 transition-all">
+                            Register
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative bg-surface overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="flex flex-col gap-6 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider w-fit">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                            New Courses Available
+                        </div>
+<h1 class="text-4xl lg:text-6xl font-black text-primary leading-tight tracking-tight">
+                            Unlock Your Potential with <span class="text-secondary">Online Learning</span>
+</h1>
+<p class="text-lg text-[#5b6f8b] leading-relaxed max-w-lg">
+                            Join thousands of students learning from the best mentors worldwide. Master new skills in development, business, and design today.
+                        </p>
+<div class="flex flex-wrap gap-4 pt-2">
+<button class="flex items-center justify-center px-8 py-3.5 rounded-xl bg-secondary text-white text-base font-bold hover:bg-secondary/90 shadow-lg shadow-secondary/25 transition-transform hover:-translate-y-0.5">
+                                Explore Courses
+                            </button>
+<button class="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white border border-[#e9edf1] text-primary text-base font-bold hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined text-xl">play_circle</span>
+                                Watch Demo
+                            </button>
+</div>
+<div class="flex items-center gap-4 pt-6 text-sm text-[#5b6f8b] font-medium">
+<div class="flex -space-x-3">
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUZ0ifJ4dNT1RFFvf6ynCa9B-qBVmYAQGnA4ZE-3kTnBbGeweLs6BH3YAbpRr5W07U3qDEb5PgH3Z5lgYThwItH_WAEkAfM1RnqWo7GrZyy6xSbtBKBZiikXllEszlquVORfZZCY585AsZrkJbh7iFqqjqEjYdxDsTUghGkuaDNoAjgUXCbii5JKehtDW0wnYWqiIOl1NxlTWqN6pTho4MYUsfU0iWUZtLLnvQi7izs4jY85r2TzN98pNxoyndT4jXB0Qx--bVTQ"/>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-f7yGNaNZNUMfrFEUK-keD5CifoTJEm8sgv7fcfbc42xkm3s44iVHWr1uAMgfYqk0qPasYWQ6hSw3S5cAY3qWD3YZnBOlkwITUJgrgzPrKifDiK-JRGyNL8c0zqfTYxx_433HyzS41wi5GxlxEtIUOLEj_IeAyvk5J4yQ1MBd9yxR8i54BNTEWADfQbgymwhM-c8ao7qm4EIo9ibosLVUPRt21bgIvk0Z38pAOA79-Ms5XKVv30x1rQa5Hz8C9YBMYMhsh88cmg"/>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="Portrait of a man with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8khQ97iz6G-EByB2V-YEXpWR6eDdyBFXGwaD7KhFGJOdA-HvqoFyIK6r4jllG71wlV_rP8WxtVRuOJyTAFfWuUNoDGh7hUFrrM0lVHhSmC8qNIGBPoI2clICuwuOgH8fDw9bPrAU714Mg-yUfxB7Dlrmtgbo1_ygaDJvr2eyi08dsKCO-v8YPCEBzLMzuWUlTxQT3fNIPVkxB4cgR_oeSyXU-rHkI2DhtH9TthKfu-wbt3LtEr-uu2cx6H1-BXGxoVpdkLVLGww"/>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs text-primary font-bold">+2k</div>
+</div>
+<span>Trusted by 2,000+ students</span>
+</div>
+</div>
+<div class="relative lg:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl shadow-primary/10 group">
+<div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10"></div>
+<img alt="Students studying together" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="Group of students collaborating on laptops in a modern library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVD5abFa4SRyNttNrF65TA5gMWwYHXTTdlI837HZyY3PCsOOE2X30QJZxigrAJt-pQEDLHJBCAGx5adNkTBk-OXbbFa05ZQoReRvZJgzU_8YCTTzXjfUbONeBA4BsicTQos68YK79Gr158BDelE6Eb-ygR4dW6kVoH9msmkprRXHCnfkhYMqe9NEb9jBtf4cK9zhbRBqF865smDfm4hv8o9Ny64LTCzISvv4QA3WoIbTjDR340BX3PvwhELRUVTkBRrnUMwVwJqA"/>
+<!-- Floating Card -->
+<div class="absolute bottom-6 left-6 right-6 sm:right-auto sm:w-72 bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-xl z-20 border border-white/20">
+<div class="flex items-center gap-3 mb-2">
+<div class="bg-green-100 text-green-700 p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+</div>
+<span class="text-sm font-bold text-primary">Course Completed</span>
+</div>
+<div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-green-500 w-[100%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="bg-white border-y border-[#e9edf1]">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-gray-100">
+<div class="text-center">
+<p class="text-3xl font-black text-primary">25k+</p>
+<p class="text-sm text-[#5b6f8b] mt-1">Active Students</p>
+</div>
+<div class="text-center pl-4">
+<p class="text-3xl font-black text-primary">800+</p>
+<p class="text-sm text-[#5b6f8b] mt-1">Expert Mentors</p>
+</div>
+<div class="text-center pl-4">
+<p class="text-3xl font-black text-primary">120</p>
+<p class="text-sm text-[#5b6f8b] mt-1">Countries</p>
+</div>
+<div class="text-center pl-4">
+<p class="text-3xl font-black text-primary">4.9</p>
+<p class="text-sm text-[#5b6f8b] mt-1">Average Rating</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Courses -->
+<section class="py-16 lg:py-24 bg-background-light">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h2 class="text-3xl font-bold text-primary mb-2">Featured Courses</h2>
+<p class="text-[#5b6f8b]">Explore our top-rated courses carefully curated for you.</p>
+</div>
+<a class="text-secondary font-semibold flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                        View All Courses 
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+<!-- Course Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="group bg-white rounded-2xl border border-[#e9edf1] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden h-full">
+<div class="relative aspect-video overflow-hidden bg-gray-100">
+<img alt="Programming code on screen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Computer screen displaying code" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4uvoMuYQDnMB3bqYY3VsSObElEVG0S3ZrTuYMKFytsMm5HAZaDs2cOjf_KoF_-R3kbIDY3VTKpxpOjZW5szYgwP73jmdEJHLbWXsS8wWnHr7_U8czJ7geLSNJF0_xBmGSWh_sHK4NeCkPAChaQGX8ijwPOCIth50uElk2kREU6fWRXTBPY5oI17s5Kv5SyUQBZuBtKgoPkR-sph9rWpJzsyr-aiiAbIE5ZYuqqvmw5t2OmLWQAgm2qD4VmlIcnWq2PuiO2Ir63A"/>
+<div class="absolute top-3 right-3 bg-white p-1.5 rounded-full shadow-md text-gray-400 hover:text-red-500 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl block">favorite</span>
+</div>
+<div class="absolute bottom-3 left-3 bg-primary/90 backdrop-blur text-white text-xs font-bold px-2.5 py-1 rounded-md">Development</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-1 text-yellow-400 text-sm font-bold mb-2">
+                                4.8 <span class="material-symbols-outlined text-base filled">star</span>
+<span class="text-gray-400 font-normal ml-1">(12,345)</span>
+</div>
+<h3 class="text-lg font-bold text-[#101419] leading-tight mb-2 group-hover:text-secondary transition-colors line-clamp-2">Complete Python Bootcamp: From Zero to Hero in Python</h3>
+<p class="text-sm text-[#5b6f8b] mb-4">Jose Portilla</p>
+<div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-gray-400 line-through">$89.99</span>
+<span class="text-lg font-bold text-accent">$19.99</span>
+</div>
+<button class="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined block">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-white rounded-2xl border border-[#e9edf1] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden h-full">
+<div class="relative aspect-video overflow-hidden bg-gray-100">
+<img alt="Art supplies" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Watercolor paints and brushes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7Z6R5Ch7Lb4wM1bd8-9YtwVa0HU1kQ4dfoZcppxMguacE8PqbMJW6n7AAgsZ9CyRdA7FcbebVBTtRRvjYwsZQOoLmiq4HE6bOqtiHRHAOANv7OBrxQ5gDg8zDsfx7XRGNNnQsvqV4Xy8LE9i-kQGGUOBd34P3nRXNtZM86gRx4KkfRCv7DVOM6zFPQ9TlBGRP1nQ_b745oRdQPd7txNxSBuZYe9TJzQZcjp6qntKPEQ-ABgNuM-GrgAGOJEoN3kdSHfE2o9W62A"/>
+<div class="absolute top-3 right-3 bg-white p-1.5 rounded-full shadow-md text-gray-400 hover:text-red-500 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl block">favorite</span>
+</div>
+<div class="absolute bottom-3 left-3 bg-primary/90 backdrop-blur text-white text-xs font-bold px-2.5 py-1 rounded-md">Design</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-1 text-yellow-400 text-sm font-bold mb-2">
+                                4.6 <span class="material-symbols-outlined text-base filled">star</span>
+<span class="text-gray-400 font-normal ml-1">(8,900)</span>
+</div>
+<h3 class="text-lg font-bold text-[#101419] leading-tight mb-2 group-hover:text-secondary transition-colors line-clamp-2">The Ultimate Drawing Course - Beginner to Advanced</h3>
+<p class="text-sm text-[#5b6f8b] mb-4">Jaysen Batchelor</p>
+<div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-gray-400 line-through">$109.99</span>
+<span class="text-lg font-bold text-accent">$24.99</span>
+</div>
+<button class="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined block">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-white rounded-2xl border border-[#e9edf1] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden h-full">
+<div class="relative aspect-video overflow-hidden bg-gray-100">
+<img alt="Business meeting" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="People analyzing charts in an office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDViSpkbOQnaAc8uB8zHJgHMcwhPofn3kI1eqOlPzkdBrhXonfcheEbUCpR3-Y0MjPPPLkfcvmBDx10_HeAFdmKOlyk0TQsv9QxWZTHkl6CXQDQUJ5GLEgtrw_fap5lovqEPbrwT8fdbBHAu9j0fhi5bQw3r5_iuOVW1_gRu0nzneV_m9k6ik4AkDo8EAJGqkU7zYGFtwN3zz44YvRPme8jVzhW8jtGNB5iWyp_IIUtZsWZCYdQYgTWOKIeQ9E1EAO4I9iaLQvn5g"/>
+<div class="absolute top-3 right-3 bg-white p-1.5 rounded-full shadow-md text-gray-400 hover:text-red-500 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl block">favorite</span>
+</div>
+<div class="absolute bottom-3 left-3 bg-primary/90 backdrop-blur text-white text-xs font-bold px-2.5 py-1 rounded-md">Business</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-1 text-yellow-400 text-sm font-bold mb-2">
+                                4.9 <span class="material-symbols-outlined text-base filled">star</span>
+<span class="text-gray-400 font-normal ml-1">(2,100)</span>
+</div>
+<h3 class="text-lg font-bold text-[#101419] leading-tight mb-2 group-hover:text-secondary transition-colors line-clamp-2">MBA in a Box: Business Lessons from a CEO</h3>
+<p class="text-sm text-[#5b6f8b] mb-4">365 Careers</p>
+<div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-gray-400 line-through">$49.99</span>
+<span class="text-lg font-bold text-accent">$14.99</span>
+</div>
+<button class="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined block">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-white rounded-2xl border border-[#e9edf1] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden h-full">
+<div class="relative aspect-video overflow-hidden bg-gray-100">
+<img alt="Digital Marketing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Smartphone showing social media analytics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVWH5hzMJGBKcuQq7932Dv5DEuLv28EONL4uI2E8ylNOOb-R8UmTqERM7UZYtc7b_KSnLrqCpIZ4JxrA9uhBN8AnKA8id69EzoEUl5dWg5hhWw6rS5g5UBegaw-Nx5R1acm5o5tG1k3LLEe-75SrRiiVQDKc3s_hlYrtlULp4i3P_mZSzkMcQb66MpvV6bLBy-jkQAAuzGMx7iTgyaHd0LAFNxfP6g3VIxUNHedgolUmm2BmOlF2Nm7Mc-fCWGyJiO9x6364j-0A"/>
+<div class="absolute top-3 right-3 bg-white p-1.5 rounded-full shadow-md text-gray-400 hover:text-red-500 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl block">favorite</span>
+</div>
+<div class="absolute bottom-3 left-3 bg-primary/90 backdrop-blur text-white text-xs font-bold px-2.5 py-1 rounded-md">Marketing</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-1 text-yellow-400 text-sm font-bold mb-2">
+                                4.7 <span class="material-symbols-outlined text-base filled">star</span>
+<span class="text-gray-400 font-normal ml-1">(5,430)</span>
+</div>
+<h3 class="text-lg font-bold text-[#101419] leading-tight mb-2 group-hover:text-secondary transition-colors line-clamp-2">Digital Marketing Masterclass - 23 Courses in 1</h3>
+<p class="text-sm text-[#5b6f8b] mb-4">Phil Ebiner</p>
+<div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-gray-400 line-through">$199.99</span>
+<span class="text-lg font-bold text-accent">$34.99</span>
+</div>
+<button class="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined block">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Grid (Optional but recommended in plan) -->
+<section class="py-16 bg-white border-t border-[#e9edf1]">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="text-3xl font-bold text-primary mb-10">Top Categories</h2>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+<a class="group flex flex-col items-center gap-3 p-6 rounded-xl bg-background-light hover:bg-secondary/5 border border-transparent hover:border-secondary/20 transition-all cursor-pointer" href="#">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-primary group-hover:text-secondary group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined">code</span>
+</div>
+<span class="text-sm font-semibold text-[#101419] group-hover:text-secondary">Development</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-6 rounded-xl bg-background-light hover:bg-secondary/5 border border-transparent hover:border-secondary/20 transition-all cursor-pointer" href="#">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-primary group-hover:text-secondary group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined">brush</span>
+</div>
+<span class="text-sm font-semibold text-[#101419] group-hover:text-secondary">Design</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-6 rounded-xl bg-background-light hover:bg-secondary/5 border border-transparent hover:border-secondary/20 transition-all cursor-pointer" href="#">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-primary group-hover:text-secondary group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<span class="text-sm font-semibold text-[#101419] group-hover:text-secondary">Business</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-6 rounded-xl bg-background-light hover:bg-secondary/5 border border-transparent hover:border-secondary/20 transition-all cursor-pointer" href="#">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-primary group-hover:text-secondary group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined">campaign</span>
+</div>
+<span class="text-sm font-semibold text-[#101419] group-hover:text-secondary">Marketing</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-6 rounded-xl bg-background-light hover:bg-secondary/5 border border-transparent hover:border-secondary/20 transition-all cursor-pointer" href="#">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-primary group-hover:text-secondary group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined">camera_alt</span>
+</div>
+<span class="text-sm font-semibold text-[#101419] group-hover:text-secondary">Photography</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-6 rounded-xl bg-background-light hover:bg-secondary/5 border border-transparent hover:border-secondary/20 transition-all cursor-pointer" href="#">
+<div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-primary group-hover:text-secondary group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined">music_note</span>
+</div>
+<span class="text-sm font-semibold text-[#101419] group-hover:text-secondary">Music</span>
+</a>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-20 bg-primary relative overflow-hidden">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+<div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+<h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Become an instructor today</h2>
+<p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">Join one of the world's largest online learning marketplaces. Teach what you love and impact millions of students.</p>
+<button class="px-8 py-3.5 rounded-xl bg-secondary text-white text-base font-bold hover:bg-secondary/90 shadow-xl transition-all hover:scale-105">
+                    Start Teaching
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-primary pt-16 pb-8 border-t border-white/10 text-gray-300">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 text-white mb-4">
+<span class="material-symbols-outlined text-3xl">school</span>
+<h2 class="text-xl font-bold">LMS Platform</h2>
+</div>
+<p class="text-sm leading-relaxed opacity-80">
+                        Empowering learners worldwide with accessible, high-quality education. Join our community today.
+                    </p>
+</div>
+<div>
+<h3 class="text-white font-bold mb-4">Platform</h3>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Browse Courses</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Mentorship</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Pricing</a></li>
+<li><a class="hover:text-white transition-colors" href="#">For Business</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-white font-bold mb-4">Company</h3>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Blog</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-white font-bold mb-4">Connect</h3>
+<div class="flex gap-4 mb-6">
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white" href="#">
+<span class="text-xs">FB</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white" href="#">
+<span class="text-xs">TW</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white" href="#">
+<span class="text-xs">LN</span>
+</a>
+</div>
+<p class="text-xs opacity-60">© 2023 LMS Platform Inc. All rights reserved.</p>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

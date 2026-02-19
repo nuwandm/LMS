@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub Course Video Player</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f3b61",
+                        "primary-light": "#eef4ff",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#14181e",
+                        "success": "#10B981",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for curriculum */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col text-[#101419]">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e9edf1] px-6 lg:px-10 py-3 bg-white sticky top-0 z-50">
+<div class="flex items-center gap-4 text-[#101419]">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">school</span>
+</div>
+<h2 class="text-[#101419] text-xl font-bold leading-tight tracking-[-0.015em]">LearnHub</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<nav class="flex items-center gap-6">
+<a class="text-[#5b6f8b] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal transition-colors" href="#">My Courses</a>
+<a class="text-[#5b6f8b] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-3 border-l border-gray-200 pl-6">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-gray-900">Alex Johnson</p>
+<p class="text-xs text-gray-500">Student</p>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white shadow-sm" data-alt="User profile picture of a young man" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5bko9VWGJYFnR72Si0EhRyGpw15gJZBDnYQmjCIVvuzimACyVWsGh4N6vEfhYMTH59CgbDwfA6PzAxbMQ-bR0QzzybW6biHm6jw0TzjRRYAeVLNqGOJbF_7Cunez6sERsKU9QXRrjD1Y3BhVHOdPz7kUjCwC9T6uGQ3RCbcZLo1EDU4daBIWzRwYYtcS4EUSH-OkiFk6DTaEed9APAgQ14WjTg5NzfmX6VHeeICKNtqR09YEl_E_kaZv2cDMKtEhpJ7EvCy3vvQ");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
+<!-- Left Column: Video & Content (70%) -->
+<div class="flex-1 w-full lg:w-[70%] flex flex-col gap-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap items-center gap-2 text-sm text-[#5b6f8b]">
+<a class="hover:text-primary hover:underline" href="#">My Courses</a>
+<span class="material-symbols-outlined text-base">chevron_right</span>
+<a class="hover:text-primary hover:underline" href="#">React Mastery</a>
+<span class="material-symbols-outlined text-base">chevron_right</span>
+<span class="font-semibold text-primary">React Hooks</span>
+</div>
+<!-- Video Player Container -->
+<div class="relative w-full rounded-xl overflow-hidden shadow-lg bg-black group">
+<!-- Video Placeholder -->
+<div class="aspect-video bg-[#1f1f1f] relative flex items-center justify-center bg-cover bg-center" data-alt="Abstract code background representing React development" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfdwKfSQCV5cSuAPBME4OuSUO2xm-RERTQi7kIi3VfQFVdwz_FKb8jgTI4OIvnexrcThh8WwdCzmcP4ZEcKPRDWnXQn6A8M3rTufH2E-xpLKVbmGvz-CTEatvpl9Qbt6Vedq_w95kVxKD6DZsW1qkhVDKwIc_eF9Vwaz291eYW0SX0iU6--ZTJSXoOELDVlCQAZFsbej4uo2rknu4UK0EWK8TW8nVWGO-mSZO1at1U9tpfG2KiQ_a7NQGLnjPoS5H4EtUgErQSjw");'>
+<div class="absolute inset-0 bg-black/50"></div>
+<!-- Big Play Button -->
+<button class="relative z-10 flex items-center justify-center rounded-full size-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white transition-all transform hover:scale-105">
+<span class="material-symbols-outlined text-5xl fill-current">play_arrow</span>
+</button>
+<!-- Bottom Controls Overlay -->
+<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-12 pb-4 px-6 opacity-100 transition-opacity duration-300">
+<!-- Progress Bar -->
+<div class="group/progress relative h-1 bg-white/30 rounded-full mb-4 cursor-pointer hover:h-2 transition-all">
+<div class="absolute top-0 left-0 h-full w-[35%] bg-primary rounded-full relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 size-3 bg-white rounded-full shadow opacity-0 group-hover/progress:opacity-100 transition-opacity transform scale-0 group-hover/progress:scale-100"></div>
+</div>
+</div>
+<!-- Controls Row -->
+<div class="flex items-center justify-between text-white">
+<div class="flex items-center gap-4">
+<button class="hover:text-primary-light transition-colors"><span class="material-symbols-outlined text-3xl">play_arrow</span></button>
+<button class="hover:text-primary-light transition-colors"><span class="material-symbols-outlined text-2xl">replay_10</span></button>
+<div class="flex items-center gap-2 group/volume">
+<button class="hover:text-primary-light transition-colors"><span class="material-symbols-outlined text-2xl">volume_up</span></button>
+<div class="w-0 overflow-hidden group-hover/volume:w-20 transition-all duration-300">
+<div class="h-1 bg-white/30 rounded-full w-16 my-auto ml-2 cursor-pointer">
+<div class="h-full w-[70%] bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+<span class="text-sm font-medium tracking-wide ml-2">4:12 / 12:45</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-sm font-bold bg-white/10 hover:bg-white/20 px-2 py-1 rounded transition-colors">1x</button>
+<button class="hover:text-primary-light transition-colors"><span class="material-symbols-outlined text-2xl">closed_caption</span></button>
+<button class="hover:text-primary-light transition-colors"><span class="material-symbols-outlined text-2xl">settings</span></button>
+<button class="hover:text-primary-light transition-colors"><span class="material-symbols-outlined text-2xl">fullscreen</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Below Video Actions -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-200 pb-6">
+<div>
+<h1 class="text-2xl md:text-3xl font-bold text-[#101419] mb-1">React Hooks — useState and useEffect Deep Dive</h1>
+<p class="text-[#5b6f8b] text-sm">Last updated 2 days ago</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center size-10 rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-primary transition-colors" title="Previous Lesson">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-primary transition-colors" title="Next Lesson">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-success hover:bg-green-600 text-white font-semibold rounded-lg shadow-sm transition-all transform active:scale-95 ml-2">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span>Mark Complete</span>
+</button>
+</div>
+</div>
+<!-- Content Tabs -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+<div class="flex border-b border-gray-100 px-6">
+<button class="px-4 py-4 text-primary font-semibold border-b-2 border-primary text-sm focus:outline-none">Overview</button>
+<button class="px-4 py-4 text-gray-500 hover:text-primary font-medium text-sm focus:outline-none transition-colors">Resources <span class="ml-1 text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full">3</span></button>
+<button class="px-4 py-4 text-gray-500 hover:text-primary font-medium text-sm focus:outline-none transition-colors">Notes</button>
+<button class="px-4 py-4 text-gray-500 hover:text-primary font-medium text-sm focus:outline-none transition-colors">Discussion</button>
+</div>
+<div class="p-6 md:p-8">
+<div class="prose prose-slate max-w-none text-gray-600">
+<h3 class="text-lg font-bold text-gray-900 mb-3">About this lesson</h3>
+<p class="mb-4 leading-relaxed">
+                            In this comprehensive deep dive, we will explore the two most fundamental hooks in React: <code>useState</code> and <code>useEffect</code>. Understanding these hooks is crucial for managing state and side effects in functional components.
+                        </p>
+<p class="mb-6 leading-relaxed">
+                            We'll start by refactoring a class-based component to a functional one, highlighting the simplifications hooks provide. Then, we'll tackle common pitfalls like infinite loops in dependency arrays and stale closures.
+                        </p>
+<h3 class="text-lg font-bold text-gray-900 mb-3">What you'll learn</h3>
+<ul class="list-none space-y-2 mb-6 pl-0">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-sm">check</span>
+<span>Managing local component state with useState</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-sm">check</span>
+<span>Handling side effects and lifecycle events with useEffect</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-sm">check</span>
+<span>Cleanup functions and avoiding memory leaks</span>
+</li>
+</ul>
+<div class="flex items-center p-4 bg-primary/5 rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-primary text-2xl mr-3">lightbulb</span>
+<p class="text-sm text-primary font-medium m-0">Pro Tip: Always double-check your dependency array in useEffect to ensure your effect runs exactly when intended.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Sidebar (30%) -->
+<aside class="w-full lg:w-[30%] min-w-[320px] flex flex-col gap-6">
+<!-- Progress Card -->
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div class="flex justify-between items-end mb-2">
+<h3 class="font-bold text-lg text-gray-900">Course Progress</h3>
+<span class="font-bold text-primary text-lg">35%</span>
+</div>
+<div class="w-full bg-gray-100 rounded-full h-2.5 mb-4">
+<div class="bg-primary h-2.5 rounded-full transition-all duration-1000 ease-out" style="width: 35%"></div>
+</div>
+<p class="text-xs text-gray-500 font-medium">12 of 48 lessons completed</p>
+</div>
+<!-- Curriculum List -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 flex-1 flex flex-col overflow-hidden max-h-[800px]">
+<div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+<h3 class="font-bold text-gray-900">Curriculum</h3>
+<button class="text-xs font-semibold text-primary hover:text-primary/80">Expand All</button>
+</div>
+<div class="overflow-y-auto custom-scrollbar flex-1">
+<!-- Section 1 (Collapsed) -->
+<div class="border-b border-gray-100">
+<button class="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors text-left group">
+<div>
+<h4 class="font-semibold text-gray-700 text-sm group-hover:text-primary">Section 1: Introduction</h4>
+<p class="text-xs text-gray-400 mt-1">4 Lessons • 25m</p>
+</div>
+<span class="material-symbols-outlined text-gray-400">expand_more</span>
+</button>
+</div>
+<!-- Section 2 (Expanded) -->
+<div class="border-b border-gray-100">
+<button class="w-full flex items-center justify-between p-4 bg-gray-50 text-left sticky top-0 z-10 border-b border-gray-100">
+<div>
+<h4 class="font-bold text-primary text-sm">Section 2: React Basics</h4>
+<p class="text-xs text-gray-500 mt-1">6 Lessons • 1h 15m</p>
+</div>
+<span class="material-symbols-outlined text-primary">expand_less</span>
+</button>
+<div class="bg-white">
+<!-- Completed Item -->
+<a class="flex items-center gap-3 p-3 pl-4 hover:bg-gray-50 transition-colors border-l-4 border-transparent group" href="#">
+<div class="size-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-success text-[14px]">check</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-gray-600 group-hover:text-gray-900">1. Introduction to JSX</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[12px] text-gray-400">play_circle</span>
+<span class="text-xs text-gray-400">8:45</span>
+</div>
+</div>
+</a>
+<!-- Completed Item -->
+<a class="flex items-center gap-3 p-3 pl-4 hover:bg-gray-50 transition-colors border-l-4 border-transparent group" href="#">
+<div class="size-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-success text-[14px]">check</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-gray-600 group-hover:text-gray-900">2. Components and Props</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[12px] text-gray-400">play_circle</span>
+<span class="text-xs text-gray-400">12:30</span>
+</div>
+</div>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 p-3 pl-4 bg-primary-light border-l-4 border-primary group" href="#">
+<div class="size-5 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-sm animate-pulse">
+<span class="material-symbols-outlined text-white text-[14px]">play_arrow</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-primary">3. React Hooks — useState &amp; useEffect</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[12px] text-primary/70">play_circle</span>
+<span class="text-xs text-primary/70">15:20</span>
+<span class="text-[10px] font-bold bg-primary text-white px-1.5 py-0.5 rounded ml-auto mr-2">NOW</span>
+</div>
+</div>
+</a>
+<!-- Pending Item -->
+<a class="flex items-center gap-3 p-3 pl-4 hover:bg-gray-50 transition-colors border-l-4 border-transparent group opacity-70" href="#">
+<div class="size-5 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-gray-400 text-[14px]">lock</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-gray-500">4. Custom Hooks</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[12px] text-gray-400">play_circle</span>
+<span class="text-xs text-gray-400">10:15</span>
+</div>
+</div>
+</a>
+<!-- Pending Item -->
+<a class="flex items-center gap-3 p-3 pl-4 hover:bg-gray-50 transition-colors border-l-4 border-transparent group opacity-70" href="#">
+<div class="size-5 rounded-full border border-gray-300 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-gray-400 text-[14px]">lock</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-gray-500">5. Handling Events</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[12px] text-gray-400">play_circle</span>
+<span class="text-xs text-gray-400">09:40</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+<!-- Section 3 (Collapsed) -->
+<div class="border-b border-gray-100">
+<button class="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors text-left group">
+<div>
+<h4 class="font-semibold text-gray-700 text-sm group-hover:text-primary">Section 3: Advanced Patterns</h4>
+<p class="text-xs text-gray-400 mt-1">5 Lessons • 55m</p>
+</div>
+<span class="material-symbols-outlined text-gray-400">expand_more</span>
+</button>
+</div>
+<!-- Section 4 (Collapsed) -->
+<div class="border-b border-gray-100">
+<button class="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors text-left group">
+<div>
+<h4 class="font-semibold text-gray-700 text-sm group-hover:text-primary">Section 4: Performance</h4>
+<p class="text-xs text-gray-400 mt-1">3 Lessons • 45m</p>
+</div>
+<span class="material-symbols-outlined text-gray-400">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Download Resources CTA -->
+<div class="bg-primary rounded-xl p-5 text-white flex items-center justify-between shadow-lg shadow-primary/20">
+<div>
+<h4 class="font-bold text-sm">Course Materials</h4>
+<p class="text-xs text-white/80 mt-1">Download source code &amp; slides</p>
+</div>
+<button class="bg-white/10 hover:bg-white/20 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</aside>
+</main>
+</body></html>

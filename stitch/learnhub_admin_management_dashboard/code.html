@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#1f4461",
+            "primary-light": "#2c5b80",
+            "background-light": "#f6f7f8",
+            "background-dark": "#141a1e",
+            "accent-green": "#078838",
+            "accent-red": "#d32f2f",
+            "accent-orange": "#f57c00",
+          },
+          fontFamily: {
+            "sans": ["Inter", "sans-serif"],
+            "display": ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "2xl": "1.5rem",
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans text-slate-800 antialiased">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="flex w-64 flex-col bg-primary text-white border-r border-slate-200 dark:border-slate-800 transition-all duration-300">
+<!-- Logo Area -->
+<div class="flex h-16 items-center gap-3 px-6 border-b border-primary-light">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none tracking-tight">LearnHub</h1>
+<p class="text-xs font-medium text-slate-300 tracking-wider mt-0.5">ADMIN</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+<a class="group flex items-center gap-3 rounded-lg bg-white/10 px-3 py-2.5 text-sm font-medium text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-white">dashboard</span>
+          Dashboard
+        </a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white">book</span>
+          Courses
+        </a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white">group</span>
+          Users
+        </a>
+<a class="group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white">check_circle</span>
+            Enrollments
+          </div>
+<span class="flex h-5 w-auto min-w-[20px] items-center justify-center rounded-full bg-accent-orange px-1.5 text-[10px] font-bold text-white">12</span>
+</a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white">bar_chart</span>
+          Reports
+        </a>
+<a class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white">settings</span>
+          Settings
+        </a>
+</nav>
+<!-- User Profile / Logout -->
+<div class="border-t border-primary-light p-4">
+<div class="flex items-center gap-3 mb-4">
+<div class="h-10 w-10 overflow-hidden rounded-full bg-slate-200">
+<img alt="Admin Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0W691NzBpBjiWHnPER7S3miT_tYk5VcLOADUnc-idvDUx3eBRPxBdyovsJ9J4W0HKc8euVG2ms-Xh_MhZj4SwKXWo7POJa-uZ2aa4lIo8Oll4Q6n9BVLM6PuTatDfb3c3ZehSwfSQ9uFmXNQyBLZmlV78ag9p7qSktTH8w0G4xNYEzx1WP49GfwR1Ooe0-tvSjnNjaDUoIktu6Y87qni6_dyUBLn4tR7l0tvlNz_xoXtYtDkLgwNisaFrVoPViYmlAhF_3fN4zQ"/>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="truncate text-sm font-medium text-white">Alex Morgan</p>
+<p class="truncate text-xs text-slate-300">Super Admin</p>
+</div>
+</div>
+<button class="flex w-full items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/20">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+          Logout
+        </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-background-light p-8">
+<!-- Header -->
+<header class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-2xl font-bold text-primary dark:text-white">Dashboard Overview</h2>
+<p class="text-sm text-slate-500 mt-1">Welcome back, here's what's happening with your platform today.</p>
+</div>
+<div class="flex gap-3">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-[20px]">search</span>
+<input class="h-10 w-64 rounded-xl border border-slate-200 pl-10 pr-4 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white" placeholder="Search..." type="text"/>
+</div>
+<button class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Stat Cards -->
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+<!-- Total Users -->
+<div class="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-500">Total Users</p>
+<h3 class="mt-2 text-3xl font-bold text-slate-900">12,450</h3>
+</div>
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">group</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+              +5%
+            </span>
+<span class="text-xs text-slate-400">vs last month</span>
+</div>
+</div>
+<!-- Total Courses -->
+<div class="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-500">Total Courses</p>
+<h3 class="mt-2 text-3xl font-bold text-slate-900">340</h3>
+</div>
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+<span class="material-symbols-outlined">school</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+              +12%
+            </span>
+<span class="text-xs text-slate-400">vs last month</span>
+</div>
+</div>
+<!-- Pending Enrollments -->
+<div class="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white p-6 shadow-sm border-l-4 border-l-accent-orange border-y border-r border-y-slate-200 border-r-slate-200 hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-500">Pending Enrollments</p>
+<h3 class="mt-2 text-3xl font-bold text-slate-900">45</h3>
+</div>
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50 text-accent-orange">
+<span class="material-symbols-outlined">hourglass_empty</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-xs font-medium text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">
+               Action Needed
+            </span>
+<span class="text-xs text-slate-400">Since yesterday</span>
+</div>
+</div>
+<!-- Revenue -->
+<div class="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-white p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-sm font-medium text-slate-500">Revenue</p>
+<h3 class="mt-2 text-3xl font-bold text-slate-900">$45,200</h3>
+</div>
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+<span class="material-symbols-outlined">attach_money</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+              +3%
+            </span>
+<span class="text-xs text-slate-400">vs last month</span>
+</div>
+</div>
+</div>
+<!-- Main Section Split -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
+<!-- Left: Pending Enrollment Requests (60%) -->
+<div class="lg:col-span-3 flex flex-col bg-white rounded-xl shadow-sm border border-slate-200">
+<div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+<h3 class="font-bold text-slate-800">Pending Enrollment Requests</h3>
+<a class="text-sm font-medium text-primary hover:text-primary-light" href="#">View All</a>
+</div>
+<div class="p-0 overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-xs font-semibold text-slate-500 uppercase bg-slate-50/50">
+<th class="px-6 py-3">Student</th>
+<th class="px-6 py-3">Course</th>
+<th class="px-6 py-3">Date</th>
+<th class="px-6 py-3 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="group hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 overflow-hidden rounded-full bg-slate-200 shrink-0">
+<img alt="Alice Johnson" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6atnGw04Tv2dtn3diR71GIur7tvsY5Kxjm95dZIhRwBMP9U8JVKMMzOmMTtLB1Y5L8r1CVd2ASKrdBwONPOdZjvKLxDQiBrPVrVaZG2CcMQc68b5bGLwgtEvSuhVj-t49N4zxiETaNA8pPpLG7gRyLi3B1P7tg5W390cAfPUXKzuflKZoUDtqa-R9jdCpMOwDNnznynjictnZnR47gmB8r_xd8rXf-QoVIEg-BZnQ_Qg8a6xY0I7okPVnaVB0pYHtaow-9E4f_g"/>
+</div>
+<div>
+<div class="text-sm font-medium text-slate-900">Alice Johnson</div>
+<div class="text-xs text-slate-500">alice.j@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">UX Design Fundamentals</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 24, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-red-600 hover:bg-red-50 hover:border-red-200 transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 overflow-hidden rounded-full bg-slate-200 shrink-0">
+<img alt="Bob Smith" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ3K3SB8cruPdbsEYjoYzu7Hbe-Nu4GbMKvEwoHtal7U1tZJgHwgdEMJDe9uqQT93GsrUMyQI7mXF3hI1eLSd9V5KvSFVshBvEA5dp4brsS406wj7ZFyiefKiYqmvDxJjDQcZ7RA50W7Fey0_Pj3XNz6knd-PGQS7g1Kwi6bTSv8_n3wOgQMc6a1shKd6KvqjGWl8MC-wiZCyhuhSx3gYxHDDZ1voj8poc3AGten9Gmb7GT7_53Pwo7k4J-YsY8ye4XMlwiothrg"/>
+</div>
+<div>
+<div class="text-sm font-medium text-slate-900">Bob Smith</div>
+<div class="text-xs text-slate-500">bob.s@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">Python for Beginners</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 23, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-red-600 hover:bg-red-50 hover:border-red-200 transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 overflow-hidden rounded-full bg-slate-200 shrink-0">
+<img alt="Diana Evans" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_Nc8alYgufS9mtx4y-CzlBSuVQpbrSjlnZHEAyfJhwjMwJnKcgYFMORqJTBdkjXoT6MQ5YPzj6s5sFDLCA1iuO8NdDCf4CAKPpozoE3eAwFJbThqbbuU-2Yiuf__Db8oJKxhZ8AAn2SkGLCnsqx0C6gQ652Z7hrpn9Y_X-XG4MpZ9MwawO7lmw90RNpH1YGESetziElfSkgS4TVQ7xSdTj4YFeb3czcOUgFpvCT_M-ea4aMtEJ0PreSObdqPc4eMHUo5Fr5dZLQ"/>
+</div>
+<div>
+<div class="text-sm font-medium text-slate-900">Diana Evans</div>
+<div class="text-xs text-slate-500">diana.e@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">Digital Marketing 101</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 21, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-red-600 hover:bg-red-50 hover:border-red-200 transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-9 w-9 overflow-hidden rounded-full bg-slate-200 shrink-0">
+<img alt="Ethan Hunt" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuqB3-LYSm2aoCPWtokNUbKLqsOHUWiD6TwYEMhKmayWVpBr9LEVAWLLpAOqPF-Y5RnVEblbrlS-DyIKJKuRMxCvYFNRQn7blwOKEX5byOCC-CFl1Gu42xDjEdstNI5-EoBVfbB51DxeAW8Vqe7i-UDCaOR6AXRkBnd0qXy13swRDvw_wq1ptlIkkD5nUpZpDtk6QQra_vEhw6SuzrgyaXBeAN7TJN5F7Fme5Lp30hBFrRdd1u2BbM4GrwFUlPQeHCuh8c73HOHg"/>
+</div>
+<div>
+<div class="text-sm font-medium text-slate-900">Ethan Hunt</div>
+<div class="text-xs text-slate-500">ethan.h@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">Advanced React Patterns</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 20, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-colors" title="Approve">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-red-600 hover:bg-red-50 hover:border-red-200 transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right: Newly Registered Users (40%) -->
+<div class="lg:col-span-2 flex flex-col bg-white rounded-xl shadow-sm border border-slate-200">
+<div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+<h3 class="font-bold text-slate-800">New Registrations</h3>
+<div class="flex gap-2">
+<button class="p-1 rounded hover:bg-slate-100 text-slate-400">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+</div>
+<div class="flex-1 p-4 space-y-4">
+<!-- User Item -->
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 overflow-hidden rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                            SJ
+                        </div>
+<div>
+<p class="text-sm font-semibold text-slate-900">Sarah Jenkins</p>
+<p class="text-xs text-slate-500">Just now</p>
+</div>
+</div>
+<span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">Student</span>
+</div>
+<!-- User Item -->
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 overflow-hidden rounded-full bg-slate-200">
+<img alt="Michael Chen" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFco7ie4SCQYk3-FQe8nrviYGnHxCd_NAaTB6O7PMPmwJbOwCkMlLWmmfWBSaP516HwePmoBaDHN-7ZoHhKbqjB0dmLdL8jucTbQLeKw9Xj3pZ7YXDtRPpIUcpPhdRq5LbsIlSgNdN2qLgcsh5klDAxcNcNEArUl0fdNSkJ77YRV1l5Ab0--_FwtiGGKh7jf-gABc3XmeaQz321F_XsrXNxKFwhiFJm2mexjBOhrh3oIwrl06J_WuIQDAY-Oa2TclNLEK-ej4t-g"/>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900">Michael Chen</p>
+<p class="text-xs text-slate-500">2 hours ago</p>
+</div>
+</div>
+<span class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">Instructor</span>
+</div>
+<!-- User Item -->
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 overflow-hidden rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold">
+                            EW
+                        </div>
+<div>
+<p class="text-sm font-semibold text-slate-900">Emily Wong</p>
+<p class="text-xs text-slate-500">5 hours ago</p>
+</div>
+</div>
+<span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">Student</span>
+</div>
+<!-- User Item -->
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 overflow-hidden rounded-full bg-slate-200">
+<img alt="David Kim" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoQ1B8h7R7LjV2NlA7THeJKKZEu4UYe073tPctNcGpsz6LoAaVuI2jQEDU7fnjte4NjrSrfFpYzPITvdg4VPY0FWtjlTSbFFft9iuAHCjsLB33aB9DJg7sRzwaKx_IoxtcpBle_if6nayfaK_HicnADr3XnbG3A_2SHjFpIxPTL7xpVpusnywzoUvJZY-XQBWHQ7vkBPygJWeg98TVYagvC9a4SbdmRjHL7oQC2gkoDPVL9hqZhWsDDxOn99_h-NOjYzifWrGTgA"/>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900">David Kim</p>
+<p class="text-xs text-slate-500">Yesterday</p>
+</div>
+</div>
+<span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">Student</span>
+</div>
+</div>
+<div class="p-4 border-t border-slate-100 text-center">
+<button class="text-sm font-medium text-primary hover:text-primary-light">View All Users</button>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Recent Courses -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200">
+<div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+<div>
+<h3 class="font-bold text-slate-800">Recent Courses</h3>
+<p class="text-xs text-slate-500 mt-0.5">Newly published content on the platform</p>
+</div>
+<button class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+                Filter
+            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase">
+<th class="px-6 py-4">Course Title</th>
+<th class="px-6 py-4">Category</th>
+<th class="px-6 py-4">Enrolled Students</th>
+<th class="px-6 py-4">Instructor</th>
+<th class="px-6 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-sm">
+<!-- Course 1 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900">Mastering Figma Constraints</td>
+<td class="px-6 py-4 text-slate-600">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-medium text-purple-700">
+<span class="h-1.5 w-1.5 rounded-full bg-purple-500"></span>
+                                Design
+                            </span>
+</td>
+<td class="px-6 py-4 text-slate-600">1,204</td>
+<td class="px-6 py-4 text-slate-600">Sarah Miller</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
+</td>
+</tr>
+<!-- Course 2 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900">Vue.js 3: The Composition API</td>
+<td class="px-6 py-4 text-slate-600">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700">
+<span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                                Development
+                            </span>
+</td>
+<td class="px-6 py-4 text-slate-600">850</td>
+<td class="px-6 py-4 text-slate-600">Code Master</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
+</td>
+</tr>
+<!-- Course 3 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 font-medium text-slate-900">Business Analytics with Excel</td>
+<td class="px-6 py-4 text-slate-600">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-2.5 py-0.5 text-xs font-medium text-orange-700">
+<span class="h-1.5 w-1.5 rounded-full bg-orange-500"></span>
+                                Business
+                            </span>
+</td>
+<td class="px-6 py-4 text-slate-600">340</td>
+<td class="px-6 py-4 text-slate-600">John Excel</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">Draft</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</div>
+</body></html>

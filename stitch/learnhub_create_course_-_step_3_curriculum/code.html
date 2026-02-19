@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub - Create Course Curriculum</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1111d4",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101022",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Collapsed Sidebar -->
+<aside class="flex h-full w-20 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 transition-all duration-300">
+<div class="flex h-20 items-center justify-center border-b border-slate-100 dark:border-slate-800">
+<div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary to-indigo-500 flex items-center justify-center text-white font-bold text-xl">LH</div>
+</div>
+<nav class="flex flex-1 flex-col gap-2 py-6 items-center">
+<a class="group relative flex h-12 w-12 items-center justify-center rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="absolute left-14 hidden rounded bg-slate-900 px-2 py-1 text-xs text-white group-hover:block z-50">Dashboard</span>
+</a>
+<a class="group relative flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-primary/30" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="absolute left-14 hidden rounded bg-slate-900 px-2 py-1 text-xs text-white group-hover:block z-50">Courses</span>
+</a>
+<a class="group relative flex h-12 w-12 items-center justify-center rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="absolute left-14 hidden rounded bg-slate-900 px-2 py-1 text-xs text-white group-hover:block z-50">Students</span>
+</a>
+<a class="group relative flex h-12 w-12 items-center justify-center rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="absolute left-14 hidden rounded bg-slate-900 px-2 py-1 text-xs text-white group-hover:block z-50">Analytics</span>
+</a>
+<a class="group relative flex h-12 w-12 items-center justify-center rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="absolute left-14 hidden rounded bg-slate-900 px-2 py-1 text-xs text-white group-hover:block z-50">Settings</span>
+</a>
+</nav>
+<div class="flex h-20 items-center justify-center border-t border-slate-100 dark:border-slate-800">
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="User profile photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDkN_FINIa32fHhLeFTlqJU2LDQLEiKNRRH1rCwWapNdqfMW4nTX4deu84oatQkT4y0M7nzLmXKg1LMmPY5HcP3taPUTt0vU9NVImQnY8CVXbaxBgmMUhFcC4Y8apzjsETWgCDsBKUmlMjOojiMj7vGt0F02GiaVsHrveqYDIwgbWPOM5G7rXqTZu6dUqSbJ-Zu8tAXCPAQCYX2A88sJvrim9HL0FkYo_crZqtBlghQ5BxZ19979yif_1HaHUDcLSgIUUxYuOwqvQ');"></div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex flex-1 flex-col overflow-hidden bg-background-light dark:bg-background-dark relative">
+<!-- Top Bar / Header -->
+<header class="flex h-20 items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span>Courses</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span>Create New</span>
+</div>
+<h1 class="text-xl font-bold text-slate-900 dark:text-white">Web Development Masterclass</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+                    Preview
+                </button>
+<button class="flex items-center justify-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 transition-colors">
+                    Save Draft
+                </button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="mx-auto max-w-6xl">
+<!-- Stepper -->
+<div class="mb-10">
+<div class="flex items-center justify-between">
+<!-- Step 1: Completed -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer w-full">
+<div class="flex items-center w-full">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-500 text-white shadow-lg shadow-green-500/30">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="h-1 w-full flex-1 bg-green-500 ml-2 rounded-full"></div>
+</div>
+<span class="text-sm font-medium text-green-600 dark:text-green-400 self-start ml-1">Plan</span>
+</div>
+<!-- Step 2: Completed -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer w-full pl-2">
+<div class="flex items-center w-full">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-500 text-white shadow-lg shadow-green-500/30">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="h-1 w-full flex-1 bg-green-500 ml-2 rounded-full"></div>
+</div>
+<span class="text-sm font-medium text-green-600 dark:text-green-400 self-start ml-1">Media</span>
+</div>
+<!-- Step 3: Active -->
+<div class="flex flex-col items-center gap-2 w-full pl-2">
+<div class="flex items-center w-full">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-white ring-4 ring-primary/20 shadow-lg shadow-primary/40">
+<span class="text-xs font-bold">3</span>
+</div>
+<div class="h-1 w-full flex-1 bg-slate-200 dark:bg-slate-700 ml-2 rounded-full"></div>
+</div>
+<span class="text-sm font-bold text-primary self-start ml-1">Curriculum</span>
+</div>
+<!-- Step 4: Pending -->
+<div class="flex flex-col items-center gap-2 pl-2">
+<div class="flex items-center">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
+<span class="text-xs font-bold">4</span>
+</div>
+</div>
+<span class="text-sm font-medium text-slate-400 dark:text-slate-500 self-start ml-1">Publish</span>
+</div>
+</div>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Builder -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Header for Builder -->
+<div class="flex items-end justify-between">
+<div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Curriculum Builder</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Organize your course into sections and lectures.</p>
+</div>
+<button class="text-primary text-sm font-medium hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                                Bulk Upload
+                            </button>
+</div>
+<!-- Section 1: Expanded -->
+<div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden group/section">
+<!-- Section Header -->
+<div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 border-b border-slate-100 dark:border-slate-800 cursor-move">
+<div class="flex items-center gap-3 flex-1">
+<span class="material-symbols-outlined text-slate-400 cursor-grab active:cursor-grabbing">drag_indicator</span>
+<div class="flex items-center gap-2 flex-1">
+<span class="font-bold text-slate-900 dark:text-white whitespace-nowrap">Section 1:</span>
+<input class="bg-transparent border-none p-0 text-slate-900 dark:text-white font-medium focus:ring-0 focus:border-b focus:border-primary w-full max-w-[200px]" type="text" value="Introduction"/>
+<span class="material-symbols-outlined text-slate-400 text-[16px] opacity-0 group-hover/section:opacity-100 transition-opacity">edit</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined">expand_less</span>
+</button>
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Lecture List -->
+<div class="p-4 flex flex-col gap-3 bg-white dark:bg-slate-900">
+<!-- Lecture 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-slate-800 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 transition-colors group/lecture cursor-default">
+<div class="flex items-center gap-3 flex-1">
+<span class="material-symbols-outlined text-slate-300 text-[20px] cursor-grab active:cursor-grabbing">drag_handle</span>
+<div class="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-900 dark:text-white">Welcome to the course</span>
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">schedule</span> 2:30</span>
+<span class="h-1 w-1 rounded-full bg-slate-300"></span>
+<span class="text-green-600 dark:text-green-400 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">check_circle</span> Content ready</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1 opacity-0 group-hover/lecture:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-full hover:bg-primary/5">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-red-500 transition-colors rounded-full hover:bg-red-50 dark:hover:bg-red-900/20">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Lecture 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-slate-800 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 transition-colors group/lecture cursor-default">
+<div class="flex items-center gap-3 flex-1">
+<span class="material-symbols-outlined text-slate-300 text-[20px] cursor-grab active:cursor-grabbing">drag_handle</span>
+<div class="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-900 dark:text-white">Course Overview &amp; Resources</span>
+<div class="flex items-center gap-2 text-xs text-slate-500">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">attachment</span> 3 files</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1 opacity-0 group-hover/lecture:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-full hover:bg-primary/5">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-red-500 transition-colors rounded-full hover:bg-red-50 dark:hover:bg-red-900/20">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Add Lecture Button -->
+<button class="mt-2 flex w-fit items-center gap-2 rounded-lg border border-primary text-primary px-4 py-2 text-sm font-semibold hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                                    Add Lecture
+                                </button>
+</div>
+</div>
+<!-- Section 2: Collapsed Placeholder -->
+<div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm opacity-75 hover:opacity-100 transition-opacity">
+<div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">drag_indicator</span>
+<span class="font-bold text-slate-900 dark:text-white">Section 2: Setup</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-500 font-medium bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded">0 Lectures</span>
+<button class="text-slate-400">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Add Section Button -->
+<button class="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 py-4 text-slate-500 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">post_add</span>
+<span class="font-semibold">Add New Section</span>
+</button>
+</div>
+<!-- Right Column: Quick Tips -->
+<div class="lg:col-span-1">
+<div class="sticky top-4 flex flex-col gap-4">
+<!-- Tips Card -->
+<div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+<div class="flex items-center gap-2 mb-4 text-amber-500">
+<span class="material-symbols-outlined fill-current">lightbulb</span>
+<h3 class="font-bold text-slate-900 dark:text-white">Quick Tips</h3>
+</div>
+<ul class="flex flex-col gap-4">
+<li class="flex gap-3 text-sm text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">check_circle</span>
+<span>Keep lectures under <strong class="text-slate-900 dark:text-white">10 minutes</strong> for better student engagement.</span>
+</li>
+<li class="flex gap-3 text-sm text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">check_circle</span>
+<span>Start every section with a brief <strong class="text-slate-900 dark:text-white">intro video</strong> to set expectations.</span>
+</li>
+<li class="flex gap-3 text-sm text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">check_circle</span>
+<span>Mix video content with quizzes or assignments to test knowledge.</span>
+</li>
+</ul>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1" href="#">
+                                        Read full guide
+                                        <span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+<!-- Course Stats Placeholder -->
+<div class="rounded-xl bg-gradient-to-br from-indigo-900 to-primary p-5 text-white shadow-lg">
+<h3 class="font-semibold text-lg mb-1">Course Content</h3>
+<p class="text-indigo-200 text-sm mb-4">Summary of your progress</p>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
+<div class="text-2xl font-bold">2</div>
+<div class="text-xs text-indigo-200">Sections</div>
+</div>
+<div class="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
+<div class="text-2xl font-bold">2</div>
+<div class="text-xs text-indigo-200">Lectures</div>
+</div>
+<div class="bg-white/10 rounded-lg p-3 backdrop-blur-sm col-span-2">
+<div class="text-2xl font-bold flex items-center gap-2">15 <span class="text-sm font-normal text-indigo-200">min</span></div>
+<div class="text-xs text-indigo-200">Total Duration</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<div class="mt-12 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-8 pb-20">
+<button class="flex items-center gap-2 rounded-xl border border-slate-300 px-6 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-all">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                        Previous: Media
+                    </button>
+<button class="flex items-center gap-2 rounded-xl bg-primary px-8 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-blue-700 hover:shadow-primary/50 transition-all">
+                        Next: Publish
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

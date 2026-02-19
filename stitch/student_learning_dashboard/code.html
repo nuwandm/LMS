@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Learning Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f3b61",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#14181e",
+                        "success": "#1E8449",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#101419] dark:text-gray-100 flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-72 bg-white dark:bg-[#1a202c] border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen fixed left-0 top-0 overflow-y-auto shrink-0 z-10 transition-transform duration-300">
+<!-- User Profile Header -->
+<div class="p-6 border-b border-gray-100 dark:border-gray-800">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary overflow-hidden">
+<img alt="Student Profile Picture" class="w-full h-full object-cover" data-alt="Portrait of a male student smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7DcW6blrn22BxqAvau0nJUsvLXGL1l0c_C-Y-iK5ub7RcZ4uoTEdPpF6B9UxhlzbIRTtrpQbSxuDoDPBxgkhpAIjXsRrPce9OKtR-d0j7ZccL30BCG-zjSmFkWUQnuQwdlNSwDJry8gArVfB34pLDV-_3NMik3-4FyX3anPunKXo1cMS60WZkeFjMKgShrfwo8cl7k-D3byloEesUWSSCJq3xYrhr827UeN3Ltjl2Rjsy4WRJLvQTqOQvshxZdV8WUwh2ozdGzQ"/>
+</div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-success rounded-full border-2 border-white dark:border-[#1a202c]"></div>
+</div>
+<div class="flex flex-col">
+<h1 class="text-base font-bold text-gray-900 dark:text-white leading-tight">Alex Johnson</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Computer Science</p>
+</div>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex-1 p-4 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary dark:text-white dark:bg-primary/20 group transition-colors" href="#">
+<span class="material-symbols-outlined fill">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-sm font-medium">My Courses</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-sm font-medium">Certificates</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">schedule</span>
+<span class="text-sm font-medium">Schedule</span>
+</a>
+<div class="mt-8 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Account</div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-red-600 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium">Log Out</span>
+</a>
+</nav>
+<!-- Pro Feature or Ad Area -->
+<div class="p-4 mt-auto">
+<div class="bg-primary rounded-xl p-4 text-white relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-bold text-sm mb-1">Upgrade to Pro</h3>
+<p class="text-xs text-blue-100 mb-3 opacity-90">Get unlimited access to all courses.</p>
+<button class="w-full bg-white text-primary text-xs font-bold py-2 rounded-lg hover:bg-gray-50 transition">View Plans</button>
+</div>
+<!-- Abstract decorative circle -->
+<div class="absolute -bottom-4 -right-4 w-20 h-20 bg-white/10 rounded-full"></div>
+<div class="absolute top-4 -right-6 w-12 h-12 bg-white/10 rounded-full"></div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-72 h-screen overflow-y-auto bg-background-light dark:bg-background-dark">
+<div class="max-w-7xl mx-auto p-8">
+<!-- Welcome Header -->
+<header class="flex justify-between items-end mb-10">
+<div>
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">Welcome back, Alex! 👋</h1>
+<p class="text-gray-500 dark:text-gray-400">You've learned <span class="text-success font-semibold">32 hours</span> this week. Keep it up!</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-white dark:bg-[#1a202c] p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-gray-500 hover:text-primary transition">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-white dark:bg-[#1a202c] pl-4 pr-2 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-2">
+<span class="text-sm font-medium text-gray-600 dark:text-gray-300">Fall Semester 2023</span>
+<span class="material-symbols-outlined text-gray-400">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+<div class="bg-white dark:bg-[#1a202c] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-primary dark:text-blue-300">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<span class="text-xs font-bold text-success bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full">+2 new</span>
+</div>
+<div>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Courses in Progress</p>
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white">4</h3>
+</div>
+</div>
+<div class="bg-white dark:bg-[#1a202c] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-300">
+<span class="material-symbols-outlined">school</span>
+</div>
+<span class="text-xs font-bold text-gray-400 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-full">All time</span>
+</div>
+<div>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Certificates Earned</p>
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white">12</h3>
+</div>
+</div>
+<div class="bg-white dark:bg-[#1a202c] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-full bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-300">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<span class="text-xs font-bold text-success bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full">+12%</span>
+</div>
+<div>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Learning Hours</p>
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white">148</h3>
+</div>
+</div>
+</div>
+<!-- In Progress Section -->
+<div class="mb-6 flex items-center justify-between">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">In Progress</h2>
+<a class="text-primary font-medium hover:underline text-sm flex items-center gap-1" href="#">
+                    View all 
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Course Cards Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-12">
+<!-- Large Featured Card -->
+<div class="col-span-1 xl:col-span-2 bg-white dark:bg-[#1a202c] rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 dark:border-gray-800 p-6 flex flex-col md:flex-row gap-6 hover:shadow-md transition-shadow">
+<div class="w-full md:w-80 h-56 md:h-auto rounded-xl bg-gray-200 shrink-0 overflow-hidden relative group">
+<img alt="Advanced UX Design Course" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern laptop with design software on screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw0VOZyzWXrm8EX2AZCGH7MH138CeR3xpvQY-m0phZ4C8vkUbjdMWUpMJpjbW9R9iMujRA0JkVkXLvk9gVJ_MRnxj1XOOBY_XqwW6CQrumcZtanXaf3t8hX3Y5hre9gvQPD3w2LUuiCigb0qktQqeOlWyxmpriE0AvOP9N6Ez6QFCeknltfdRwilWRxsdmsCeg40C57ucrAjD4R027yQI_dWKA-p9FNCun6gunoqy_40vEf_Y2gTZrXku2B4FjveYwPsCnWcFn0w"/>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+                            In Progress
+                        </div>
+</div>
+<div class="flex-1 flex flex-col justify-between py-2">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-bold tracking-wide text-primary uppercase">Design</span>
+<span class="text-gray-400 text-sm flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> 2h remaining</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Advanced UX Design: Strategy &amp; Information Architecture</h3>
+<p class="text-gray-500 text-sm mb-4 line-clamp-2">Master the art of user experience design with advanced techniques in wireframing, prototyping, and user research methodologies.</p>
+<div class="flex items-center gap-3 mb-6">
+<img alt="Instructor Sarah Lee" class="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm" data-alt="Portrait of smiling woman instructor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkc1CM9AJULAyOZ3rspfDRmpacWPBYk9HXr_XGQClPyUgHWZ0On3tnb97YKWGLKkvtO0Arc2KpUWUHa43JqiosjiK2LfIxttXZsIb39l7VVEOFAUk00RjprgtxyHnhJi7qR4Jwy9lPSt8ikM0yY8LRjeJswaUcUWf8PfkEklz07OqerWxMeQW3-nUHqmVoPWlCNmCbsOGAMcy2fnI6kPh_urgnAtWfrbiFyUQWXwqHRj7BLpmtnujYngdTWnBvziNO8sq9Kfuxag"/>
+<div>
+<p class="text-sm font-medium text-gray-900 dark:text-white">Sarah Lee</p>
+<p class="text-xs text-gray-500">Senior Product Designer</p>
+</div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-sm font-medium">
+<span class="text-gray-700 dark:text-gray-300">75% Complete</span>
+<span class="text-success">24/32 Lessons</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+<div class="bg-success h-2.5 rounded-full" style="width: 75%"></div>
+</div>
+<div class="pt-2">
+<button class="bg-primary hover:bg-primary/90 text-white text-sm font-medium px-6 py-2.5 rounded-xl transition-colors w-full md:w-auto">
+                                    Continue Learning
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Regular Card 1 -->
+<div class="bg-white dark:bg-[#1a202c] rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 dark:border-gray-800 p-5 flex flex-col hover:shadow-md transition-shadow">
+<div class="w-full aspect-video rounded-xl bg-gray-200 mb-4 overflow-hidden relative group">
+<img alt="Data Science Course" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Data visualization graphs on a monitor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAubuKFqu51YYFcOuMD8WFUhT7p0nAyDaIM71guk30goqTvqRH8RBIzJ49KfTaUw5bpEl0qoxfegX9YhrFuuQxEtOKDesfyA4uaEkIsQZGIJ2t7L71APZQnxApbsOlxAzbiDGiLNhurkKQV-7Uq8j_d3L7-irsJzLowm6W4bpsExqqPcBZlm6Lym5uBtYaO0aK3BDAxXmxo7vSt50hre2v1pr1TYoYoAqlewtelItoHBIi9tFSCjZotv7M5IDYdBeXqYkKKDQNxhg"/>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">school</span>
+                            Enrolled
+                        </div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold tracking-wide text-primary uppercase">Development</span>
+<span class="text-gray-400 text-xs">Started Oct 12</span>
+</div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">Python for Data Science and Machine Learning</h3>
+<div class="mt-auto pt-4 space-y-3">
+<div class="flex justify-between text-xs font-medium">
+<span class="text-gray-500 dark:text-gray-400">30% Complete</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
+<div class="bg-success h-2 rounded-full" style="width: 30%"></div>
+</div>
+<button class="w-full mt-2 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                                Resume
+                            </button>
+</div>
+</div>
+</div>
+<!-- Regular Card 2 -->
+<div class="bg-white dark:bg-[#1a202c] rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 dark:border-gray-800 p-5 flex flex-col hover:shadow-md transition-shadow">
+<div class="w-full aspect-video rounded-xl bg-gray-200 mb-4 overflow-hidden relative group">
+<img alt="Digital Marketing Course" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Tablet showing analytics dashboard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDByVafJWsHZAnYNBHal5LAdta0imM-yCCtp-SHNjko8Il4e8fxSaEyKN5Iva8iTa6HfFrXBlACA6zPHGigtVI3y7plExu7YBXTubFvSogBNP-FPiERuefCPWYzmRmzS9A1IO4ZlKvnjNwGYmfdMHl1h8Tm3p1ZQw7VkuGY1tS1Ll6dKp-e2Y7AXFwhWeC8zeJwHmMBR9rEcnQmVqFapTTS992FG5lRGr3-eKv7CQrhqd7t6A6VZ4wp_x3UKrQJ0oAO82jGwBfksA"/>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">school</span>
+                            Enrolled
+                        </div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold tracking-wide text-primary uppercase">Marketing</span>
+<span class="text-gray-400 text-xs">Started Nov 01</span>
+</div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">Digital Marketing 101: SEO, SEM &amp; Social</h3>
+<div class="mt-auto pt-4 space-y-3">
+<div class="flex justify-between text-xs font-medium">
+<span class="text-gray-500 dark:text-gray-400">10% Complete</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
+<div class="bg-success h-2 rounded-full" style="width: 10%"></div>
+</div>
+<button class="w-full mt-2 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                                Resume
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommended Section (Extra content for spacing) -->
+<div class="mb-6 flex items-center justify-between">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Recommended for You</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-full border border-gray-200 hover:bg-gray-50 bg-white dark:bg-[#1a202c] dark:border-gray-700">
+<span class="material-symbols-outlined text-gray-600">chevron_left</span>
+</button>
+<button class="p-2 rounded-full border border-gray-200 hover:bg-gray-50 bg-white dark:bg-[#1a202c] dark:border-gray-700">
+<span class="material-symbols-outlined text-gray-600">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Rec Card 1 -->
+<div class="bg-white dark:bg-[#1a202c] p-4 rounded-xl border border-gray-100 dark:border-gray-800 flex gap-4 items-center">
+<div class="w-20 h-20 rounded-lg bg-gray-100 shrink-0 overflow-hidden">
+<img alt="Figma Course" class="w-full h-full object-cover" data-alt="Figma logo on screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbhpA-OBzE-a3rSHul3-KPURTj6ETy4Jo9EaUpKCjiZnvG597Qu1bL_w5CvreIeX-FsxeRuqtVEJYO19P9EKb45MYPZlupcm1KTHmO5fTMP3eo-8tNoGG86Nqo7yQPCtUD2d1nUV7FL2WNokbD8NDlb1Jnx1pUcvAEXbuAJrCpCxQ4uNCQJ9tu9sHOlzjP3f8kLVFpWGgtbyhdf5mJvmx66xAtt11_2TbHuAz9sd71rNNjNW3_bqI_LobDjqYOKfALcQMofal2PQ"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1">Mastering Figma</h4>
+<p class="text-xs text-gray-500 mb-2">Design • 4.8 <span class="text-yellow-500">★</span></p>
+<span class="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">Beginner</span>
+</div>
+</div>
+<!-- Rec Card 2 -->
+<div class="bg-white dark:bg-[#1a202c] p-4 rounded-xl border border-gray-100 dark:border-gray-800 flex gap-4 items-center">
+<div class="w-20 h-20 rounded-lg bg-gray-100 shrink-0 overflow-hidden">
+<img alt="React Course" class="w-full h-full object-cover" data-alt="React JS logo code" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeBwN-kPw10oCmv36qHQF0wDP9r_XAgceIkgLPpNxunrlSPmruJTOWd_xytGqSGUy1-N-muJ-Pc2ARFjlUId2hvrhJzchqn2PTpljic5GwQyfnxsvE9lEqyQ2hWZxLml-lVY45sF_uzPZDiQU_0f1WJJyTk2pB6y-WUaRD27pgdVniPcM5zt4ztkDkC-CmvfI44HajSGYvM3vDey7xsWXqRiUvBHqz4QJuz_ua6sHWP67RPKKJMLEcGgX8y-y13t7h5MWA3okMVw"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1">React Advanced Patterns</h4>
+<p class="text-xs text-gray-500 mb-2">Dev • 4.9 <span class="text-yellow-500">★</span></p>
+<span class="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">Advanced</span>
+</div>
+</div>
+<!-- Rec Card 3 -->
+<div class="bg-white dark:bg-[#1a202c] p-4 rounded-xl border border-gray-100 dark:border-gray-800 flex gap-4 items-center">
+<div class="w-20 h-20 rounded-lg bg-gray-100 shrink-0 overflow-hidden">
+<img alt="Team Management Course" class="w-full h-full object-cover" data-alt="People working together at a table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAD76IjlCda7g62VcJqbTaJBCkp2HbZLvYTguo49H-0mRK5NyAQxxVaoxIMoPcmzEWC552gG6GogKL_Eo5OHBtE-2kTKq_lyR-zuz-mCKWENRgyrs71HiPHvToSY5rw8itX7F9Y9-BKhtsBP7xCc_IwAKx61PEFYQuIoTObSKMwFKVf8LYUHhqQ0AnudH4z4q0QBDndAXNEq7x9q1iS4GXaY-trnsWjdJ00ANXQTsPJStbemBDOdIIv2hWtN4j6yluIU9AMVGDPg"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1">Agile Team Management</h4>
+<p class="text-xs text-gray-500 mb-2">Business • 4.7 <span class="text-yellow-500">★</span></p>
+<span class="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">Intermediate</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

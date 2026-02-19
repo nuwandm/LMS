@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub - Create Course - Media</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f1f61",
+                        "primary-light": "#3b3b85",
+                        "primary-pale": "#e8e8f2",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#14141e",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e1e2d",
+                        "text-main": "#101019",
+                        "text-muted": "#5b5b8b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white flex h-screen overflow-hidden">
+<!-- Collapsed Sidebar -->
+<aside class="w-20 flex-shrink-0 bg-surface-light dark:bg-surface-dark border-r border-gray-200 dark:border-gray-800 flex flex-col items-center py-6 gap-6 z-20">
+<div class="size-10 rounded-xl bg-primary flex items-center justify-center text-white mb-4 shadow-lg shadow-primary/30">
+<span class="font-bold text-xl">L</span>
+</div>
+<nav class="flex flex-col gap-4 w-full px-2">
+<a class="group relative flex items-center justify-center size-12 rounded-xl text-text-muted hover:bg-primary-pale hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Dashboard</span>
+</a>
+<a class="group relative flex items-center justify-center size-12 rounded-xl bg-primary text-white shadow-md shadow-primary/20" href="#">
+<span class="material-symbols-outlined fill">school</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Courses</span>
+</a>
+<a class="group relative flex items-center justify-center size-12 rounded-xl text-text-muted hover:bg-primary-pale hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Students</span>
+</a>
+<a class="group relative flex items-center justify-center size-12 rounded-xl text-text-muted hover:bg-primary-pale hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-4 w-full px-2">
+<a class="group relative flex items-center justify-center size-12 rounded-xl text-text-muted hover:bg-primary-pale hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Settings</span>
+</a>
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-white dark:border-gray-700 shadow-sm cursor-pointer" data-alt="Instructor profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQkfuC6c5_Imhf4Oq2j2hn0GfkCkg5yTH8tshJ9F35CjXjWV5eicsk8qDQy4MsKFOH5G_Yx6CfTByqi3eVCZR2rNC0TsgZqetNVJKQB58jpDmuW_HscnFcTFdoPnPUtGpaa3HMFtpMmgwO00BQYrCixd2kdzD8yIzbkybZT-JR-RfyJgimr91IJCwgXHT1otqV71PU8Bza_yoQ-onkh344SMU-BAsjtwyTthqMMpfujdKJzyJFhBy2UoONfEtLKjzrhDtEkXonEQ');"></div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Navigation / Stepper -->
+<header class="bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-800 px-8 py-4 flex-shrink-0 z-10">
+<div class="max-w-5xl mx-auto w-full">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h1 class="text-2xl font-bold text-text-main dark:text-white">Create New Course</h1>
+<p class="text-sm text-text-muted">Draft in progress</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 text-sm font-medium text-text-muted hover:text-text-main transition-colors">Save Draft</button>
+<button class="px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50 rounded-lg transition-colors">Exit</button>
+</div>
+</div>
+<!-- Stepper -->
+<nav aria-label="Progress">
+<ol class="flex items-center w-full" role="list">
+<li class="relative pr-8 sm:pr-20">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="h-0.5 w-full bg-primary"></div>
+</div>
+<a class="relative flex h-8 w-8 items-center justify-center rounded-full bg-primary hover:bg-primary-light" href="#">
+<span class="material-symbols-outlined text-white text-sm">check</span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-primary">Basic Info</span>
+</li>
+<li class="relative pr-8 sm:pr-20">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="h-0.5 w-full bg-gray-200 dark:bg-gray-700"></div>
+<div class="h-0.5 w-1/2 bg-primary"></div> <!-- Partial fill for current step aesthetics if desired, currently static -->
+</div>
+<a class="relative flex h-8 w-8 items-center justify-center rounded-full bg-primary border-2 border-primary ring-4 ring-primary/20 z-10" href="#">
+<span class="text-white text-xs font-bold">2</span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-bold text-primary">Media</span>
+</li>
+<li class="relative pr-8 sm:pr-20">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="h-0.5 w-full bg-gray-200 dark:bg-gray-700"></div>
+</div>
+<a class="relative flex h-8 w-8 items-center justify-center rounded-full bg-surface-light dark:bg-surface-dark border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400" href="#">
+<span class="text-text-muted text-xs font-medium">3</span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-text-muted">Curriculum</span>
+</li>
+<li class="relative">
+<a class="relative flex h-8 w-8 items-center justify-center rounded-full bg-surface-light dark:bg-surface-dark border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400" href="#">
+<span class="text-text-muted text-xs font-medium">4</span>
+</a>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-text-muted">Publish</span>
+</li>
+</ol>
+</nav>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8 scroll-smooth">
+<div class="max-w-3xl mx-auto flex flex-col gap-8 pb-24">
+<div class="flex flex-col gap-2">
+<h2 class="text-3xl font-black text-text-main dark:text-white tracking-tight">Course Media</h2>
+<p class="text-text-muted text-lg">Add visual assets to make your course stand out on the marketplace.</p>
+</div>
+<!-- Thumbnail Section -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-white">Course Thumbnail</h3>
+<p class="text-sm text-text-muted mt-1">Upload your course image here. Important guidelines: 750x422 pixels; .jpg, .jpeg, .gif, or .png. no text on image.</p>
+</div>
+</div>
+<div class="mt-4">
+<div class="relative group w-full aspect-video max-w-lg rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900 border-2 border-dashed border-primary/30 hover:border-primary transition-colors flex flex-col items-center justify-center">
+<!-- Preview Image State -->
+<img alt="Course thumbnail preview showing a laptop and coffee on a desk" class="absolute inset-0 w-full h-full object-cover" data-alt="Course thumbnail preview showing a laptop and coffee on a desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArpB62AjlgKPso3bztsrkAA3ByigPJ-AH4mLA6njmikIQKWuhPLojBOQf97nle-Iti-9o83FuwmrqNZXHvMUDvc7GIBKgeuq4KkVPL2SARDH3PRAvL6KigGeBIaQZprYmQc8rvOZ0gmR_CE60j_VeG2U571rnSP52b6rRujJJCvYgZbcEWLZif6XkeIf2Mwxoh-L0jYEoyON3BZqZyKaFec9Ych0mB3ZC-dG_my4qt3lP3Z4DqLc8JRYEtoDlhybTgNwFBycYtcw"/>
+<!-- Overlay Actions -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-sm">
+<button class="flex items-center gap-2 px-4 py-2 bg-white text-text-main rounded-lg text-sm font-medium hover:bg-gray-50 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-200">
+<span class="material-symbols-outlined text-lg">crop</span>
+                                    Edit Image
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-200 delay-75">
+<span class="material-symbols-outlined text-lg">delete</span>
+                                    Remove
+                                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Promotional Video Section -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-white">Promotional Video</h3>
+<p class="text-sm text-text-muted mt-1">Students who watch a well-made promo video are 5x more likely to enroll.</p>
+</div>
+<span class="px-2 py-1 rounded bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wide">Recommended</span>
+</div>
+<!-- Upload Area -->
+<div class="mt-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 p-8 flex flex-col items-center justify-center text-center hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors cursor-pointer group">
+<!-- Uploading State Content -->
+<div class="w-full max-w-md flex flex-col items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">movie</span>
+</div>
+<div class="w-full space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="text-text-main dark:text-white">intro-to-web-design.mp4</span>
+<span class="text-primary">45%</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+<div class="bg-primary h-2.5 rounded-full" style="width: 45%"></div>
+</div>
+<p class="text-xs text-text-muted text-left">Uploading... please do not close this window.</p>
+</div>
+<button class="text-sm text-red-500 hover:text-red-600 font-medium mt-2">Cancel Upload</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Sticky Footer Actions -->
+<footer class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 px-8 py-4 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="max-w-3xl mx-auto w-full flex justify-between items-center">
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-text-main dark:text-white font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                    Previous
+                </button>
+<button class="flex items-center gap-2 px-8 py-2.5 rounded-xl bg-primary hover:bg-primary-light text-white font-bold shadow-lg shadow-primary/30 transition-all hover:scale-[1.02]">
+                    Next: Curriculum
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</footer>
+</main>
+</body></html>

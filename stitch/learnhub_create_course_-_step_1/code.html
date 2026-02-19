@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub - Create Course</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1f1f61",
+                        "primary-hover": "#161648",
+                        "secondary": "#5b5b8b",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#14141e",
+                        "card-light": "#ffffff",
+                        "border-light": "#e5e7eb",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c7c7cc; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1aa; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#101019] antialiased overflow-hidden flex h-screen">
+<!-- Sidebar: Collapsed Mode -->
+<aside class="w-20 bg-primary flex flex-col items-center py-6 h-full shrink-0 z-20">
+<div class="mb-8">
+<!-- Logo Icon -->
+<div class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">school</span>
+</div>
+</div>
+<nav class="flex flex-col gap-6 w-full items-center">
+<a class="group relative flex items-center justify-center w-12 h-12 rounded-xl hover:bg-white/10 text-white/70 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">Dashboard</span>
+</a>
+<a class="group relative flex items-center justify-center w-12 h-12 rounded-xl bg-white/20 text-white shadow-lg" href="#">
+<span class="material-symbols-outlined">book_2</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">Courses</span>
+</a>
+<a class="group relative flex items-center justify-center w-12 h-12 rounded-xl hover:bg-white/10 text-white/70 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">Students</span>
+</a>
+<a class="group relative flex items-center justify-center w-12 h-12 rounded-xl hover:bg-white/10 text-white/70 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-6 w-full items-center">
+<a class="group relative flex items-center justify-center w-12 h-12 rounded-xl hover:bg-white/10 text-white/70 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="absolute left-14 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">Settings</span>
+</a>
+<div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 border-2 border-white/20 mt-2"></div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Header & Stepper -->
+<header class="bg-card-light border-b border-border-light px-8 py-5 shrink-0 z-10 sticky top-0">
+<div class="max-w-5xl mx-auto w-full">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h1 class="text-2xl font-bold text-[#101019] tracking-tight">Create New Course</h1>
+<p class="text-secondary text-sm">Step 1 of 4 • Basic Information</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 text-sm font-medium text-secondary hover:text-primary transition-colors">Save Draft</button>
+<button class="px-5 py-2 text-sm font-medium bg-primary hover:bg-primary-hover text-white rounded-lg shadow-sm transition-all flex items-center gap-2">
+                            Next: Media
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Stepper -->
+<div class="flex items-center w-full max-w-3xl">
+<!-- Step 1: Active -->
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold shadow-md ring-4 ring-primary/10">1</div>
+<span class="text-xs font-semibold text-primary absolute top-10 whitespace-nowrap">Basic Info</span>
+</div>
+<!-- Connector Active -->
+<div class="flex-1 h-[2px] bg-primary mx-2 rounded-full"></div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-8 h-8 rounded-full bg-white border-2 border-gray-300 text-gray-400 flex items-center justify-center text-sm font-medium">2</div>
+<span class="text-xs font-medium text-gray-400 absolute top-10 whitespace-nowrap">Media</span>
+</div>
+<!-- Connector Inactive -->
+<div class="flex-1 h-[2px] bg-gray-200 mx-2 rounded-full"></div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-8 h-8 rounded-full bg-white border-2 border-gray-300 text-gray-400 flex items-center justify-center text-sm font-medium">3</div>
+<span class="text-xs font-medium text-gray-400 absolute top-10 whitespace-nowrap">Curriculum</span>
+</div>
+<!-- Connector Inactive -->
+<div class="flex-1 h-[2px] bg-gray-200 mx-2 rounded-full"></div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center gap-2 relative z-10">
+<div class="w-8 h-8 rounded-full bg-white border-2 border-gray-300 text-gray-400 flex items-center justify-center text-sm font-medium">4</div>
+<span class="text-xs font-medium text-gray-400 absolute top-10 whitespace-nowrap">Publish</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Scrollable Form Content -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-4xl mx-auto pb-20">
+<form class="flex flex-col gap-6">
+<!-- Card: Basic Details -->
+<div class="bg-card-light rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-border-light p-8">
+<h2 class="text-lg font-semibold text-[#101019] mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">edit_document</span>
+                            Course Details
+                        </h2>
+<div class="space-y-6">
+<!-- Title -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-[#101019]" for="course-title">Course Title <span class="text-red-500">*</span></label>
+<input class="w-full rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder-gray-400 transition-all outline-none" id="course-title" placeholder="e.g., Advanced React Patterns for Senior Developers" type="text"/>
+</div>
+<!-- Short Description -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between">
+<label class="text-sm font-medium text-[#101019]" for="short-desc">Short Description</label>
+<span class="text-xs text-secondary">0/120</span>
+</div>
+<input class="w-full rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder-gray-400 transition-all outline-none" id="short-desc" maxlength="120" placeholder="A brief summary of your course." type="text"/>
+</div>
+<!-- Full Description (Rich Text Mock) -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-[#101019]">Full Description</label>
+<div class="w-full border border-gray-300 rounded-lg overflow-hidden bg-white focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+<!-- Toolbar -->
+<div class="bg-gray-50 border-b border-gray-200 px-3 py-2 flex items-center gap-2">
+<button class="p-1 hover:bg-gray-200 rounded text-gray-600" type="button"><span class="material-symbols-outlined text-[20px]">format_bold</span></button>
+<button class="p-1 hover:bg-gray-200 rounded text-gray-600" type="button"><span class="material-symbols-outlined text-[20px]">format_italic</span></button>
+<div class="w-[1px] h-4 bg-gray-300 mx-1"></div>
+<button class="p-1 hover:bg-gray-200 rounded text-gray-600" type="button"><span class="material-symbols-outlined text-[20px]">format_list_bulleted</span></button>
+<button class="p-1 hover:bg-gray-200 rounded text-gray-600" type="button"><span class="material-symbols-outlined text-[20px]">format_list_numbered</span></button>
+<div class="w-[1px] h-4 bg-gray-300 mx-1"></div>
+<button class="p-1 hover:bg-gray-200 rounded text-gray-600" type="button"><span class="material-symbols-outlined text-[20px]">link</span></button>
+</div>
+<textarea class="w-full p-4 text-base border-none focus:ring-0 resize-y outline-none" placeholder="Enter a detailed description of your course..." rows="6"></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Card: Categorization -->
+<div class="bg-card-light rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-border-light p-8">
+<h2 class="text-lg font-semibold text-[#101019] mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">category</span>
+                            Categorization &amp; Pricing
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Category -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-[#101019]" for="category">Category</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 pr-10 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer" id="category">
+<option disabled="" selected="" value="">Select a category</option>
+<option value="development">Development</option>
+<option value="design">Design</option>
+<option value="business">Business</option>
+<option value="marketing">Marketing</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Level -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-[#101019]" for="level">Level</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 pr-10 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer" id="level">
+<option disabled="" selected="" value="">Select difficulty</option>
+<option value="beginner">Beginner</option>
+<option value="intermediate">Intermediate</option>
+<option value="expert">Expert</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Language -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-[#101019]" for="language">Language</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border-gray-300 bg-gray-50 text-base py-3 px-4 pr-10 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer" id="language">
+<option selected="" value="en">English (US)</option>
+<option value="es">Spanish</option>
+<option value="fr">French</option>
+<option value="de">German</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Price -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-[#101019]" for="price">Price (USD)</label>
+<div class="relative">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 font-medium">$</div>
+<input class="w-full rounded-lg border-gray-300 bg-gray-50 text-base py-3 pl-8 pr-4 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder-gray-400 transition-all outline-none" id="price" placeholder="0.00" type="number"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Card: Learning Outcomes -->
+<div class="bg-card-light rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-border-light p-8">
+<h2 class="text-lg font-semibold text-[#101019] mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+                            What you will learn
+                        </h2>
+<p class="text-secondary text-sm mb-6">List the key takeaways learners will get from this course.</p>
+<div class="space-y-3">
+<!-- Item 1 -->
+<div class="flex gap-2 items-center group">
+<span class="material-symbols-outlined text-gray-400 cursor-move">drag_indicator</span>
+<input class="flex-1 rounded-lg border-gray-300 bg-gray-50 text-sm py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="e.g., Build full-stack applications with Next.js" type="text"/>
+<button class="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-2 items-center group">
+<span class="material-symbols-outlined text-gray-400 cursor-move">drag_indicator</span>
+<input class="flex-1 rounded-lg border-gray-300 bg-gray-50 text-sm py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="e.g., Master state management with Redux" type="text"/>
+<button class="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<!-- Item 3 -->
+<div class="flex gap-2 items-center group">
+<span class="material-symbols-outlined text-gray-400 cursor-move">drag_indicator</span>
+<input class="flex-1 rounded-lg border-gray-300 bg-gray-50 text-sm py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="e.g., Deploy to AWS Amplify" type="text"/>
+<button class="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<button class="mt-4 flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-hover px-2 py-1 -ml-2 rounded-lg hover:bg-primary/5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                            Add another outcome
+                        </button>
+</div>
+<!-- Card: Requirements -->
+<div class="bg-card-light rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-border-light p-8">
+<h2 class="text-lg font-semibold text-[#101019] mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                            Requirements
+                        </h2>
+<p class="text-secondary text-sm mb-6">What knowledge or tools are required before starting?</p>
+<div class="space-y-3">
+<!-- Item 1 -->
+<div class="flex gap-2 items-center group">
+<span class="material-symbols-outlined text-gray-400 cursor-move">drag_indicator</span>
+<input class="flex-1 rounded-lg border-gray-300 bg-gray-50 text-sm py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="e.g., Basic understanding of JavaScript" type="text"/>
+<button class="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-2 items-center group">
+<span class="material-symbols-outlined text-gray-400 cursor-move">drag_indicator</span>
+<input class="flex-1 rounded-lg border-gray-300 bg-gray-50 text-sm py-3 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="e.g., A computer with internet access" type="text"/>
+<button class="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<button class="mt-4 flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-hover px-2 py-1 -ml-2 rounded-lg hover:bg-primary/5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                            Add requirement
+                        </button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</body></html>

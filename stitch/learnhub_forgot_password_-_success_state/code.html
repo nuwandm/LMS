@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnHub - Check your email</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-[#0d131b] dark:text-white overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7ecf3] dark:border-b-gray-800 px-10 py-3 bg-white dark:bg-[#1a2634]">
+<div class="flex items-center gap-4 text-[#0d131b] dark:text-white cursor-pointer">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">LearnHub</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex gap-2">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Login</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7ecf3] dark:bg-gray-700 text-[#0d131b] dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex items-center justify-center p-4 sm:p-8">
+<div class="w-full max-w-[480px] flex flex-col items-center">
+<!-- Success Card -->
+<div class="w-full bg-white dark:bg-[#1a2634] rounded-xl shadow-sm border border-[#e7ecf3] dark:border-gray-800 p-8 sm:p-12 flex flex-col items-center text-center">
+<!-- Success Icon -->
+<div class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50 dark:bg-green-900/20">
+<span class="material-symbols-outlined text-5xl text-green-500">check_circle</span>
+</div>
+<!-- Heading -->
+<h1 class="mb-3 text-3xl font-bold tracking-tight text-[#0d131b] dark:text-white">
+                        Check your email
+                    </h1>
+<!-- Description -->
+<p class="mb-8 text-base text-gray-500 dark:text-gray-400 leading-relaxed">
+                        We have sent password recovery instructions to your email <span class="font-semibold text-[#0d131b] dark:text-gray-200">john@example.com</span>.
+                    </p>
+<!-- Back to Login Button -->
+<button class="group relative flex w-full items-center justify-center gap-2 rounded-xl border border-[#e7ecf3] dark:border-gray-700 bg-transparent px-6 py-3.5 text-base font-bold text-[#0d131b] dark:text-white transition-all hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-[#1a2634]">
+<span class="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-primary transition-colors">arrow_back</span>
+<span>Back to Login</span>
+</button>
+<!-- Resend Link -->
+<div class="mt-8 flex flex-col items-center gap-2 text-sm">
+<p class="text-gray-500 dark:text-gray-400">
+                            Didn't receive the email?
+                        </p>
+<button class="font-bold text-primary hover:text-primary/80 transition-colors hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-2 dark:focus:ring-offset-[#1a2634]">
+                            Click to resend
+                        </button>
+</div>
+</div>
+<!-- Footer Links (Optional for Context) -->
+<div class="mt-8 flex gap-6 text-sm text-gray-400 dark:text-gray-500">
+<a class="hover:text-gray-600 dark:hover:text-gray-300 transition-colors" href="#">Privacy</a>
+<a class="hover:text-gray-600 dark:hover:text-gray-300 transition-colors" href="#">Terms</a>
+<a class="hover:text-gray-600 dark:hover:text-gray-300 transition-colors" href="#">Help</a>
+</div>
+</div>
+</main>
+</div>
+</body></html>
