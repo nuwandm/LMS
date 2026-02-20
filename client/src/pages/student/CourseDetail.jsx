@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 import { getCourseById, getSections } from '../../services/courseService';
-import { requestEnrollment } from '../../services/enrollmentService';
+import { requestEnrollment, getMyEnrollments } from '../../services/enrollmentService';
 import useAuthStore from '../../store/authStore';
 import toast from 'react-hot-toast';
 
@@ -36,19 +36,30 @@ const CourseDetail = () => {
   const [sections, setSections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isEnrolling, setIsEnrolling] = useState(false);
-  const [expandedSections, setExpandedSections] = useState(new Set([0])); // First section expanded by default
+  const [expandedSections, setExpandedSections] = useState(new Set([0]));
   const [activeTab, setActiveTab] = useState('overview');
+  const [enrollmentStatus, setEnrollmentStatus] = useState(null); // null | 'pending' | 'approved' | 'rejected'
+  const [enrollmentChecked, setEnrollmentChecked] = useState(false);
 
   useEffect(() => {
     fetchCourseDetails();
     fetchCourseSections();
   }, [id]);
 
+  useEffect(() => {
+    if (isAuthenticated && user?.role === 'student') {
+      checkEnrollmentStatus();
+    } else {
+      setEnrollmentChecked(true);
+    }
+  }, [id, isAuthenticated]);
+
   const fetchCourseDetails = async () => {
     try {
       const response = await getCourseById(id);
       if (response.success) {
-        setCourse(response.data);
+        // Backend returns data: { course: {...} }
+        setCourse(response.data.course);
       }
     } catch (error) {
       console.error('Error fetching course:', error);
@@ -62,7 +73,6 @@ const CourseDetail = () => {
     try {
       const response = await getSections(id);
       if (response.success) {
-        // Backend returns data: { sections: [...] }
         const sectionsData = Array.isArray(response.data)
           ? response.data
           : response.data?.sections || [];
@@ -70,13 +80,26 @@ const CourseDetail = () => {
       }
     } catch (error) {
       console.error('Error fetching sections:', error);
-      setSections([]); // Ensure it's always an array
+      setSections([]);
+    }
+  };
+
+  const checkEnrollmentStatus = async () => {
+    try {
+      const response = await getMyEnrollments();
+      const enrollment = response.data?.enrollments?.find(
+        (e) => e.course._id === id || e.course._id?.toString() === id
+      );
+      setEnrollmentStatus(enrollment?.status || null);
+    } catch (error) {
+      console.error('Failed to check enrollment status:', error);
+    } finally {
+      setEnrollmentChecked(true);
     }
   };
 
   const handleEnrollment = async () => {
     if (!isAuthenticated) {
-      toast.error('Please login to enroll in this course');
       navigate('/login');
       return;
     }
@@ -88,13 +111,9 @@ const CourseDetail = () => {
 
     try {
       setIsEnrolling(true);
-      const response = await requestEnrollment(id);
-
-      if (response.success) {
-        toast.success('Enrollment request submitted! Admin will review it shortly.');
-        // Optionally redirect to My Learning
-        setTimeout(() => navigate('/my-learning'), 2000);
-      }
+      await requestEnrollment(id);
+      toast.success('Enrollment request submitted! Admin will review it shortly.');
+      setEnrollmentStatus('pending');
     } catch (error) {
       console.error('Enrollment error:', error);
       const message =
@@ -127,7 +146,6 @@ const CourseDetail = () => {
     setExpandedSections(new Set());
   };
 
-  // Calculate total duration in readable format
   const formatDuration = (seconds) => {
     if (!seconds) return '0h';
     const hours = Math.floor(seconds / 3600);
@@ -135,12 +153,10 @@ const CourseDetail = () => {
     return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
   };
 
-  // Render stars based on rating
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
     const stars = [];
-
     for (let i = 0; i < fullStars; i++) {
       stars.push(<Star key={i} className="w-4 h-4 fill-current text-yellow-400" />);
     }
@@ -148,6 +164,69 @@ const CourseDetail = () => {
       stars.push(<Star key="half" className="w-4 h-4 fill-current text-yellow-400 opacity-50" />);
     }
     return stars;
+  };
+
+  // Renders the correct CTA button based on auth + enrollment state
+  const renderEnrollButton = (extraClass = '') => {
+    const base = `w-full font-bold h-12 rounded-xl transition-colors text-base ${extraClass}`;
+
+    if (!isAuthenticated) {
+      return (
+        <button
+          onClick={() => navigate('/login')}
+          className={`${base} bg-blue-600 hover:bg-blue-700 text-white shadow-sm`}
+        >
+          Login to Enroll
+        </button>
+      );
+    }
+
+    if (user?.role !== 'student') return null;
+
+    if (!enrollmentChecked || isEnrolling) {
+      return (
+        <button disabled className={`${base} bg-gray-200 text-gray-500 cursor-not-allowed`}>
+          {isEnrolling ? 'Processing...' : 'Checking...'}
+        </button>
+      );
+    }
+
+    if (enrollmentStatus === 'approved') {
+      return (
+        <button
+          onClick={() => navigate(`/learn/${id}`)}
+          className={`${base} bg-blue-600 hover:bg-blue-700 text-white shadow-sm`}
+        >
+          Go to Course →
+        </button>
+      );
+    }
+
+    if (enrollmentStatus === 'pending') {
+      return (
+        <button disabled className={`${base} bg-amber-500 text-white cursor-not-allowed`}>
+          ⏳ Pending Approval
+        </button>
+      );
+    }
+
+    if (enrollmentStatus === 'rejected') {
+      return (
+        <button disabled className={`${base} bg-red-100 text-red-700 border border-red-200 cursor-not-allowed`}>
+          Enrollment Rejected
+        </button>
+      );
+    }
+
+    return (
+      <button
+        onClick={handleEnrollment}
+        disabled={isEnrolling}
+        className={`${base} bg-green-600 hover:bg-green-700 text-white shadow-sm disabled:opacity-50 disabled:cursor-not-allowed`}
+      >
+        Request Enrollment
+      </button>
+    );
   };
 
   if (isLoading) {
@@ -189,32 +268,23 @@ const CourseDetail = () => {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary-700 to-primary-900 text-white pt-8 pb-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row gap-10">
-          {/* Left Content */}
           <div className="lg:w-[65%] flex flex-col gap-4">
-            {/* Breadcrumbs */}
             <div className="flex flex-wrap gap-2 text-blue-200 text-sm font-medium">
-              <Link to="/" className="hover:text-white transition-colors">
-                Home
-              </Link>
+              <Link to="/" className="hover:text-white transition-colors">Home</Link>
               <span className="opacity-50">/</span>
-              <Link to="/courses" className="hover:text-white transition-colors">
-                Courses
-              </Link>
+              <Link to="/courses" className="hover:text-white transition-colors">Courses</Link>
               <span className="opacity-50">/</span>
               <span className="text-white">{course.category}</span>
             </div>
 
-            {/* Title */}
             <h1 className="text-3xl md:text-4xl font-bold leading-tight tracking-tight mt-2">
               {course.title}
             </h1>
 
-            {/* Description */}
             <p className="text-lg text-white/90 font-light max-w-2xl mt-2 leading-relaxed">
               {course.shortDescription || course.description}
             </p>
 
-            {/* Rating & Stats */}
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-sm">
               {course.status === 'published' && (
                 <div className="flex items-center gap-1 bg-yellow-400 text-gray-900 px-2 py-0.5 rounded font-bold text-xs">
@@ -228,7 +298,6 @@ const CourseDetail = () => {
               <span className="text-blue-200">({course.enrollmentCount || 0} students)</span>
             </div>
 
-            {/* Instructor & Language */}
             <div className="flex flex-wrap items-center gap-6 mt-2 text-sm text-white/90">
               <div className="flex items-center gap-2">
                 <span>Created by</span>
@@ -270,9 +339,8 @@ const CourseDetail = () => {
 
       {/* Two Column Layout */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 flex flex-col lg:flex-row gap-10 relative">
-        {/* Main Content Area (Left) */}
+        {/* Left Content */}
         <div className="lg:w-[65%] flex flex-col gap-10">
-          {/* What you'll learn Box */}
           {course.whatYouLearn && course.whatYouLearn.length > 0 && (
             <div className="border border-gray-200 rounded-2xl p-6 bg-white" id="overview">
               <h2 className="text-xl font-bold mb-6 text-gray-900">What you'll learn</h2>
@@ -287,7 +355,6 @@ const CourseDetail = () => {
             </div>
           )}
 
-          {/* Course Description */}
           <div className="bg-white border border-gray-200 rounded-2xl p-6">
             <h2 className="text-xl font-bold mb-4 text-gray-900">Course Description</h2>
             <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
@@ -295,7 +362,6 @@ const CourseDetail = () => {
             </p>
           </div>
 
-          {/* Requirements */}
           {course.requirements && course.requirements.length > 0 && (
             <div className="bg-white border border-gray-200 rounded-2xl p-6">
               <h2 className="text-xl font-bold mb-4 text-gray-900">Requirements</h2>
@@ -310,7 +376,6 @@ const CourseDetail = () => {
             </div>
           )}
 
-          {/* Course Content Accordion */}
           <div id="curriculum">
             <h2 className="text-2xl font-bold mb-6 text-gray-900">Course Content</h2>
             <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
@@ -383,7 +448,6 @@ const CourseDetail = () => {
             </div>
           </div>
 
-          {/* Instructor */}
           {course.instructor && (
             <div id="instructor">
               <h2 className="text-2xl font-bold mb-6 text-gray-900">Instructor</h2>
@@ -403,13 +467,10 @@ const CourseDetail = () => {
                     </div>
                   )}
                   <div>
-                    <h3 className="text-primary-600 text-xl font-bold">
-                      {course.instructor.name}
-                    </h3>
+                    <h3 className="text-primary-600 text-xl font-bold">{course.instructor.name}</h3>
                     <p className="text-gray-500 font-medium">Instructor</p>
                   </div>
                 </div>
-
                 {course.instructor.bio && (
                   <p className="text-sm text-gray-600 leading-relaxed">{course.instructor.bio}</p>
                 )}
@@ -421,7 +482,6 @@ const CourseDetail = () => {
         {/* Sticky Right Sidebar (Desktop) */}
         <div className="hidden lg:block lg:w-[35%] relative">
           <div className="sticky top-24 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden flex flex-col">
-            {/* Video Preview Area */}
             <div className="relative w-full aspect-video bg-gradient-to-br from-primary-400 to-primary-600 cursor-pointer group">
               {course.thumbnail ? (
                 <img
@@ -445,29 +505,22 @@ const CourseDetail = () => {
             </div>
 
             <div className="p-6">
-              {/* Price */}
               <div className="flex items-end gap-3 mb-4">
                 <span className="text-3xl font-bold text-gray-900">
                   {(course.price === 0 || !course.price) ? 'Free' : `$${(course.price || 0).toFixed(2)}`}
                 </span>
               </div>
 
-              {/* CTA Buttons */}
               <div className="flex flex-col gap-3">
-                <button
-                  onClick={handleEnrollment}
-                  disabled={isEnrolling}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold h-12 rounded-xl transition-colors shadow-sm text-base disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isEnrolling ? 'Processing...' : 'Request Enrollment'}
-                </button>
-                <button className="w-full bg-white border-2 border-gray-900 hover:bg-gray-50 text-gray-900 font-bold h-12 rounded-xl transition-colors text-base flex items-center justify-center gap-2">
-                  <Heart className="w-5 h-5" />
-                  Add to Wishlist
-                </button>
+                {renderEnrollButton()}
+                {(!enrollmentStatus && isAuthenticated && user?.role === 'student') && (
+                  <button className="w-full bg-white border-2 border-gray-900 hover:bg-gray-50 text-gray-900 font-bold h-12 rounded-xl transition-colors text-base flex items-center justify-center gap-2">
+                    <Heart className="w-5 h-5" />
+                    Add to Wishlist
+                  </button>
+                )}
               </div>
 
-              {/* Course Includes */}
               <div className="mt-6">
                 <p className="font-bold text-gray-900 mb-3 text-sm">This course includes:</p>
                 <ul className="flex flex-col gap-2.5">
@@ -494,7 +547,6 @@ const CourseDetail = () => {
                 </ul>
               </div>
 
-              {/* Share Links */}
               <div className="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center text-sm font-medium">
                 <button className="text-gray-900 hover:text-primary-600 flex items-center gap-1">
                   <Share2 className="w-4 h-4" />
@@ -521,13 +573,7 @@ const CourseDetail = () => {
                 {(course.price === 0 || !course.price) ? 'Free' : `$${(course.price || 0).toFixed(2)}`}
               </span>
             </div>
-            <button
-              onClick={handleEnrollment}
-              disabled={isEnrolling}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold h-12 rounded-xl transition-colors shadow-sm text-base disabled:opacity-50"
-            >
-              {isEnrolling ? 'Processing...' : 'Enroll Now'}
-            </button>
+            {renderEnrollButton('flex-1')}
           </div>
         </div>
       </div>

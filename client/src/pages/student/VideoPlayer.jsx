@@ -5,7 +5,7 @@ import {
   ChevronLeft, ChevronRight, CheckCircle, Circle, Play,
   FileText, Download, Lock, ChevronDown, ChevronUp
 } from 'lucide-react';
-import { getCourseById } from '../../services/courseService';
+import { getCourseById, getLectureById } from '../../services/courseService';
 import { getMyEnrollments, updateProgress } from '../../services/enrollmentService';
 import Spinner from '../../components/common/Spinner';
 import toast from 'react-hot-toast';
@@ -19,27 +19,48 @@ export default function VideoPlayer() {
   const [currentLecture, setCurrentLecture] = useState(null);
   const [currentSection, setCurrentSection] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [videoLoading, setVideoLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [expandedSections, setExpandedSections] = useState({});
-  const [activeTab, setActiveTab] = useState('overview'); // overview, resources, notes
+  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
     fetchCourseAndEnrollment();
   }, [courseId]);
 
+  // Fetches the full lecture (with videoUrl) from the backend and sets it as current
+  const loadLectureVideo = (lecture, section) => {
+    setCurrentSection(section);
+    setCurrentLecture(lecture); // set immediately so sidebar highlights correctly
+    setPlaying(false);
+    setVideoLoading(true);
+
+    getLectureById(courseId, section._id, lecture._id)
+      .then((data) => {
+        const fullLecture = data.data?.lecture;
+        if (fullLecture) setCurrentLecture(fullLecture);
+        setPlaying(true);
+      })
+      .catch(() => {
+        // keep the partially-filled lecture object; video just won't play
+        toast.error('Failed to load video. Please try again.');
+      })
+      .finally(() => setVideoLoading(false));
+  };
+
   const fetchCourseAndEnrollment = async () => {
     try {
       setLoading(true);
 
-      // Fetch course details
+      // Backend returns { success, data: { course: {...} } }
       const courseData = await getCourseById(courseId);
-      const courseDetails = courseData.data;
+      const courseDetails = courseData.data.course;
       setCourse(courseDetails);
 
-      // Fetch enrollment status
+      // Verify enrollment
       const enrollmentData = await getMyEnrollments();
       const userEnrollment = enrollmentData.data.enrollments.find(
-        e => e.course._id === courseId && e.status === 'approved'
+        (e) => e.course._id.toString() === courseId && e.status === 'approved'
       );
 
       if (!userEnrollment) {
@@ -50,13 +71,12 @@ export default function VideoPlayer() {
 
       setEnrollment(userEnrollment);
 
-      // Set first lecture as current if available
-      if (courseDetails.sections && courseDetails.sections.length > 0) {
+      // Auto-select first lecture and fetch its videoUrl
+      if (courseDetails?.sections?.length > 0) {
         const firstSection = courseDetails.sections[0];
-        if (firstSection.lectures && firstSection.lectures.length > 0) {
-          setCurrentSection(firstSection);
-          setCurrentLecture(firstSection.lectures[0]);
+        if (firstSection.lectures?.length > 0) {
           setExpandedSections({ [firstSection._id]: true });
+          loadLectureVideo(firstSection.lectures[0], firstSection);
         }
       }
     } catch (error) {
@@ -69,16 +89,11 @@ export default function VideoPlayer() {
   };
 
   const toggleSection = (sectionId) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [sectionId]: !prev[sectionId]
-    }));
+    setExpandedSections(prev => ({ ...prev, [sectionId]: !prev[sectionId] }));
   };
 
   const handleLectureSelect = (lecture, section) => {
-    setCurrentLecture(lecture);
-    setCurrentSection(section);
-    setPlaying(true);
+    loadLectureVideo(lecture, section);
   };
 
   const handleMarkComplete = async () => {
@@ -88,13 +103,11 @@ export default function VideoPlayer() {
       await updateProgress(enrollment._id, currentLecture._id);
       toast.success('Lecture marked as complete!');
 
-      // Update local state
       setEnrollment(prev => ({
         ...prev,
-        completedLectures: [...(prev.completedLectures || []), currentLecture._id]
+        completedLectures: [...(prev.completedLectures || []), currentLecture._id],
       }));
 
-      // Auto-play next lecture
       handleNextLecture();
     } catch (error) {
       console.error('Failed to mark complete:', error);
@@ -103,46 +116,33 @@ export default function VideoPlayer() {
   };
 
   const isLectureCompleted = (lectureId) => {
-    return enrollment?.completedLectures?.includes(lectureId);
+    return enrollment?.completedLectures?.some(
+      (id) => id === lectureId || id?.toString() === lectureId
+    );
+  };
+
+  const getAllLectures = () => {
+    if (!course) return [];
+    const all = [];
+    course.sections.forEach(section => {
+      section.lectures.forEach(lecture => all.push({ lecture, section }));
+    });
+    return all;
   };
 
   const handlePreviousLecture = () => {
-    if (!course || !currentLecture) return;
-
-    let allLectures = [];
-    course.sections.forEach(section => {
-      section.lectures.forEach(lecture => {
-        allLectures.push({ lecture, section });
-      });
-    });
-
-    const currentIndex = allLectures.findIndex(
-      item => item.lecture._id === currentLecture._id
-    );
-
-    if (currentIndex > 0) {
-      const prev = allLectures[currentIndex - 1];
-      handleLectureSelect(prev.lecture, prev.section);
-    }
+    if (!currentLecture) return;
+    const all = getAllLectures();
+    const idx = all.findIndex(item => item.lecture._id === currentLecture._id);
+    if (idx > 0) loadLectureVideo(all[idx - 1].lecture, all[idx - 1].section);
   };
 
   const handleNextLecture = () => {
-    if (!course || !currentLecture) return;
-
-    let allLectures = [];
-    course.sections.forEach(section => {
-      section.lectures.forEach(lecture => {
-        allLectures.push({ lecture, section });
-      });
-    });
-
-    const currentIndex = allLectures.findIndex(
-      item => item.lecture._id === currentLecture._id
-    );
-
-    if (currentIndex < allLectures.length - 1) {
-      const next = allLectures[currentIndex + 1];
-      handleLectureSelect(next.lecture, next.section);
+    if (!currentLecture) return;
+    const all = getAllLectures();
+    const idx = all.findIndex(item => item.lecture._id === currentLecture._id);
+    if (idx < all.length - 1) {
+      loadLectureVideo(all[idx + 1].lecture, all[idx + 1].section);
     } else {
       toast.success('Course completed! 🎉');
     }
@@ -174,27 +174,34 @@ export default function VideoPlayer() {
 
   return (
     <div className="min-h-screen bg-gray-900 flex">
-      {/* Main Content Area - Video Player */}
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Video Player */}
-        <div className="bg-black aspect-video w-full">
-          <ReactPlayer
-            url={currentLecture.videoUrl}
-            width="100%"
-            height="100%"
-            controls
-            playing={playing}
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-            config={{
-              file: {
-                attributes: {
-                  controlsList: 'nodownload',
-                  disablePictureInPicture: false
-                }
-              }
-            }}
-          />
+        <div className="bg-black aspect-video w-full relative">
+          {videoLoading ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-black">
+              <Spinner />
+            </div>
+          ) : (
+            <ReactPlayer
+              key={currentLecture._id}
+              url={currentLecture.videoUrl}
+              width="100%"
+              height="100%"
+              controls
+              playing={playing}
+              onPlay={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
+              config={{
+                file: {
+                  attributes: {
+                    controlsList: 'nodownload',
+                    disablePictureInPicture: false,
+                  },
+                },
+              }}
+            />
+          )}
         </div>
 
         {/* Lecture Info & Controls */}
@@ -215,81 +222,62 @@ export default function VideoPlayer() {
                 }`}
               >
                 {isLectureCompleted(currentLecture._id) ? (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    Completed
-                  </>
+                  <><CheckCircle className="w-5 h-5" /> Completed</>
                 ) : (
-                  <>
-                    <Circle className="w-5 h-5" />
-                    Mark as Complete
-                  </>
+                  <><Circle className="w-5 h-5" /> Mark as Complete</>
                 )}
               </button>
             </div>
 
-            {/* Navigation Buttons */}
             <div className="flex gap-3">
               <button
                 onClick={handlePreviousLecture}
                 className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center gap-2"
               >
-                <ChevronLeft className="w-4 h-4" />
-                Previous
+                <ChevronLeft className="w-4 h-4" /> Previous
               </button>
               <button
                 onClick={handleNextLecture}
                 className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center gap-2"
               >
-                Next
-                <ChevronRight className="w-4 h-4" />
+                Next <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Tabs & Content */}
+        {/* Tabs */}
         <div className="bg-gray-800 text-white flex-1">
           <div className="max-w-7xl mx-auto px-6">
-            {/* Tab Headers */}
             <div className="flex border-b border-gray-700">
-              <button
-                onClick={() => setActiveTab('overview')}
-                className={`px-6 py-3 font-medium transition ${
-                  activeTab === 'overview'
-                    ? 'text-blue-400 border-b-2 border-blue-400'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                Overview
-              </button>
-              <button
-                onClick={() => setActiveTab('resources')}
-                className={`px-6 py-3 font-medium transition ${
-                  activeTab === 'resources'
-                    ? 'text-blue-400 border-b-2 border-blue-400'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                Resources
-              </button>
+              {['overview', 'resources'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-3 font-medium transition capitalize ${
+                    activeTab === tab
+                      ? 'text-blue-400 border-b-2 border-blue-400'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
 
-            {/* Tab Content */}
             <div className="py-6">
               {activeTab === 'overview' && (
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-gray-300">{currentLecture.description || 'No description available.'}</p>
-                </div>
+                <p className="text-gray-300">
+                  {currentLecture.description || 'No description available.'}
+                </p>
               )}
-
               {activeTab === 'resources' && (
                 <div>
-                  {currentLecture.resources && currentLecture.resources.length > 0 ? (
+                  {currentLecture.resources?.length > 0 ? (
                     <div className="space-y-2">
-                      {currentLecture.resources.map((resource, index) => (
+                      {currentLecture.resources.map((resource, i) => (
                         <a
-                          key={index}
+                          key={i}
                           href={resource.url}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -311,13 +299,11 @@ export default function VideoPlayer() {
         </div>
       </div>
 
-      {/* Sidebar - Course Curriculum */}
+      {/* Sidebar — Course Curriculum */}
       <div className="w-96 bg-gray-900 border-l border-gray-700 overflow-y-auto">
         <div className="p-4 border-b border-gray-700">
           <h2 className="text-white font-semibold text-lg">Course Content</h2>
-          <p className="text-gray-400 text-sm mt-1">
-            {enrollment?.progress || 0}% Complete
-          </p>
+          <p className="text-gray-400 text-sm mt-1">{enrollment?.progress || 0}% Complete</p>
           <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
             <div
               className="bg-blue-600 h-2 rounded-full transition-all"
@@ -329,7 +315,6 @@ export default function VideoPlayer() {
         <div className="p-2">
           {course.sections.map((section, sectionIndex) => (
             <div key={section._id} className="mb-2">
-              {/* Section Header */}
               <button
                 onClick={() => toggleSection(section._id)}
                 className="w-full flex items-center justify-between p-3 bg-gray-800 hover:bg-gray-750 rounded-lg transition text-left"
@@ -342,14 +327,12 @@ export default function VideoPlayer() {
                     {section.lectures?.length || 0} lectures
                   </p>
                 </div>
-                {expandedSections[section._id] ? (
-                  <ChevronUp className="w-5 h-5 text-gray-400" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-gray-400" />
-                )}
+                {expandedSections[section._id]
+                  ? <ChevronUp className="w-5 h-5 text-gray-400" />
+                  : <ChevronDown className="w-5 h-5 text-gray-400" />
+                }
               </button>
 
-              {/* Lectures List */}
               {expandedSections[section._id] && (
                 <div className="mt-1 space-y-1 pl-2">
                   {section.lectures.map((lecture, lectureIndex) => {
@@ -363,12 +346,10 @@ export default function VideoPlayer() {
                         className={`w-full flex items-center gap-3 p-3 rounded-lg transition text-left ${
                           isCurrent
                             ? 'bg-blue-600 text-white'
-                            : 'bg-gray-800 hover:bg-gray-750 text-gray-300'
+                            : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
                         }`}
                       >
-                        {lecture.isPreview ? (
-                          <Play className="w-4 h-4 flex-shrink-0" />
-                        ) : isCompleted ? (
+                        {isCompleted ? (
                           <CheckCircle className="w-4 h-4 flex-shrink-0 text-green-400" />
                         ) : (
                           <Circle className="w-4 h-4 flex-shrink-0" />
@@ -378,11 +359,11 @@ export default function VideoPlayer() {
                             {lectureIndex + 1}. {lecture.title}
                           </p>
                           <p className={`text-xs mt-0.5 ${isCurrent ? 'text-blue-100' : 'text-gray-500'}`}>
-                            {Math.floor(lecture.duration / 60)}:{String(lecture.duration % 60).padStart(2, '0')}
+                            {Math.floor((lecture.duration || 0) / 60)}:{String((lecture.duration || 0) % 60).padStart(2, '0')}
                           </p>
                         </div>
-                        {lecture.isPreview && !enrollment && (
-                          <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">
+                        {lecture.isPreview && (
+                          <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded flex-shrink-0">
                             Preview
                           </span>
                         )}

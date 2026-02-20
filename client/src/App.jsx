@@ -21,6 +21,8 @@ import CourseList from './pages/student/CourseList';
 import CourseDetail from './pages/student/CourseDetail';
 import MyLearning from './pages/student/MyLearning';
 import VideoPlayer from './pages/student/VideoPlayer';
+import StudentDashboard from './pages/student/StudentDashboard';
+import StudentProfile from './pages/student/StudentProfile';
 
 // Instructor Pages
 import InstructorDashboard from './pages/instructor/InstructorDashboard';
@@ -90,6 +92,22 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           {/* Student Routes */}
+          <Route
+            path="/student/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student/profile"
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <StudentProfile />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/my-learning"
             element={

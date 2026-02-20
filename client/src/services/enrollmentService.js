@@ -36,7 +36,7 @@ export const approveEnrollment = async (enrollmentId, paymentNote = '') => {
 
 // Reject enrollment (admin)
 export const rejectEnrollment = async (enrollmentId, rejectedReason) => {
-  const response = await api.put(`/enrollments/${enrollmentId}/reject`, { rejectedReason });
+  const response = await api.put(`/enrollments/${enrollmentId}/reject`, { reason: rejectedReason });
   return response.data;
 };
 

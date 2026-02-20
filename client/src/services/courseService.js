@@ -112,6 +112,12 @@ export const updateLecture = async (courseId, sectionId, lectureId, lectureData)
   return response.data;
 };
 
+// Get single lecture by ID (with enrollment access check on backend)
+export const getLectureById = async (courseId, sectionId, lectureId) => {
+  const response = await api.get(`/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}`);
+  return response.data;
+};
+
 // Delete lecture
 export const deleteLecture = async (courseId, sectionId, lectureId) => {
   const response = await api.delete(
