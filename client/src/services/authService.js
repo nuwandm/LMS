@@ -54,3 +54,13 @@ export const changePassword = async (currentPassword, newPassword) => {
   });
   return response.data;
 };
+
+// Upload / replace profile avatar
+export const uploadAvatar = async (file) => {
+  const formData = new FormData();
+  formData.append('avatar', file);
+  const response = await api.post('/auth/avatar', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data;
+};

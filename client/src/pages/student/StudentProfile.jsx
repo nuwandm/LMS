@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   User, Mail, Shield, Calendar, Camera,
-  Eye, EyeOff, Save, Lock, CheckCircle2,
+  Eye, EyeOff, Save, Lock, CheckCircle2, Loader2,
 } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
-import { updateProfile, changePassword } from '../../services/authService';
+import { updateProfile, changePassword, uploadAvatar } from '../../services/authService';
 import useAuthStore from '../../store/authStore';
 import toast from 'react-hot-toast';
 
@@ -16,6 +16,9 @@ const StudentProfile = () => {
   const [showConfirmPwd, setShowConfirmPwd] = useState(false);
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [isSavingPassword, setIsSavingPassword] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const fileInputRef = useRef(null);
 
   // Profile form
   const {
@@ -70,6 +73,39 @@ const StudentProfile = () => {
     }
   };
 
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be smaller than 5MB');
+      return;
+    }
+
+    // Instant local preview
+    setAvatarPreview(URL.createObjectURL(file));
+
+    try {
+      setIsUploadingAvatar(true);
+      const response = await uploadAvatar(file);
+      if (response.success) {
+        updateUser(response.data.user);
+        toast.success('Profile picture updated');
+      }
+    } catch (error) {
+      setAvatarPreview(null);
+      toast.error(error.response?.data?.message || 'Failed to upload photo');
+    } finally {
+      setIsUploadingAvatar(false);
+      // Reset input so same file can be re-selected
+      e.target.value = '';
+    }
+  };
+
   const joinedDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString('en-US', {
         month: 'long',
@@ -96,17 +132,37 @@ const StudentProfile = () => {
           <div className="lg:col-span-1 space-y-4">
             {/* Avatar Card */}
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 flex flex-col items-center text-center">
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
+
               <div className="relative mb-4">
                 <div className="w-24 h-24 rounded-full bg-primary-600 flex items-center justify-center overflow-hidden border-4 border-primary-100 shadow-md">
-                  {user?.avatar ? (
-                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                  {isUploadingAvatar ? (
+                    <div className="w-full h-full bg-black/40 flex items-center justify-center">
+                      <Loader2 className="w-6 h-6 text-white animate-spin" />
+                    </div>
+                  ) : avatarPreview || user?.avatar ? (
+                    <img
+                      src={avatarPreview || user.avatar}
+                      alt={user?.name}
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <span className="text-white text-3xl font-bold">{avatarLetter}</span>
                   )}
                 </div>
                 <button
-                  className="absolute bottom-0 right-0 w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors"
-                  title="Change photo (coming soon)"
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploadingAvatar}
+                  className="absolute bottom-0 right-0 w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Change profile photo"
                 >
                   <Camera className="w-3.5 h-3.5 text-gray-600" />
                 </button>

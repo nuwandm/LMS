@@ -9,8 +9,11 @@ import {
   resetPassword,
   googleOAuth,
   googleOAuthCallback,
+  uploadAvatarController,
+  changePasswordController,
 } from '../controllers/authController.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
+import { uploadAvatar } from '../config/cloudinary.js';
 import rateLimit from 'express-rate-limit';
 
 const router = express.Router();
@@ -96,6 +99,20 @@ router.get('/me', verifyToken, getMe);
  * @access  Private
  */
 router.put('/me', verifyToken, updateMe);
+
+/**
+ * @route   POST /api/auth/avatar
+ * @desc    Upload / replace profile picture
+ * @access  Private
+ */
+router.post('/avatar', verifyToken, uploadAvatar.single('avatar'), uploadAvatarController);
+
+/**
+ * @route   PUT /api/auth/change-password
+ * @desc    Change password (logged-in user)
+ * @access  Private
+ */
+router.put('/change-password', verifyToken, changePasswordController);
 
 /**
  * @route   POST /api/auth/logout

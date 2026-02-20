@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { User } from '../models/index.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 import { sendWelcomeEmail, sendPasswordResetEmail } from '../services/emailService.js';
+import { deleteFromCloudinary } from '../config/cloudinary.js';
 
 /**
  * Generate JWT token
@@ -321,6 +322,76 @@ export const resetPassword = async (req, res) => {
   } catch (error) {
     console.error('ResetPassword error:', error);
     return errorResponse(res, 'Failed to reset password', 500);
+  }
+};
+
+// ============================================================================
+// @route   POST /api/auth/avatar
+// @desc    Upload / replace profile avatar
+// @access  Private
+// ============================================================================
+export const uploadAvatarController = async (req, res) => {
+  try {
+    if (!req.file) {
+      return errorResponse(res, 'No file uploaded', 400);
+    }
+
+    const user = await User.findById(req.user._id);
+
+    // Delete old avatar from Cloudinary if one exists
+    if (user.avatarPublicId) {
+      await deleteFromCloudinary(user.avatarPublicId).catch((err) =>
+        console.error('Failed to delete old avatar:', err.message)
+      );
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        avatar: req.file.path,
+        avatarPublicId: req.file.filename,
+      },
+      { new: true }
+    );
+
+    return successResponse(res, { user: updatedUser }, 'Avatar updated successfully');
+  } catch (error) {
+    console.error('UploadAvatar error:', error);
+    return errorResponse(res, 'Failed to upload avatar', 500);
+  }
+};
+
+// ============================================================================
+// @route   PUT /api/auth/change-password
+// @desc    Change password (logged-in user)
+// @access  Private
+// ============================================================================
+export const changePasswordController = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return errorResponse(res, 'Please provide current and new password', 400);
+    }
+
+    if (newPassword.length < 6) {
+      return errorResponse(res, 'New password must be at least 6 characters', 400);
+    }
+
+    const user = await User.findById(req.user._id).select('+password');
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      return errorResponse(res, 'Current password is incorrect', 401);
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return successResponse(res, null, 'Password changed successfully');
+  } catch (error) {
+    console.error('ChangePassword error:', error);
+    return errorResponse(res, 'Failed to change password', 500);
   }
 };
 
