@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  color: #1a202c;
+  font-size: 13px;
+  line-height: 1.6;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── HEADINGS ── */
+h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+  letter-spacing: -1px;
+}
+h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin: 28px 0 14px;
+}
+h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #4a5568;
+  margin: 18px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px dashed #e2e8f0;
+  padding-bottom: 6px;
+}
+h4 { font-size: 12px; font-weight: 700; color: #2d3748; margin: 10px 0 6px; }
+p { margin: 8px 0; color: #4a5568; font-size: 13px; }
+hr { border: none; border-top: 2px solid #e2e8f0; margin: 20px 0; }
+ul { margin: 6px 0; padding-left: 18px; }
+li { font-size: 12px; color: #4a5568; margin: 3px 0; }
+strong { color: #2d3748; }
+
+/* ── COVER SECTION ── */
+.cover-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+  color: white;
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.cover-header h1 { color: white; font-size: 38px; }
+.cover-badge {
+  display: inline-block;
+  background: rgba(99,179,237,0.25);
+  border: 1px solid rgba(99,179,237,0.5);
+  color: #90cdf4;
+  padding: 5px 18px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.cover-sub { color: rgba(255,255,255,0.65); font-size: 14px; }
+.cover-meta {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.meta-label { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; display: block; }
+.meta-value { font-size: 13px; color: white; font-weight: 600; display: block; }
+
+/* ── TABLES ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 12px;
+}
+thead tr { background: #1a1a2e; color: white; }
+th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; }
+td { padding: 9px 14px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+tr:nth-child(even) td { background: #f7fafc; }
+tr:last-child td { border-bottom: none; }
+
+/* Phase color rows */
+.phase-1-row td { background: #ebf8ff !important; }
+.phase-2-row td { background: #f0fff4 !important; }
+.phase-3-row td { background: #faf5ff !important; }
+.total-highlight td {
+  background: #1a1a2e !important;
+  color: white !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+}
+
+/* ── CALLOUT BOXES ── */
+blockquote {
+  background: #fffbeb;
+  border-left: 4px solid #ecc94b;
+  border-radius: 6px;
+  margin: 12px 0;
+  padding: 12px 16px;
+  color: #744210;
+  font-size: 12px;
+}
+blockquote p { color: #744210; margin: 0; }
+
+/* ── INFO BOX ── */
+.info-box {
+  background: #ebf8ff;
+  border: 1px solid #bee3f8;
+  border-left: 4px solid #3182ce;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 12px;
+  color: #2c5282;
+}
+
+/* ── PRICE HIGHLIGHT ── */
+.price-highlight {
+  font-size: 22px;
+  font-weight: 900;
+  color: #1a1a2e;
+}
+.advance-highlight {
+  font-size: 16px;
+  font-weight: 800;
+  color: #3182ce;
+}
+
+/* ── FOOTER ── */
+.proposal-footer {
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  color: white;
+  border-radius: 10px;
+  padding: 20px 28px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

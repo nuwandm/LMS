@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   getDashboardStats,
+  getReportsData,
   getAllUsers,
   updateUserRole,
   toggleUserStatus,
@@ -26,6 +27,7 @@ router.use(verifyToken, requireRole('admin'));
  * @access  Private (Admin)
  */
 router.get('/stats', getDashboardStats);
+router.get('/reports', getReportsData);
 
 // ============================================================================
 // USER MANAGEMENT

@@ -39,7 +39,7 @@ export default function UserManagement() {
 
       const data = await getAllUsers(params);
       setUsers(data.data.users || []);
-      setTotalPages(data.data.totalPages || 1);
+      setTotalPages(data.data.pagination?.totalPages || 1);
     } catch (error) {
       console.error('Failed to fetch users:', error);
       toast.error(error.response?.data?.message || 'Failed to load users');
@@ -80,11 +80,11 @@ export default function UserManagement() {
     }
   };
 
-  const handleToggleStatus = async (userId) => {
+  const handleToggleStatus = async (userId, currentIsActive) => {
     try {
       setToggleStatusId(userId);
-      await toggleUserStatus(userId);
-      toast.success('User status updated');
+      await toggleUserStatus(userId, !currentIsActive);
+      toast.success(`User ${!currentIsActive ? 'activated' : 'deactivated'} successfully`);
       fetchUsers();
     } catch (error) {
       console.error('Failed to toggle status:', error);
@@ -306,7 +306,7 @@ export default function UserManagement() {
                             <Edit2 className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => handleToggleStatus(user._id)}
+                            onClick={() => handleToggleStatus(user._id, user.isActive)}
                             disabled={toggleStatusId === user._id}
                             className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
                             title={user.isActive ? 'Deactivate' : 'Activate'}
@@ -426,7 +426,7 @@ export default function UserManagement() {
                       </p>
                     </div>
                     <button
-                      onClick={() => handleToggleStatus(selectedUser._id)}
+                      onClick={() => handleToggleStatus(selectedUser._id, selectedUser.isActive)}
                       disabled={toggleStatusId === selectedUser._id}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 ${
                         selectedUser.isActive

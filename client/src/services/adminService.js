@@ -19,6 +19,19 @@ export const getDashboardStats = async () => {
 };
 
 // ============================================================================
+// REPORTS
+// ============================================================================
+
+/**
+ * Get detailed reports/analytics data
+ * @returns {Promise} Reports data (enrollments, courses, users by month/category/status)
+ */
+export const getReportsData = async () => {
+  const response = await api.get('/admin/reports');
+  return response.data;
+};
+
+// ============================================================================
 // USER MANAGEMENT
 // ============================================================================
 
@@ -46,10 +59,11 @@ export const updateUserRole = async (userId, role) => {
 /**
  * Toggle user active status (activate/deactivate)
  * @param {String} userId - User ID
+ * @param {Boolean} isActive - New status to set
  * @returns {Promise} Updated user
  */
-export const toggleUserStatus = async (userId) => {
-  const response = await api.put(`/admin/users/${userId}/toggle-status`);
+export const toggleUserStatus = async (userId, isActive) => {
+  const response = await api.put(`/admin/users/${userId}/status`, { isActive });
   return response.data;
 };
 
@@ -135,6 +149,7 @@ export const updateCourseStatus = async (courseId, status) => {
 
 export default {
   getDashboardStats,
+  getReportsData,
   getAllUsers,
   updateUserRole,
   toggleUserStatus,

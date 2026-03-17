@@ -26,7 +26,10 @@
       "Bash(.gitignore:*)",
       "Bash(QUICK_TEST.md:*)",
       "Bash(npx kill-port:*)",
-      "Bash(netstat:*)"
+      "Bash(netstat:*)",
+      "Bash(pandoc:*)",
+      "Bash(markdown-pdf:*)",
+      "Bash(md-to-pdf:*)"
     ]
   }
 }

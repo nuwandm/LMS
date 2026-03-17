@@ -314,6 +314,96 @@ export const deleteUser = async (req, res) => {
 };
 
 // ============================================================================
+// @route   GET /api/admin/reports
+// @desc    Get detailed analytics/reports data
+// @access  Private (Admin)
+// ============================================================================
+export const getReportsData = async (req, res) => {
+  try {
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
+    sixMonthsAgo.setDate(1);
+    sixMonthsAgo.setHours(0, 0, 0, 0);
+
+    const [
+      enrollmentsByStatus,
+      coursesByCategory,
+      coursesByStatus,
+      usersByRole,
+      enrollmentsByMonth,
+      usersByMonth,
+      topCourses,
+    ] = await Promise.all([
+      Enrollment.aggregate([
+        { $group: { _id: '$status', count: { $sum: 1 } } },
+      ]),
+      Course.aggregate([
+        { $group: { _id: '$category', count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+      ]),
+      Course.aggregate([
+        { $group: { _id: '$status', count: { $sum: 1 } } },
+      ]),
+      User.aggregate([
+        { $group: { _id: '$role', count: { $sum: 1 } } },
+      ]),
+      Enrollment.aggregate([
+        { $match: { createdAt: { $gte: sixMonthsAgo } } },
+        {
+          $group: {
+            _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+            total: { $sum: 1 },
+            approved: { $sum: { $cond: [{ $eq: ['$status', 'approved'] }, 1, 0] } },
+            pending: { $sum: { $cond: [{ $eq: ['$status', 'pending'] }, 1, 0] } },
+          },
+        },
+        { $sort: { '_id.year': 1, '_id.month': 1 } },
+      ]),
+      User.aggregate([
+        { $match: { createdAt: { $gte: sixMonthsAgo } } },
+        {
+          $group: {
+            _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+            count: { $sum: 1 },
+          },
+        },
+        { $sort: { '_id.year': 1, '_id.month': 1 } },
+      ]),
+      Course.find({ status: 'published' })
+        .populate('instructor', 'name')
+        .sort({ enrollmentCount: -1 })
+        .limit(10)
+        .select('title enrollmentCount category price instructor'),
+    ]);
+
+    const toMap = (arr) =>
+      arr.reduce((acc, item) => {
+        acc[item._id] = item.count;
+        return acc;
+      }, {});
+
+    return successResponse(res, {
+      enrollments: {
+        byStatus: toMap(enrollmentsByStatus),
+        byMonth: enrollmentsByMonth,
+      },
+      courses: {
+        byStatus: toMap(coursesByStatus),
+        byCategory: coursesByCategory,
+        top: topCourses,
+      },
+      users: {
+        byRole: toMap(usersByRole),
+        byMonth: usersByMonth,
+      },
+    }, 'Reports data retrieved successfully');
+  } catch (error) {
+    console.error('GetReportsData error:', error);
+    return errorResponse(res, 'Failed to fetch reports data', 500);
+  }
+};
+
+// ============================================================================
 // @route   GET /api/admin/courses
 // @desc    Get all courses (including drafts) with filters
 // @access  Private (Admin)
