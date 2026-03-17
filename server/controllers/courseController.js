@@ -1,4 +1,4 @@
-import { Course, Section, Lecture } from '../models/index.js';
+import { Course, Section, Lecture, Enrollment } from '../models/index.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 import { deleteImage } from '../services/cloudinaryService.js';
 
@@ -362,5 +362,62 @@ export const getInstructorCourses = async (req, res) => {
   } catch (error) {
     console.error('GetInstructorCourses error:', error);
     return errorResponse(res, 'Failed to fetch instructor courses', 500);
+  }
+};
+
+// ============================================================================
+// @route   GET /api/courses/instructor/students
+// @desc    Get all students enrolled in instructor's courses
+// @access  Private (Instructor, Admin)
+// ============================================================================
+export const getInstructorStudents = async (req, res) => {
+  try {
+    const { search, courseId, page = 1, limit = 20 } = req.query;
+
+    // Get instructor's course IDs
+    const courseQuery = { instructor: req.user._id };
+    if (courseId) courseQuery._id = courseId;
+
+    const instructorCourses = await Course.find(courseQuery).select('_id title');
+    const courseIds = instructorCourses.map(c => c._id);
+
+    if (courseIds.length === 0) {
+      return successResponse(res, { students: [], total: 0, page: 1, totalPages: 0 }, 'No students found');
+    }
+
+    const enrollmentQuery = { course: { $in: courseIds }, status: 'approved' };
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const [enrollments, total] = await Promise.all([
+      Enrollment.find(enrollmentQuery)
+        .populate('student', 'name email avatar createdAt')
+        .populate('course', 'title thumbnail')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(Number(limit)),
+      Enrollment.countDocuments(enrollmentQuery),
+    ]);
+
+    // Filter by student name/email if search provided
+    let results = enrollments;
+    if (search) {
+      const s = search.toLowerCase();
+      results = enrollments.filter(e =>
+        e.student?.name?.toLowerCase().includes(s) ||
+        e.student?.email?.toLowerCase().includes(s)
+      );
+    }
+
+    return successResponse(res, {
+      students: results,
+      courses: instructorCourses,
+      total,
+      page: Number(page),
+      totalPages: Math.ceil(total / Number(limit)),
+    }, 'Students retrieved successfully');
+  } catch (error) {
+    console.error('GetInstructorStudents error:', error);
+    return errorResponse(res, 'Failed to fetch students', 500);
   }
 };

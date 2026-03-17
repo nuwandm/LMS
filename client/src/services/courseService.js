@@ -22,6 +22,12 @@ export const getInstructorCourses = async () => {
   return response.data;
 };
 
+// Get students enrolled in instructor's courses
+export const getInstructorStudents = async (params = {}) => {
+  const response = await api.get('/courses/instructor/students', { params });
+  return response.data;
+};
+
 // Create new course (instructor)
 export const createCourse = async (courseData) => {
   const response = await api.post('/courses', courseData);

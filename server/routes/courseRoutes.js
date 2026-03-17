@@ -8,6 +8,7 @@ import {
   togglePublishCourse,
   uploadCourseThumbnail,
   getInstructorCourses,
+  getInstructorStudents,
 } from '../controllers/courseController.js';
 import {
   getSectionsInCourse,
@@ -45,6 +46,13 @@ router.get('/', getAllCourses);
  * @access  Private (Instructor, Admin)
  */
 router.get('/instructor/my-courses', verifyToken, requireRole('instructor', 'admin'), getInstructorCourses);
+
+/**
+ * @route   GET /api/courses/instructor/students
+ * @desc    Get all students enrolled in instructor's courses
+ * @access  Private (Instructor, Admin)
+ */
+router.get('/instructor/students', verifyToken, requireRole('instructor', 'admin'), getInstructorStudents);
 
 /**
  * @route   GET /api/courses/:id

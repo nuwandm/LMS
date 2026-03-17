@@ -29,6 +29,7 @@ import InstructorDashboard from './pages/instructor/InstructorDashboard';
 import CreateCourse from './pages/instructor/CreateCourse';
 import MyCourses from './pages/instructor/MyCourses';
 import ManageCurriculum from './pages/instructor/ManageCurriculum';
+import InstructorStudents from './pages/instructor/InstructorStudents';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -139,6 +140,7 @@ function App() {
             <Route path="/instructor/courses/create" element={<CreateCourse />} />
             <Route path="/instructor/courses/:courseId/curriculum" element={<ManageCurriculum />} />
             <Route path="/instructor/courses/:courseId/edit" element={<CreateCourse />} />
+            <Route path="/instructor/students" element={<InstructorStudents />} />
           </Route>
 
           {/* Admin Routes — wrapped in AdminLayout */}
