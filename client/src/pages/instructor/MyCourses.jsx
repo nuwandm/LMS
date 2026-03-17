@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Plus, BookOpen, Users, TrendingUp, Search,
-  MoreHorizontal, Edit2, Trash2, LayoutList, Globe, Eye,
-  ChevronLeft, ChevronRight,
+  Plus, BookOpen, Users, Globe, LayoutList, Search,
+  Edit2, Trash2, Eye, TrendingUp, ChevronLeft, ChevronRight, MoreHorizontal,
 } from 'lucide-react';
-import {
-  getInstructorCourses, deleteCourse, togglePublishCourse,
-} from '../../services/courseService';
-import Spinner from '../../components/common/Spinner';
-import EmptyState from '../../components/common/EmptyState';
+import { getInstructorCourses, deleteCourse, togglePublishCourse } from '../../services/courseService';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
+import EmptyState from '../../components/common/EmptyState';
 import toast from 'react-hot-toast';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const STATUS_TABS = [
   { id: 'all', label: 'All Courses' },
@@ -20,12 +26,7 @@ const STATUS_TABS = [
   { id: 'archived', label: 'Archived' },
 ];
 
-const STATUS_BADGE = {
-  published: 'bg-green-100 text-green-800',
-  draft: 'bg-gray-100 text-gray-700',
-  archived: 'bg-yellow-100 text-yellow-800',
-};
-
+const STATUS_VARIANT = { published: 'success', draft: 'secondary', archived: 'warning' };
 const PAGE_SIZE = 10;
 
 export default function MyCourses() {
@@ -34,32 +35,17 @@ export default function MyCourses() {
   const [activeTab, setActiveTab] = useState('all');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [openMenuId, setOpenMenuId] = useState(null);
-
-  // Confirm dialogs
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [publishTarget, setPublishTarget] = useState(null);
   const [processing, setProcessing] = useState(false);
 
-  useEffect(() => {
-    fetchCourses();
-  }, []);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handler = () => setOpenMenuId(null);
-    document.addEventListener('click', handler);
-    return () => document.removeEventListener('click', handler);
-  }, []);
+  useEffect(() => { fetchCourses(); }, []);
 
   const fetchCourses = async () => {
     try {
       setLoading(true);
       const res = await getInstructorCourses();
-      const data = Array.isArray(res.data)
-        ? res.data
-        : res.data?.courses || [];
-      setCourses(data);
+      setCourses(Array.isArray(res.data) ? res.data : res.data?.courses || []);
     } catch {
       toast.error('Failed to load courses');
     } finally {
@@ -67,13 +53,9 @@ export default function MyCourses() {
     }
   };
 
-  // ── derived values ───────────────────────────────────────────────
   const filtered = courses.filter((c) => {
     const matchTab = activeTab === 'all' || c.status === activeTab;
-    const matchSearch =
-      !search ||
-      c.title.toLowerCase().includes(search.toLowerCase()) ||
-      c.category?.toLowerCase().includes(search.toLowerCase());
+    const matchSearch = !search || c.title.toLowerCase().includes(search.toLowerCase()) || c.category?.toLowerCase().includes(search.toLowerCase());
     return matchTab && matchSearch;
   });
 
@@ -87,16 +69,8 @@ export default function MyCourses() {
     students: courses.reduce((s, c) => s + (c.enrollmentCount || 0), 0),
   };
 
-  // ── handlers ─────────────────────────────────────────────────────
-  const handleTabChange = (id) => {
-    setActiveTab(id);
-    setPage(1);
-  };
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    setPage(1);
-  };
+  const handleTabChange = (id) => { setActiveTab(id); setPage(1); };
+  const handleSearch = (e) => { setSearch(e.target.value); setPage(1); };
 
   const handleDelete = async () => {
     try {
@@ -113,14 +87,11 @@ export default function MyCourses() {
   };
 
   const handleTogglePublish = async () => {
-    const newStatus =
-      publishTarget.status === 'published' ? 'draft' : 'published';
+    const newStatus = publishTarget.status === 'published' ? 'draft' : 'published';
     try {
       setProcessing(true);
       await togglePublishCourse(publishTarget._id, newStatus);
-      toast.success(
-        newStatus === 'published' ? 'Course published!' : 'Course unpublished'
-      );
+      toast.success(newStatus === 'published' ? 'Course published!' : 'Course unpublished');
       setPublishTarget(null);
       fetchCourses();
     } catch {
@@ -130,286 +101,190 @@ export default function MyCourses() {
     }
   };
 
-  // ── render ────────────────────────────────────────────────────────
   return (
-    <div className="p-8 bg-gray-50 min-h-full">
-      <div className="max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="p-8 bg-muted/30 min-h-full">
+      <div className="max-w-7xl mx-auto space-y-6">
 
-        {/* Page Header */}
+        {/* Header */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">My Courses</h1>
-            <p className="text-sm text-gray-500 mt-0.5">
-              Manage your courses, content, and publishing status.
-            </p>
+            <h1 className="text-2xl font-bold">My Courses</h1>
+            <p className="text-sm text-muted-foreground mt-0.5">Manage your courses, content, and publishing status.</p>
           </div>
-          <Link
-            to="/instructor/courses/create"
-            className="flex items-center gap-2 px-4 py-2 bg-[#14396b] hover:bg-[#0f2d54] text-white rounded-lg text-sm font-medium transition-colors shadow-sm"
-          >
-            <Plus className="w-4 h-4" />
-            New Course
-          </Link>
+          <Button asChild size="sm" className="gap-2">
+            <Link to="/instructor/courses/create"><Plus className="w-4 h-4" />New Course</Link>
+          </Button>
         </div>
 
-        {/* Stats Row */}
+        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Courses', value: stats.total, icon: BookOpen, color: 'bg-blue-50 text-blue-600' },
-            { label: 'Published', value: stats.published, icon: Globe, color: 'bg-green-50 text-green-600' },
-            { label: 'Drafts', value: stats.draft, icon: LayoutList, color: 'bg-gray-100 text-gray-600' },
-            { label: 'Total Students', value: stats.students.toLocaleString(), icon: Users, color: 'bg-indigo-50 text-indigo-600' },
-          ].map(({ label, value, icon: Icon, color }) => (
-            <div key={label} className="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4 shadow-sm">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${color}`}>
-                <Icon className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 font-medium">{label}</p>
-                <p className="text-2xl font-bold text-gray-900">{value}</p>
-              </div>
-            </div>
+            { label: 'Total Courses', value: stats.total, icon: BookOpen, color: 'text-blue-600', bg: 'bg-blue-50' },
+            { label: 'Published', value: stats.published, icon: Globe, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+            { label: 'Drafts', value: stats.draft, icon: LayoutList, color: 'text-slate-600', bg: 'bg-muted' },
+            { label: 'Total Students', value: stats.students.toLocaleString(), icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+          ].map(({ label, value, icon: Icon, color, bg }) => (
+            <Card key={label}>
+              <CardContent className="p-5 flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${bg}`}>
+                  <Icon className={`w-5 h-5 ${color}`} />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground font-medium">{label}</p>
+                  <p className="text-2xl font-bold">{value}</p>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
         {/* Table Card */}
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-
-          {/* Tabs + Search */}
-          <div className="border-b border-gray-200">
+        <Card className="overflow-hidden">
+          <div className="border-b">
             <div className="flex flex-wrap items-center justify-between gap-3 px-6 pt-4 pb-0">
-              {/* Status Tabs */}
-              <div className="flex gap-1">
+              <div className="flex gap-1 overflow-x-auto">
                 {STATUS_TABS.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => handleTabChange(tab.id)}
-                    className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
-                      activeTab === tab.id
-                        ? 'border-[#14396b] text-[#14396b]'
-                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                    className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${
+                      activeTab === tab.id ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     {tab.label}
-                    <span className={`ml-2 text-xs px-1.5 py-0.5 rounded-full ${
-                      activeTab === tab.id
-                        ? 'bg-[#14396b]/10 text-[#14396b]'
-                        : 'bg-gray-100 text-gray-500'
-                    }`}>
-                      {tab.id === 'all'
-                        ? courses.length
-                        : courses.filter((c) => c.status === tab.id).length}
+                    <span className={`ml-2 text-xs px-1.5 py-0.5 rounded-full ${activeTab === tab.id ? 'bg-foreground/10 text-foreground' : 'bg-muted text-muted-foreground'}`}>
+                      {tab.id === 'all' ? courses.length : courses.filter((c) => c.status === tab.id).length}
                     </span>
                   </button>
                 ))}
               </div>
-
-              {/* Search */}
               <div className="relative mb-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search courses..."
-                  value={search}
-                  onChange={handleSearch}
-                  className="pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#14396b]/20 focus:border-[#14396b] w-56"
-                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input placeholder="Search courses..." value={search} onChange={handleSearch} className="pl-9 w-56" />
               </div>
             </div>
           </div>
 
-          {/* Table Body */}
           {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <Spinner />
+            <div className="p-6 space-y-3">
+              {[...Array(5)].map((_, i) => <Skeleton key={i} className="h-14 rounded-lg" />)}
             </div>
           ) : paginated.length === 0 ? (
             <EmptyState
               icon={BookOpen}
               title={search ? 'No courses match your search' : 'No courses yet'}
-              description={
-                search
-                  ? 'Try a different search term or clear the filter.'
-                  : 'Create your first course to start teaching!'
-              }
-              action={
-                !search && (
-                  <Link
-                    to="/instructor/courses/create"
-                    className="inline-flex items-center gap-2 bg-[#14396b] text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-[#0f2d54] transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Create Course
-                  </Link>
-                )
-              }
+              description={search ? 'Try a different search term.' : 'Create your first course to start teaching!'}
+              action={!search && (
+                <Button asChild size="sm" className="gap-2">
+                  <Link to="/instructor/courses/create"><Plus className="w-4 h-4" />Create Course</Link>
+                </Button>
+              )}
             />
           ) : (
             <>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                  <thead className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium text-xs uppercase tracking-wider">
-                    <tr>
-                      <th className="px-6 py-4">Course</th>
-                      <th className="px-6 py-4 hidden sm:table-cell">Category</th>
-                      <th className="px-6 py-4">Status</th>
-                      <th className="px-6 py-4 text-center">Students</th>
-                      <th className="px-6 py-4 text-center">Price</th>
-                      <th className="px-6 py-4 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Course</TableHead>
+                      <TableHead className="hidden sm:table-cell">Category</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-center">Students</TableHead>
+                      <TableHead className="text-center">Price</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {paginated.map((course) => (
-                      <tr key={course._id} className="hover:bg-gray-50 transition-colors">
-                        {/* Course Title + Thumbnail */}
-                        <td className="px-6 py-4">
+                      <TableRow key={course._id}>
+                        <TableCell>
                           <div className="flex items-center gap-3">
-                            <div className="h-10 w-16 rounded overflow-hidden flex-shrink-0 bg-gradient-to-br from-[#14396b]/60 to-[#0f2d54]">
+                            <div className="h-10 w-16 rounded overflow-hidden flex-shrink-0 bg-slate-700">
                               {course.thumbnail ? (
-                                <img
-                                  src={course.thumbnail}
-                                  alt={course.title}
-                                  className="w-full h-full object-cover"
-                                />
+                                <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover" />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center">
-                                  <BookOpen className="w-4 h-4 text-white" />
-                                </div>
+                                <div className="w-full h-full flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
                               )}
                             </div>
                             <div>
-                              <p className="font-medium text-gray-900 line-clamp-1 max-w-[200px]">
-                                {course.title}
-                              </p>
-                              <p className="text-xs text-gray-500 sm:hidden">{course.category}</p>
+                              <p className="font-medium line-clamp-1 max-w-[200px]">{course.title}</p>
+                              <p className="text-xs text-muted-foreground sm:hidden">{course.category}</p>
                             </div>
                           </div>
-                        </td>
-
-                        {/* Category */}
-                        <td className="px-6 py-4 text-gray-600 hidden sm:table-cell">
-                          {course.category}
-                        </td>
-
-                        {/* Status */}
-                        <td className="px-6 py-4">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_BADGE[course.status] || STATUS_BADGE.draft}`}>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground hidden sm:table-cell">{course.category}</TableCell>
+                        <TableCell>
+                          <Badge variant={STATUS_VARIANT[course.status] || 'secondary'}>
                             {course.status.charAt(0).toUpperCase() + course.status.slice(1)}
-                          </span>
-                        </td>
-
-                        {/* Students */}
-                        <td className="px-6 py-4 text-center font-medium text-gray-900">
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-center font-medium">
                           {course.status === 'published' ? (course.enrollmentCount || 0) : '—'}
-                        </td>
-
-                        {/* Price */}
-                        <td className="px-6 py-4 text-center text-gray-700">
-                          {course.price === 0 ? (
-                            <span className="text-green-600 font-medium text-xs">Free</span>
-                          ) : (
-                            `$${course.price}`
-                          )}
-                        </td>
-
-                        {/* Actions dropdown */}
-                        <td className="px-6 py-4 text-right">
-                          <div className="relative inline-block">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setOpenMenuId(openMenuId === course._id ? null : course._id);
-                              }}
-                              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                            >
-                              <MoreHorizontal className="w-5 h-5" />
-                            </button>
-
-                            {openMenuId === course._id && (
-                              <div
-                                className="absolute right-0 mt-1 w-48 bg-white rounded-xl border border-gray-200 shadow-lg z-20 py-1"
-                                onClick={(e) => e.stopPropagation()}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {course.price === 0
+                            ? <span className="text-emerald-600 font-medium text-xs">Free</span>
+                            : `$${course.price}`
+                          }
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon"><MoreHorizontal className="w-4 h-4" /></Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-48">
+                              <DropdownMenuItem asChild>
+                                <Link to={`/instructor/courses/${course._id}/edit`} className="flex items-center gap-2 cursor-pointer">
+                                  <Edit2 className="w-4 h-4" />Edit Details
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <Link to={`/instructor/courses/${course._id}/curriculum`} className="flex items-center gap-2 cursor-pointer">
+                                  <LayoutList className="w-4 h-4" />Manage Curriculum
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => setPublishTarget(course)} className="flex items-center gap-2 cursor-pointer">
+                                {course.status === 'published'
+                                  ? <><Eye className="w-4 h-4" />Unpublish</>
+                                  : <><TrendingUp className="w-4 h-4" />Publish</>
+                                }
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                onClick={() => setDeleteTarget(course)}
+                                className="text-destructive focus:text-destructive flex items-center gap-2 cursor-pointer"
                               >
-                                <Link
-                                  to={`/instructor/courses/${course._id}/edit`}
-                                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                                  onClick={() => setOpenMenuId(null)}
-                                >
-                                  <Edit2 className="w-4 h-4" />
-                                  Edit Details
-                                </Link>
-                                <Link
-                                  to={`/instructor/courses/${course._id}/curriculum`}
-                                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                                  onClick={() => setOpenMenuId(null)}
-                                >
-                                  <LayoutList className="w-4 h-4" />
-                                  Manage Curriculum
-                                </Link>
-                                <button
-                                  onClick={() => {
-                                    setPublishTarget(course);
-                                    setOpenMenuId(null);
-                                  }}
-                                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors w-full text-left"
-                                >
-                                  {course.status === 'published' ? (
-                                    <><Eye className="w-4 h-4" /> Unpublish</>
-                                  ) : (
-                                    <><TrendingUp className="w-4 h-4" /> Publish</>
-                                  )}
-                                </button>
-                                <div className="border-t border-gray-100 my-1" />
-                                <button
-                                  onClick={() => {
-                                    setDeleteTarget(course);
-                                    setOpenMenuId(null);
-                                  }}
-                                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                  Delete Course
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
+                                <Trash2 className="w-4 h-4" />Delete Course
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
-                <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-                  <p className="text-sm text-gray-500">
+                <div className="px-6 py-4 border-t flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">
                     Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
                   </p>
                   <div className="flex gap-2">
-                    <button
-                      onClick={() => setPage((p) => Math.max(1, p - 1))}
-                      disabled={page === 1}
-                      className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
+                    <Button variant="outline" size="icon" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
                       <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                      disabled={page === totalPages}
-                      className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
+                    </Button>
+                    <Button variant="outline" size="icon" onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
                       <ChevronRight className="w-4 h-4" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}
             </>
           )}
-        </div>
+        </Card>
       </div>
 
-      {/* Delete Confirm */}
       <ConfirmDialog
         isOpen={!!deleteTarget}
         onClose={() => setDeleteTarget(null)}
@@ -417,12 +292,10 @@ export default function MyCourses() {
         title="Delete Course"
         message={`Are you sure you want to delete "${deleteTarget?.title}"? This action cannot be undone.`}
         confirmText="Delete Course"
-        cancelText="Cancel"
         variant="danger"
         isLoading={processing}
       />
 
-      {/* Publish/Unpublish Confirm */}
       <ConfirmDialog
         isOpen={!!publishTarget}
         onClose={() => setPublishTarget(null)}
@@ -430,11 +303,10 @@ export default function MyCourses() {
         title={publishTarget?.status === 'published' ? 'Unpublish Course' : 'Publish Course'}
         message={
           publishTarget?.status === 'published'
-            ? `Unpublishing "${publishTarget?.title}" will hide it from students. You can re-publish at any time.`
+            ? `Unpublishing "${publishTarget?.title}" will hide it from students.`
             : `Publishing "${publishTarget?.title}" will make it visible to all students.`
         }
         confirmText={publishTarget?.status === 'published' ? 'Unpublish' : 'Publish'}
-        cancelText="Cancel"
         variant="warning"
         isLoading={processing}
       />

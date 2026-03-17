@@ -1,13 +1,18 @@
 import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  User, Mail, Shield, Calendar, Camera,
-  Eye, EyeOff, Save, Lock, CheckCircle2, Loader2,
-} from 'lucide-react';
+import { User, Mail, Shield, Calendar, Camera, Eye, EyeOff, Save, Lock, CheckCircle2, Loader2 } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 import { updateProfile, changePassword, uploadAvatar } from '../../services/authService';
 import useAuthStore from '../../store/authStore';
 import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 const StudentProfile = () => {
   const { user, updateUser } = useAuthStore();
@@ -20,411 +25,225 @@ const StudentProfile = () => {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Profile form
-  const {
-    register: regProfile,
-    handleSubmit: handleProfileSubmit,
-    formState: { errors: profileErrors, isDirty: profileDirty },
-  } = useForm({
-    defaultValues: {
-      name: user?.name || '',
-      bio: user?.bio || '',
-    },
+  const { register: regProfile, handleSubmit: handleProfileSubmit, formState: { errors: profileErrors, isDirty: profileDirty } } = useForm({
+    defaultValues: { name: user?.name || '', bio: user?.bio || '' },
   });
 
-  // Password form
-  const {
-    register: regPwd,
-    handleSubmit: handlePwdSubmit,
-    reset: resetPwd,
-    watch,
-    formState: { errors: pwdErrors },
-  } = useForm();
-
+  const { register: regPwd, handleSubmit: handlePwdSubmit, reset: resetPwd, watch, formState: { errors: pwdErrors } } = useForm();
   const newPassword = watch('newPassword');
 
   const onSaveProfile = async (data) => {
     try {
       setIsSavingProfile(true);
       const response = await updateProfile({ name: data.name, bio: data.bio });
-      if (response.success) {
-        updateUser(response.data);
-        toast.success('Profile updated successfully');
-      }
+      if (response.success) { updateUser(response.data); toast.success('Profile updated successfully'); }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to update profile');
-    } finally {
-      setIsSavingProfile(false);
-    }
+    } finally { setIsSavingProfile(false); }
   };
 
   const onChangePassword = async (data) => {
     try {
       setIsSavingPassword(true);
       const response = await changePassword(data.currentPassword, data.newPassword);
-      if (response.success) {
-        toast.success('Password changed successfully');
-        resetPwd();
-      }
+      if (response.success) { toast.success('Password changed successfully'); resetPwd(); }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to change password');
-    } finally {
-      setIsSavingPassword(false);
-    }
+    } finally { setIsSavingPassword(false); }
   };
 
   const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file');
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image must be smaller than 5MB');
-      return;
-    }
-
-    // Instant local preview
+    if (!file.type.startsWith('image/')) { toast.error('Please select an image file'); return; }
+    if (file.size > 5 * 1024 * 1024) { toast.error('Image must be smaller than 5MB'); return; }
     setAvatarPreview(URL.createObjectURL(file));
-
     try {
       setIsUploadingAvatar(true);
       const response = await uploadAvatar(file);
-      if (response.success) {
-        updateUser(response.data.user);
-        toast.success('Profile picture updated');
-      }
+      if (response.success) { updateUser(response.data.user); toast.success('Profile picture updated'); }
     } catch (error) {
       setAvatarPreview(null);
       toast.error(error.response?.data?.message || 'Failed to upload photo');
-    } finally {
-      setIsUploadingAvatar(false);
-      // Reset input so same file can be re-selected
-      e.target.value = '';
-    }
+    } finally { setIsUploadingAvatar(false); e.target.value = ''; }
   };
 
   const joinedDate = user?.createdAt
-    ? new Date(user.createdAt).toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric',
-      })
+    ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : 'N/A';
-
   const avatarLetter = user?.name?.charAt(0)?.toUpperCase() || 'S';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
-
       <main className="max-w-5xl mx-auto px-6 lg:px-8 py-8">
-        {/* Page Header */}
         <div className="mb-7">
-          <h1 className="text-2xl font-bold text-gray-900">My Profile</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage your personal information and account security</p>
+          <h1 className="text-2xl font-bold">My Profile</h1>
+          <p className="text-sm text-muted-foreground mt-1">Manage your personal information and account security</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-          {/* ── Left: Identity Card ── */}
+          {/* Left: Identity */}
           <div className="lg:col-span-1 space-y-4">
-            {/* Avatar Card */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 flex flex-col items-center text-center">
-              {/* Hidden file input */}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                className="hidden"
-                onChange={handleAvatarChange}
-              />
+            <Card>
+              <CardContent className="pt-6 flex flex-col items-center text-center">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={handleAvatarChange}
+                />
+                <div className="relative mb-4">
+                  <Avatar className="h-24 w-24 border-4 border-background shadow-md">
+                    {isUploadingAvatar ? (
+                      <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center z-10">
+                        <Loader2 className="w-6 h-6 text-white animate-spin" />
+                      </div>
+                    ) : null}
+                    <AvatarImage src={avatarPreview || user?.avatar} alt={user?.name} />
+                    <AvatarFallback className="bg-primary text-primary-foreground text-2xl font-bold">
+                      {avatarLetter}
+                    </AvatarFallback>
+                  </Avatar>
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isUploadingAvatar}
+                    className="absolute bottom-0 right-0 w-7 h-7 bg-background border border-border rounded-full flex items-center justify-center shadow-sm hover:bg-muted transition-colors disabled:opacity-50"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-muted-foreground" />
+                  </button>
+                </div>
+                <h2 className="text-lg font-bold">{user?.name}</h2>
+                <Badge variant="secondary" className="mt-2 gap-1">
+                  <Shield className="w-3 h-3" />Student
+                </Badge>
+              </CardContent>
+            </Card>
 
-              <div className="relative mb-4">
-                <div className="w-24 h-24 rounded-full bg-primary-600 flex items-center justify-center overflow-hidden border-4 border-primary-100 shadow-md">
-                  {isUploadingAvatar ? (
-                    <div className="w-full h-full bg-black/40 flex items-center justify-center">
-                      <Loader2 className="w-6 h-6 text-white animate-spin" />
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Account Info</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-0">
+                {[
+                  { icon: Mail, label: 'Email', value: user?.email },
+                  { icon: User, label: 'Role', value: user?.role, capitalize: true },
+                  { icon: Calendar, label: 'Member Since', value: joinedDate },
+                  { icon: CheckCircle2, label: 'Status', value: 'Active', color: 'text-emerald-600' },
+                ].map(({ icon: Icon, label, value, capitalize, color }) => (
+                  <div key={label} className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-muted-foreground" />
                     </div>
-                  ) : avatarPreview || user?.avatar ? (
-                    <img
-                      src={avatarPreview || user.avatar}
-                      alt={user?.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-white text-3xl font-bold">{avatarLetter}</span>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isUploadingAvatar}
-                  className="absolute bottom-0 right-0 w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Change profile photo"
-                >
-                  <Camera className="w-3.5 h-3.5 text-gray-600" />
-                </button>
-              </div>
-
-              <h2 className="text-lg font-bold text-gray-900">{user?.name}</h2>
-              <span className="mt-1 inline-flex items-center gap-1 bg-primary-50 text-primary-700 text-xs font-semibold px-2.5 py-1 rounded-full border border-primary-100">
-                <Shield className="w-3 h-3" />
-                Student
-              </span>
-            </div>
-
-            {/* Info Card */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 space-y-4">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Account Info
-              </h3>
-
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-4 h-4 text-gray-500" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs text-gray-400 font-medium">Email</p>
-                  <p className="text-sm font-semibold text-gray-900 truncate">{user?.email}</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                  <User className="w-4 h-4 text-gray-500" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400 font-medium">Role</p>
-                  <p className="text-sm font-semibold text-gray-900 capitalize">{user?.role}</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                  <Calendar className="w-4 h-4 text-gray-500" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400 font-medium">Member Since</p>
-                  <p className="text-sm font-semibold text-gray-900">{joinedDate}</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="w-4 h-4 text-gray-500" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400 font-medium">Account Status</p>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-                    Active
-                  </span>
-                </div>
-              </div>
-            </div>
+                    <div className="min-w-0">
+                      <p className="text-xs text-muted-foreground">{label}</p>
+                      <p className={`text-sm font-semibold truncate ${capitalize ? 'capitalize' : ''} ${color || ''}`}>
+                        {value}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
 
-          {/* ── Right: Forms ── */}
+          {/* Right: Forms */}
           <div className="lg:col-span-2 space-y-5">
-
-            {/* Edit Profile Form */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-              <div className="px-6 py-4 border-b border-gray-100">
-                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                  <User className="w-4 h-4 text-primary-600" />
-                  Edit Profile
-                </h3>
-                <p className="text-xs text-gray-500 mt-0.5">Update your display name and bio</p>
-              </div>
-
-              <form onSubmit={handleProfileSubmit(onSaveProfile)} className="p-6 space-y-5">
-                {/* Name */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    {...regProfile('name', {
-                      required: 'Name is required',
-                      minLength: { value: 2, message: 'Name must be at least 2 characters' },
-                    })}
-                    className={`w-full px-3.5 py-2.5 rounded-lg border text-sm text-gray-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
-                      profileErrors.name ? 'border-red-300 bg-red-50' : 'border-gray-300'
-                    }`}
-                    placeholder="Your full name"
-                  />
-                  {profileErrors.name && (
-                    <p className="mt-1.5 text-xs text-red-600">{profileErrors.name.message}</p>
-                  )}
-                </div>
-
-                {/* Email (read-only) */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="email"
-                      value={user?.email || ''}
-                      readOnly
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-500 bg-gray-50 cursor-not-allowed"
+            <Card>
+              <CardHeader className="border-b">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <User className="w-4 h-4" />Edit Profile
+                </CardTitle>
+                <CardDescription>Update your display name and bio</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <form onSubmit={handleProfileSubmit(onSaveProfile)} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Full Name <span className="text-destructive">*</span></Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      {...regProfile('name', { required: 'Name is required', minLength: { value: 2, message: 'Name must be at least 2 characters' } })}
+                      placeholder="Your full name"
+                      className={profileErrors.name ? 'border-destructive' : ''}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-medium">
-                      Read-only
-                    </span>
+                    {profileErrors.name && <p className="text-xs text-destructive">{profileErrors.name.message}</p>}
                   </div>
-                  <p className="mt-1.5 text-xs text-gray-400">Contact support to change your email</p>
-                </div>
 
-                {/* Bio */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Bio
-                    <span className="ml-1 text-xs text-gray-400 font-normal">(optional)</span>
-                  </label>
-                  <textarea
-                    {...regProfile('bio', {
-                      maxLength: { value: 300, message: 'Bio must be under 300 characters' },
-                    })}
-                    rows={3}
-                    className={`w-full px-3.5 py-2.5 rounded-lg border text-sm text-gray-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 resize-none ${
-                      profileErrors.bio ? 'border-red-300 bg-red-50' : 'border-gray-300'
-                    }`}
-                    placeholder="Tell us a bit about yourself..."
-                  />
-                  {profileErrors.bio && (
-                    <p className="mt-1.5 text-xs text-red-600">{profileErrors.bio.message}</p>
-                  )}
-                </div>
+                  <div className="space-y-2">
+                    <Label>Email Address</Label>
+                    <div className="relative">
+                      <Input type="email" value={user?.email || ''} readOnly className="bg-muted cursor-not-allowed pr-20" />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">Read-only</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Contact support to change your email</p>
+                  </div>
 
-                <div className="flex justify-end pt-1">
-                  <button
-                    type="submit"
-                    disabled={isSavingProfile || !profileDirty}
-                    className="flex items-center gap-2 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
-                  >
-                    <Save className="w-4 h-4" />
-                    {isSavingProfile ? 'Saving...' : 'Save Changes'}
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            {/* Change Password Form */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-              <div className="px-6 py-4 border-b border-gray-100">
-                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-primary-600" />
-                  Change Password
-                </h3>
-                <p className="text-xs text-gray-500 mt-0.5">Use a strong password with at least 6 characters</p>
-              </div>
-
-              <form onSubmit={handlePwdSubmit(onChangePassword)} className="p-6 space-y-5">
-                {/* Current Password */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Current Password <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showCurrentPwd ? 'text' : 'password'}
-                      {...regPwd('currentPassword', { required: 'Current password is required' })}
-                      className={`w-full px-3.5 py-2.5 pr-10 rounded-lg border text-sm text-gray-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
-                        pwdErrors.currentPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'
-                      }`}
-                      placeholder="Enter current password"
+                  <div className="space-y-2">
+                    <Label htmlFor="bio">Bio <span className="text-xs text-muted-foreground font-normal">(optional)</span></Label>
+                    <Textarea
+                      id="bio"
+                      {...regProfile('bio', { maxLength: { value: 300, message: 'Bio must be under 300 characters' } })}
+                      rows={3}
+                      placeholder="Tell us a bit about yourself..."
+                      className={profileErrors.bio ? 'border-destructive' : ''}
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowCurrentPwd((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {showCurrentPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
+                    {profileErrors.bio && <p className="text-xs text-destructive">{profileErrors.bio.message}</p>}
                   </div>
-                  {pwdErrors.currentPassword && (
-                    <p className="mt-1.5 text-xs text-red-600">{pwdErrors.currentPassword.message}</p>
-                  )}
-                </div>
 
-                {/* New Password */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    New Password <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showNewPwd ? 'text' : 'password'}
-                      {...regPwd('newPassword', {
-                        required: 'New password is required',
-                        minLength: { value: 6, message: 'Password must be at least 6 characters' },
-                      })}
-                      className={`w-full px-3.5 py-2.5 pr-10 rounded-lg border text-sm text-gray-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
-                        pwdErrors.newPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'
-                      }`}
-                      placeholder="Enter new password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowNewPwd((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {showNewPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
+                  <div className="flex justify-end">
+                    <Button type="submit" disabled={isSavingProfile || !profileDirty} className="gap-2">
+                      <Save className="w-4 h-4" />
+                      {isSavingProfile ? 'Saving...' : 'Save Changes'}
+                    </Button>
                   </div>
-                  {pwdErrors.newPassword && (
-                    <p className="mt-1.5 text-xs text-red-600">{pwdErrors.newPassword.message}</p>
-                  )}
-                </div>
+                </form>
+              </CardContent>
+            </Card>
 
-                {/* Confirm Password */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Confirm New Password <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showConfirmPwd ? 'text' : 'password'}
-                      {...regPwd('confirmPassword', {
-                        required: 'Please confirm your new password',
-                        validate: (value) => value === newPassword || 'Passwords do not match',
-                      })}
-                      className={`w-full px-3.5 py-2.5 pr-10 rounded-lg border text-sm text-gray-900 bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${
-                        pwdErrors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'
-                      }`}
-                      placeholder="Confirm new password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPwd((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {showConfirmPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
+            <Card>
+              <CardHeader className="border-b">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Lock className="w-4 h-4" />Change Password
+                </CardTitle>
+                <CardDescription>Use a strong password with at least 6 characters</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <form onSubmit={handlePwdSubmit(onChangePassword)} className="space-y-5">
+                  {[
+                    { id: 'currentPassword', label: 'Current Password', show: showCurrentPwd, toggle: () => setShowCurrentPwd((v) => !v), rules: { required: 'Current password is required' }, error: pwdErrors.currentPassword },
+                    { id: 'newPassword', label: 'New Password', show: showNewPwd, toggle: () => setShowNewPwd((v) => !v), rules: { required: 'New password is required', minLength: { value: 6, message: 'At least 6 characters' } }, error: pwdErrors.newPassword },
+                    { id: 'confirmPassword', label: 'Confirm New Password', show: showConfirmPwd, toggle: () => setShowConfirmPwd((v) => !v), rules: { required: 'Please confirm your password', validate: (v) => v === newPassword || 'Passwords do not match' }, error: pwdErrors.confirmPassword },
+                  ].map(({ id, label, show, toggle, rules, error }) => (
+                    <div key={id} className="space-y-2">
+                      <Label htmlFor={id}>{label} <span className="text-destructive">*</span></Label>
+                      <div className="relative">
+                        <Input
+                          id={id}
+                          type={show ? 'text' : 'password'}
+                          {...regPwd(id, rules)}
+                          placeholder={`Enter ${label.toLowerCase()}`}
+                          className={`pr-10 ${error ? 'border-destructive' : ''}`}
+                        />
+                        <button type="button" onClick={toggle} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                          {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                      {error && <p className="text-xs text-destructive">{error.message}</p>}
+                    </div>
+                  ))}
+
+                  <div className="flex justify-end">
+                    <Button type="submit" variant="secondary" disabled={isSavingPassword} className="gap-2">
+                      <Lock className="w-4 h-4" />
+                      {isSavingPassword ? 'Updating...' : 'Update Password'}
+                    </Button>
                   </div>
-                  {pwdErrors.confirmPassword && (
-                    <p className="mt-1.5 text-xs text-red-600">{pwdErrors.confirmPassword.message}</p>
-                  )}
-                </div>
-
-                <div className="flex justify-end pt-1">
-                  <button
-                    type="submit"
-                    disabled={isSavingPassword}
-                    className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
-                  >
-                    <Lock className="w-4 h-4" />
-                    {isSavingPassword ? 'Updating...' : 'Update Password'}
-                  </button>
-                </div>
-              </form>
-            </div>
-
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>
