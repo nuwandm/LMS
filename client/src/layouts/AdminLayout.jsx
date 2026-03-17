@@ -24,15 +24,15 @@ function SidebarContent({ user, onLogout }) {
   const avatarLetter = user?.name?.charAt(0)?.toUpperCase() || 'A';
 
   return (
-    <div className="flex flex-col h-full bg-slate-900 text-white">
+    <div className="flex flex-col h-full text-white" style={{ backgroundColor: '#0d2118' }}>
       {/* Logo */}
-      <div className="flex h-16 items-center gap-3 px-6 border-b border-slate-800">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
-          <GraduationCap className="w-5 h-5 text-white" />
+      <div className="flex h-16 items-center gap-3 px-6 border-b" style={{ borderColor: '#1c3d2a' }}>
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ backgroundColor: 'hsl(45,90%,48%)', }}>
+          <GraduationCap className="w-5 h-5 text-[#0d2118]" />
         </div>
         <div>
           <h1 className="text-base font-bold leading-none tracking-tight">LearnHub</h1>
-          <p className="text-[10px] font-semibold text-slate-400 tracking-widest mt-1 uppercase">Admin</p>
+          <p className="text-[10px] font-semibold tracking-widest mt-1 uppercase" style={{ color: '#6aaf85' }}>Admin</p>
         </div>
       </div>
 
@@ -46,8 +46,8 @@ function SidebarContent({ user, onLogout }) {
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-white/10 text-white'
-                    : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                    ? 'bg-[hsl(152,55%,30%)] text-white'
+                    : 'text-[#6aaf85] hover:bg-white/5 hover:text-white'
                 }`
               }
             >
@@ -59,23 +59,24 @@ function SidebarContent({ user, onLogout }) {
       </ScrollArea>
 
       {/* User Footer */}
-      <div className="border-t border-slate-800 p-4 space-y-3">
+      <div className="p-4 space-y-3" style={{ borderTop: '1px solid #1c3d2a' }}>
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9 flex-shrink-0">
             <AvatarImage src={user?.avatar} alt={user?.name} />
-            <AvatarFallback className="bg-white/20 text-white text-xs font-semibold">
+            <AvatarFallback className="text-white text-xs font-semibold" style={{ backgroundColor: 'hsl(152,55%,30%)' }}>
               {avatarLetter}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 overflow-hidden">
             <p className="truncate text-sm font-medium text-white">{user?.name || 'Admin'}</p>
-            <p className="truncate text-xs text-slate-400">Super Admin</p>
+            <p className="truncate text-xs" style={{ color: '#6aaf85' }}>Super Admin</p>
           </div>
         </div>
         <Button
           variant="ghost"
           onClick={onLogout}
-          className="w-full justify-start gap-2 text-slate-400 hover:text-white hover:bg-white/10 h-9 px-3"
+          className="w-full justify-start gap-2 h-9 px-3 hover:text-white hover:bg-white/10"
+          style={{ color: '#6aaf85' }}
         >
           <LogOut className="w-4 h-4" />
           Logout

@@ -106,7 +106,7 @@ export default function AdminCourses() {
           {/* Tabs + Search */}
           <div className="border-b">
             <div className="flex flex-wrap items-center justify-between gap-3 px-6 pt-4 pb-0">
-              <div className="flex gap-1 overflow-x-auto">
+              <div className="flex gap-1 overflow-x-auto scrollbar-none">
                 {STATUS_TABS.map((tab) => (
                   <button
                     key={tab.value}

@@ -37,6 +37,7 @@ import EnrollmentApprovals from './pages/admin/EnrollmentApprovals';
 import UserManagement from './pages/admin/UserManagement';
 import AdminCourses from './pages/admin/AdminCourses';
 import AdminReports from './pages/admin/AdminReports';
+import AdminSettings from './pages/admin/AdminSettings';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -156,7 +157,7 @@ function App() {
             <Route path="/admin/enrollments" element={<EnrollmentApprovals />} />
             <Route path="/admin/users" element={<UserManagement />} />
             <Route path="/admin/reports" element={<AdminReports />} />
-            <Route path="/admin/settings" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
           </Route>
 
           {/* 404 */}

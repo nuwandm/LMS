@@ -3,11 +3,15 @@ import {
   BarChart2, Users, BookOpen, ClipboardCheck,
   TrendingUp, Award,
 } from 'lucide-react';
+import {
+  AreaChart, Area, BarChart, Bar,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell,
+} from 'recharts';
 import { getReportsData, getDashboardStats } from '../../services/adminService';
 import toast from 'react-hot-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Progress } from '@/components/ui/progress';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -15,34 +19,66 @@ function formatMonth(year, month) {
   return `${MONTH_NAMES[month - 1]} ${String(year).slice(2)}`;
 }
 
-function BarChart({ data, valueKey, labelKey, color = 'bg-primary' }) {
-  const max = Math.max(...data.map((d) => d[valueKey] || 0), 1);
-  return (
-    <div className="flex items-end gap-2 h-36">
-      {data.map((item, i) => {
-        const pct = ((item[valueKey] || 0) / max) * 100;
-        return (
-          <div key={i} className="flex-1 flex flex-col items-center gap-1 min-w-0">
-            <span className="text-xs font-medium text-foreground">{item[valueKey] || 0}</span>
-            <div className="w-full flex items-end" style={{ height: '100px' }}>
-              <div className={`w-full ${color} rounded-t transition-all`} style={{ height: `${Math.max(pct, 2)}%` }} />
-            </div>
-            <span className="text-xs text-muted-foreground truncate w-full text-center">{item[labelKey]}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+const chartTooltipStyle = {
+  backgroundColor: 'hsl(0 0% 100%)',
+  border: '1px solid hsl(243 30% 90%)',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+  fontSize: '12px',
+  color: 'hsl(243 47% 11%)',
+};
 
-function StatusBar({ label, value, total, color }) {
-  const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+function DonutChart({ data, total, label }) {
+  const filled = data.filter((d) => d.value > 0);
+  const display = filled.length > 0 ? filled : [{ name: 'None', value: 1, color: 'hsl(152 20% 88%)' }];
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-sm text-muted-foreground w-20 flex-shrink-0">{label}</span>
-      <Progress value={Number(pct)} className="flex-1 h-3" />
-      <span className="text-sm font-semibold w-8 text-right">{value}</span>
-      <span className="text-xs text-muted-foreground w-10 text-right">{pct}%</span>
+    <div className="flex flex-col items-center pt-2">
+      <div className="relative w-[140px] h-[140px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={display}
+              cx="50%"
+              cy="50%"
+              innerRadius={46}
+              outerRadius={65}
+              paddingAngle={display.length > 1 ? 3 : 0}
+              dataKey="value"
+              startAngle={90}
+              endAngle={-270}
+              strokeWidth={0}
+            >
+              {display.map((entry, i) => (
+                <Cell key={i} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={chartTooltipStyle}
+              formatter={(val, name) => [val, name]}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+          <span className="text-2xl font-bold leading-none">{total}</span>
+          <span className="text-[10px] text-muted-foreground mt-0.5">{label}</span>
+        </div>
+      </div>
+      <div className="mt-4 w-full space-y-2">
+        {data.map((item, i) => (
+          <div key={i} className="flex items-center justify-between text-xs">
+            <span className="flex items-center gap-2">
+              <span className="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} />
+              <span className="text-muted-foreground">{item.name}</span>
+            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">{item.value}</span>
+              <span className="text-muted-foreground w-10 text-right">
+                {total > 0 ? `${((item.value / total) * 100).toFixed(0)}%` : '0%'}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -177,48 +213,71 @@ export default function AdminReports() {
 
         {/* Trend Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Enrollment Trends — Area Chart */}
           <Card>
             <CardHeader className="border-b py-4">
               <CardTitle className="text-base">Enrollment Trends</CardTitle>
               <p className="text-xs text-muted-foreground">New enrollment requests — last 6 months</p>
             </CardHeader>
-            <CardContent className="p-6">
+            <CardContent className="pt-6 pr-4 pb-4 pl-2">
               {enrollmentsByMonth.length > 0 ? (
-                <>
-                  <BarChart data={enrollmentsByMonth} valueKey="total" labelKey="label" color="bg-primary" />
-                  <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1.5">
-                      <span className="inline-block w-3 h-3 rounded bg-primary" />
-                      Total requests
-                    </span>
-                  </div>
-                </>
+                <ResponsiveContainer width="100%" height={200}>
+                  <AreaChart data={enrollmentsByMonth} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="enrollGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(243,75%,59%)" stopOpacity={0.2} />
+                        <stop offset="95%" stopColor="hsl(243,75%,59%)" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(243 30% 92%)" vertical={false} />
+                    <XAxis dataKey="label" tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} />
+                    <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} />
+                    <Tooltip contentStyle={chartTooltipStyle} cursor={{ stroke: 'hsl(243,75%,59%)', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                    <Area
+                      type="monotone"
+                      dataKey="total"
+                      name="Enrollments"
+                      stroke="hsl(243,75%,59%)"
+                      strokeWidth={2.5}
+                      fill="url(#enrollGrad)"
+                      dot={{ r: 4, fill: 'hsl(243,75%,59%)', strokeWidth: 0 }}
+                      activeDot={{ r: 6, fill: 'hsl(243,75%,59%)', strokeWidth: 2, stroke: '#fff' }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               ) : (
-                <div className="flex items-center justify-center h-36 text-muted-foreground text-sm">
+                <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
                   No enrollment data for the last 6 months
                 </div>
               )}
             </CardContent>
           </Card>
 
+          {/* New Registrations — Bar Chart */}
           <Card>
             <CardHeader className="border-b py-4">
               <CardTitle className="text-base">New Registrations</CardTitle>
               <p className="text-xs text-muted-foreground">New users registered — last 6 months</p>
             </CardHeader>
-            <CardContent className="p-6">
+            <CardContent className="pt-6 pr-4 pb-4 pl-2">
               {usersByMonth.length > 0 ? (
-                <>
-                  <BarChart data={usersByMonth} valueKey="count" labelKey="label" color="bg-indigo-500" />
-                  <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1.5">
-                      <span className="inline-block w-3 h-3 rounded bg-indigo-500" />
-                      New users
-                    </span>
-                  </div>
-                </>
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={usersByMonth} margin={{ top: 5, right: 10, left: -20, bottom: 0 }} barSize={32}>
+                    <defs>
+                      <linearGradient id="regGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="hsl(38,92%,50%)" stopOpacity={1} />
+                        <stop offset="100%" stopColor="hsl(38,92%,65%)" stopOpacity={0.8} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(243 30% 92%)" vertical={false} />
+                    <XAxis dataKey="label" tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} />
+                    <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} />
+                    <Tooltip contentStyle={chartTooltipStyle} cursor={{ fill: 'hsl(243 30% 96%)' }} />
+                    <Bar dataKey="count" name="New Users" fill="url(#regGrad)" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               ) : (
-                <div className="flex items-center justify-center h-36 text-muted-foreground text-sm">
+                <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
                   No registration data for the last 6 months
                 </div>
               )}
@@ -226,22 +285,24 @@ export default function AdminReports() {
           </Card>
         </div>
 
-        {/* Status Breakdowns */}
+        {/* Status Breakdowns — Donut Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card>
             <CardHeader className="border-b py-4">
               <CardTitle className="text-base">Enrollment Status</CardTitle>
               <p className="text-xs text-muted-foreground">Breakdown by approval status</p>
             </CardHeader>
-            <CardContent className="p-6 space-y-3">
-              <StatusBar label="Approved" value={enrollmentStatus.approved || 0} total={totalEnrollments} color="bg-emerald-500" />
-              <StatusBar label="Pending" value={enrollmentStatus.pending || 0} total={totalEnrollments} color="bg-amber-400" />
-              <StatusBar label="Rejected" value={enrollmentStatus.rejected || 0} total={totalEnrollments} color="bg-destructive" />
-              <StatusBar label="Cancelled" value={enrollmentStatus.cancelled || 0} total={totalEnrollments} color="bg-muted-foreground" />
-              <div className="pt-4 border-t">
-                <p className="text-2xl font-bold">{totalEnrollments}</p>
-                <p className="text-xs text-muted-foreground">Total enrollment requests</p>
-              </div>
+            <CardContent className="px-6 pb-6">
+              <DonutChart
+                total={totalEnrollments}
+                label="total"
+                data={[
+                  { name: 'Approved',  value: enrollmentStatus.approved  || 0, color: '#10B981' },
+                  { name: 'Pending',   value: enrollmentStatus.pending   || 0, color: '#F59E0B' },
+                  { name: 'Rejected',  value: enrollmentStatus.rejected  || 0, color: '#EF4444' },
+                  { name: 'Cancelled', value: enrollmentStatus.cancelled || 0, color: '#94A3B8' },
+                ]}
+              />
             </CardContent>
           </Card>
 
@@ -250,14 +311,16 @@ export default function AdminReports() {
               <CardTitle className="text-base">Course Status</CardTitle>
               <p className="text-xs text-muted-foreground">Breakdown by publication status</p>
             </CardHeader>
-            <CardContent className="p-6 space-y-3">
-              <StatusBar label="Published" value={courseStatus.published || 0} total={totalCourses} color="bg-emerald-500" />
-              <StatusBar label="Draft" value={courseStatus.draft || 0} total={totalCourses} color="bg-muted-foreground" />
-              <StatusBar label="Archived" value={courseStatus.archived || 0} total={totalCourses} color="bg-amber-400" />
-              <div className="pt-4 border-t">
-                <p className="text-2xl font-bold">{totalCourses}</p>
-                <p className="text-xs text-muted-foreground">Total courses on platform</p>
-              </div>
+            <CardContent className="px-6 pb-6">
+              <DonutChart
+                total={totalCourses}
+                label="courses"
+                data={[
+                  { name: 'Published', value: courseStatus.published || 0, color: '#10B981' },
+                  { name: 'Draft',     value: courseStatus.draft     || 0, color: '#94A3B8' },
+                  { name: 'Archived',  value: courseStatus.archived  || 0, color: '#F59E0B' },
+                ]}
+              />
             </CardContent>
           </Card>
 
@@ -266,19 +329,21 @@ export default function AdminReports() {
               <CardTitle className="text-base">User Roles</CardTitle>
               <p className="text-xs text-muted-foreground">Breakdown by account type</p>
             </CardHeader>
-            <CardContent className="p-6 space-y-3">
-              <StatusBar label="Students" value={userRoles.student || 0} total={totalUsers} color="bg-primary" />
-              <StatusBar label="Instructors" value={userRoles.instructor || 0} total={totalUsers} color="bg-indigo-500" />
-              <StatusBar label="Admins" value={userRoles.admin || 0} total={totalUsers} color="bg-destructive" />
-              <div className="pt-4 border-t">
-                <p className="text-2xl font-bold">{totalUsers}</p>
-                <p className="text-xs text-muted-foreground">Total registered users</p>
-              </div>
+            <CardContent className="px-6 pb-6">
+              <DonutChart
+                total={totalUsers}
+                label="users"
+                data={[
+                  { name: 'Students',    value: userRoles.student    || 0, color: 'hsl(243,75%,59%)' },
+                  { name: 'Instructors', value: userRoles.instructor || 0, color: '#7C3AED' },
+                  { name: 'Admins',      value: userRoles.admin      || 0, color: '#EF4444' },
+                ]}
+              />
             </CardContent>
           </Card>
         </div>
 
-        {/* Top Courses + Category */}
+        {/* Top Courses + Category — Horizontal Bar Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-8">
           <Card>
             <CardHeader className="border-b py-4">
@@ -287,30 +352,28 @@ export default function AdminReports() {
                 <CardTitle className="text-base">Top Courses by Enrollment</CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="p-6">
+            <CardContent className="pt-6 pr-4 pb-4 pl-2">
               {topCourses.length > 0 ? (
-                <div className="space-y-3">
-                  {topCourses.map((course, idx) => {
-                    const maxEnrollment = topCourses[0]?.enrollmentCount || 1;
-                    const pct = ((course.enrollmentCount || 0) / maxEnrollment) * 100;
-                    return (
-                      <div key={course._id} className="flex items-center gap-3">
-                        <span className={`text-sm font-bold w-5 flex-shrink-0 ${
-                          idx === 0 ? 'text-amber-500' : idx === 1 ? 'text-slate-400' : idx === 2 ? 'text-orange-400' : 'text-muted-foreground'
-                        }`}>
-                          {idx + 1}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{course.title}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Progress value={pct} className="flex-1 h-1.5" />
-                            <span className="text-xs text-muted-foreground flex-shrink-0">{course.enrollmentCount} enrolled</span>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                <ResponsiveContainer width="100%" height={Math.max(topCourses.length * 48, 160)}>
+                  <BarChart
+                    layout="vertical"
+                    data={topCourses.map((c) => ({ name: c.title, enrolled: c.enrollmentCount || 0 }))}
+                    margin={{ top: 0, right: 40, left: 0, bottom: 0 }}
+                    barSize={20}
+                  >
+                    <defs>
+                      <linearGradient id="topCourseGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="hsl(38,92%,50%)" />
+                        <stop offset="100%" stopColor="hsl(38,92%,68%)" />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(243 30% 92%)" horizontal={false} />
+                    <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} />
+                    <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} width={120} />
+                    <Tooltip contentStyle={chartTooltipStyle} cursor={{ fill: 'hsl(243 30% 96%)' }} formatter={(v) => [v, 'Enrolled']} />
+                    <Bar dataKey="enrolled" fill="url(#topCourseGrad)" radius={[0, 6, 6, 0]} label={{ position: 'right', fontSize: 11, fill: 'hsl(243 20% 48%)' }} />
+                  </BarChart>
+                </ResponsiveContainer>
               ) : (
                 <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
                   No published courses yet
@@ -326,20 +389,28 @@ export default function AdminReports() {
                 <CardTitle className="text-base">Courses by Category</CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="p-6">
+            <CardContent className="pt-6 pr-4 pb-4 pl-2">
               {categoryData.length > 0 ? (
-                <div className="space-y-3">
-                  {categoryData.map((cat) => (
-                    <div key={cat._id} className="flex items-center gap-3">
-                      <span className="text-sm text-muted-foreground w-32 flex-shrink-0 truncate">{cat._id}</span>
-                      <Progress
-                        value={Math.round((cat.count / maxCategoryCount) * 100)}
-                        className="flex-1 h-2.5"
-                      />
-                      <span className="text-sm font-semibold w-6 text-right">{cat.count}</span>
-                    </div>
-                  ))}
-                </div>
+                <ResponsiveContainer width="100%" height={Math.max(categoryData.length * 48, 160)}>
+                  <BarChart
+                    layout="vertical"
+                    data={categoryData.map((c) => ({ name: c._id, count: c.count }))}
+                    margin={{ top: 0, right: 40, left: 0, bottom: 0 }}
+                    barSize={20}
+                  >
+                    <defs>
+                      <linearGradient id="catGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="hsl(243,75%,59%)" />
+                        <stop offset="100%" stopColor="hsl(243,75%,72%)" />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(243 30% 92%)" horizontal={false} />
+                    <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} />
+                    <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: 'hsl(243 20% 48%)' }} axisLine={false} tickLine={false} width={110} />
+                    <Tooltip contentStyle={chartTooltipStyle} cursor={{ fill: 'hsl(243 30% 96%)' }} formatter={(v) => [v, 'Courses']} />
+                    <Bar dataKey="count" fill="url(#catGrad)" radius={[0, 6, 6, 0]} label={{ position: 'right', fontSize: 11, fill: 'hsl(243 20% 48%)' }} />
+                  </BarChart>
+                </ResponsiveContainer>
               ) : (
                 <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
                   No course data available

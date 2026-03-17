@@ -4,33 +4,34 @@
 
 @layer base {
   :root {
+    /* Forest Green + Gold Theme */
     --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --foreground: 152 40% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 152 40% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 152 40% 8%;
 
-    --primary: 215.4 16.3% 26.9%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 152 55% 30%;           /* Forest Green — buttons, links, active states */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 152 20% 95%;         /* Sage tint — subtle backgrounds */
+    --secondary-foreground: 152 40% 8%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 152 20% 95%;
+    --muted-foreground: 152 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 45 90% 48%;             /* Gold — highlights, badges, CTAs */
+    --accent-foreground: 152 40% 8%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 215.4 16.3% 26.9%;
+    --border: 152 20% 88%;
+    --input: 152 20% 88%;
+    --ring: 152 55% 30%;
 
     --radius: 0.5rem;
   }
@@ -70,4 +71,13 @@
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
