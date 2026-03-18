@@ -10,6 +10,12 @@ export const getAllCourses = async (params = {}) => {
   return response.data;
 };
 
+// Get published course count per category
+export const getCategoryCounts = async () => {
+  const response = await api.get('/courses/meta/categories');
+  return response.data;
+};
+
 // Get single course by ID
 export const getCourseById = async (id) => {
   const response = await api.get(`/courses/${id}`);

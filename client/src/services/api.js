@@ -7,6 +7,17 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  paramsSerializer: (params) => {
+    const parts = [];
+    for (const [key, value] of Object.entries(params)) {
+      if (Array.isArray(value)) {
+        value.forEach(v => parts.push(`${key}=${encodeURIComponent(v)}`));
+      } else if (value !== undefined && value !== null) {
+        parts.push(`${key}=${encodeURIComponent(value)}`);
+      }
+    }
+    return parts.join('&');
+  },
 });
 
 // Request interceptor - add token from localStorage if available

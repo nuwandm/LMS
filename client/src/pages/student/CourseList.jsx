@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Grid3x3, List, SlidersHorizontal, BookOpen, X } from 'lucide-react';
 import Navbar from '../../components/common/Navbar';
 import CourseCard from '../../components/course/CourseCard';
-import { getAllCourses } from '../../services/courseService';
+import { getAllCourses, getCategoryCounts } from '../../services/courseService';
 import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,15 +15,9 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import EmptyState from '../../components/common/EmptyState';
 
-const CATEGORIES = [
-  { name: 'Web Development', count: 120 },
-  { name: 'Mobile Development', count: 45 },
-  { name: 'Data Science', count: 32 },
-  { name: 'Design', count: 88 },
-  { name: 'Business', count: 65 },
-  { name: 'Marketing', count: 42 },
-  { name: 'Photography', count: 28 },
-  { name: 'Music', count: 18 },
+const CATEGORY_NAMES = [
+  'Web Development', 'Mobile Development', 'Data Science', 'Design',
+  'Business', 'Marketing', 'Photography', 'Music', 'Other',
 ];
 
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
@@ -47,9 +41,16 @@ const CourseList = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
   const [viewMode, setViewMode] = useState('grid');
+  const [categoryCounts, setCategoryCounts] = useState({});
 
   const activeFiltersCount = selectedCategories.length + selectedLevels.length + (priceRange[1] < 500 ? 1 : 0);
   const searchQuery = searchParams.get('search');
+
+  useEffect(() => {
+    getCategoryCounts()
+      .then(res => { if (res.success) setCategoryCounts(res.data.categories); })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => { fetchCourses(); }, [selectedCategories, selectedLevels, priceRange, sortBy, page, searchParams]);
 
@@ -60,15 +61,15 @@ const CourseList = () => {
       if (searchQuery) params.search = searchQuery;
       const categoryParam = searchParams.get('category');
       if (categoryParam) params.category = categoryParam;
-      else if (selectedCategories.length > 0) params.category = selectedCategories[0];
-      if (selectedLevels.length > 0) params.level = selectedLevels[0];
+      else if (selectedCategories.length > 0) params.category = selectedCategories;
+      if (selectedLevels.length > 0) params.level = selectedLevels;
       if (priceRange[0] > 0) params.minPrice = priceRange[0];
       if (priceRange[1] < 500) params.maxPrice = priceRange[1];
       const response = await getAllCourses(params);
       if (response.success) {
         setCourses(response.data.courses ?? []);
-        setTotalPages(response.data.totalPages ?? 1);
-        setTotalCourses(response.data.total ?? 0);
+        setTotalPages(response.data.pagination?.totalPages ?? 1);
+        setTotalCourses(response.data.pagination?.total ?? 0);
       }
     } catch {
       toast.error('Failed to load courses');
@@ -142,17 +143,17 @@ const CourseList = () => {
                 <div>
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Categories</p>
                   <div className="space-y-2.5">
-                    {CATEGORIES.map((cat) => (
-                      <div key={cat.name} className="flex items-center gap-2.5">
+                    {CATEGORY_NAMES.map((name) => (
+                      <div key={name} className="flex items-center gap-2.5">
                         <Checkbox
-                          id={`cat-${cat.name}`}
-                          checked={selectedCategories.includes(cat.name)}
-                          onCheckedChange={() => toggleCategory(cat.name)}
+                          id={`cat-${name}`}
+                          checked={selectedCategories.includes(name)}
+                          onCheckedChange={() => toggleCategory(name)}
                         />
-                        <Label htmlFor={`cat-${cat.name}`} className="flex-1 text-sm font-normal cursor-pointer">
-                          {cat.name}
+                        <Label htmlFor={`cat-${name}`} className="flex-1 text-sm font-normal cursor-pointer">
+                          {name}
                         </Label>
-                        <span className="text-xs text-muted-foreground">{cat.count}</span>
+                        <span className="text-xs text-muted-foreground">{categoryCounts[name] ?? 0}</span>
                       </div>
                     ))}
                   </div>

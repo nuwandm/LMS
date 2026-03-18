@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   getAllCourses,
+  getCategoryCounts,
   getCourseById,
   createCourse,
   updateCourse,
@@ -39,6 +40,13 @@ const router = express.Router();
  * @access  Public
  */
 router.get('/', getAllCourses);
+
+/**
+ * @route   GET /api/courses/meta/categories
+ * @desc    Get published course count per category
+ * @access  Public
+ */
+router.get('/meta/categories', getCategoryCounts);
 
 /**
  * @route   GET /api/courses/instructor/my-courses

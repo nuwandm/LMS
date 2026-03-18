@@ -3,6 +3,30 @@ import { successResponse, errorResponse } from '../utils/apiResponse.js';
 import { deleteImage } from '../services/cloudinaryService.js';
 
 // ============================================================================
+// @route   GET /api/courses/meta/categories
+// @desc    Get published course counts per category
+// @access  Public
+// ============================================================================
+export const getCategoryCounts = async (req, res) => {
+  try {
+    const counts = await Course.aggregate([
+      { $match: { status: 'published' } },
+      { $group: { _id: '$category', count: { $sum: 1 } } },
+    ]);
+
+    const result = counts.reduce((acc, { _id, count }) => {
+      acc[_id] = count;
+      return acc;
+    }, {});
+
+    return successResponse(res, { categories: result }, 'Category counts retrieved');
+  } catch (error) {
+    console.error('GetCategoryCounts error:', error);
+    return errorResponse(res, 'Failed to fetch category counts', 500);
+  }
+};
+
+// ============================================================================
 // @route   GET /api/courses
 // @desc    Get all published courses with search, filter, pagination
 // @access  Public
@@ -28,14 +52,16 @@ export const getAllCourses = async (req, res) => {
       query.$text = { $search: search };
     }
 
-    // Category filter
+    // Category filter (supports single value or array from repeated keys)
     if (category) {
-      query.category = category;
+      const categories = Array.isArray(category) ? category : [category];
+      query.category = categories.length === 1 ? categories[0] : { $in: categories };
     }
 
-    // Level filter
+    // Level filter (supports single value or array from repeated keys)
     if (level) {
-      query.level = level;
+      const levels = Array.isArray(level) ? level : [level];
+      query.level = levels.length === 1 ? levels[0] : { $in: levels };
     }
 
     // Price filter
